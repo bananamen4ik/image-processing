@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}Image Processing — Simple image processing{% endblock %}
+
+{% block content %}
+    <!-- Hero -->
+    <section class="py-5 py-lg-6">
+        <div class="container py-5">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <span class="badge text-bg-light border mb-3">{% translate 'Simple image processing' %}</span>
+
+                    <h1 class="display-4 fw-bold mb-4">
+                        {% translate 'Transform your images in a few clicks' %}
+                    </h1>
+
+                    <p class="lead text-body-secondary mb-4">
+                        {% blocktranslate trimmed %}
+                            Upload an image, choose a processing operation,
+                            and get your result when it's ready.
+                        {% endblocktranslate %}
+                    </p>
+
+                    <a href="#" class="btn btn-primary btn-lg px-4">
+                        {% translate 'Process an image' %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Features -->
+    <section class="py-5 bg-body-tertiary">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="fw-semibold">{% translate 'What you can do' %}</h2>
+                <p class="text-body-secondary">
+                    {% translate 'Simple tools for everyday image processing.' %}
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-semibold">{% translate 'Resize' %}</h3>
+
+                            <p class="text-body-secondary mb-0">
+                                {% translate 'Resize your images to the dimensions you need.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-semibold">{% translate 'Convert' %}</h3>
+
+                            <p class="text-body-secondary mb-0">
+                                {% translate 'Convert images between supported formats.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-semibold">{% translate 'Optimize' %}</h3>
+
+                            <p class="text-body-secondary mb-0">
+                                {% translate 'Reduce image size while maintaining good quality.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- How it works -->
+    <section class="py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="fw-semibold">{% translate 'How it works' %}</h2>
+                <p class="text-body-secondary">
+                    {% translate 'Three simple steps to get your processed image.' %}
+                </p>
+            </div>
+
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <div class="display-6 fw-bold text-primary mb-3">1</div>
+
+                    <h3 class="h5 fw-semibold">{% translate 'Upload' %}</h3>
+
+                    <p class="text-body-secondary">
+                        {% translate 'Choose an image from your device.' %}
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="display-6 fw-bold text-primary mb-3">2</div>
+
+                    <h3 class="h5 fw-semibold">{% translate 'Configure' %}</h3>
+
+                    <p class="text-body-secondary">
+                        {% translate 'Select the operation you want to perform.' %}
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="display-6 fw-bold text-primary mb-3">3</div>
+
+                    <h3 class="h5 fw-semibold">{% translate 'Download' %}</h3>
+
+                    <p class="text-body-secondary">
+                        {% translate "Get your processed image when it's ready." %}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Plans -->
+    <section class="py-5 bg-body-tertiary">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="fw-semibold">{% translate 'Plans' %}</h2>
+                <p class="text-body-secondary">
+                    {% translate 'Choose the plan that fits your needs.' %}
+                </p>
+            </div>
+
+            <div class="row justify-content-center g-4">
+
+                <!-- Free -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h3 class="h5 fw-semibold">{% translate 'Free' %}</h3>
+
+                            <p class="display-6 fw-bold my-3">
+                                $0
+                            </p>
+
+                            <p class="text-body-secondary">
+                                {% translate 'For occasional image processing.' %}
+                            </p>
+
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li class="mb-2">{% translate '✓ Basic processing' %}</li>
+                                <li class="mb-2">{% translate '✓ 5 operations per day' %}</li>
+                            </ul>
+
+                            <a href="#" class="btn btn-outline-primary mt-auto">
+                                {% translate 'Get started' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plus -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-primary">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h3 class="h5 fw-semibold">{% translate 'Plus' %}</h3>
+
+                                <span class="badge text-bg-primary">{% translate 'Popular' %}</span>
+                            </div>
+
+                            <p class="display-6 fw-bold my-3">
+                                $5
+                                <small class="fs-6 fw-normal text-body-secondary">
+                                    / {% translate 'month' %}
+                                </small>
+                            </p>
+
+                            <p class="text-body-secondary">
+                                {% translate 'For users who process images regularly.' %}
+                            </p>
+
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li class="mb-2">{% translate '✓ Basic processing' %}</li>
+                                <li class="mb-2">{% translate '✓ 20 operations per day' %}</li>
+                            </ul>
+
+                            <a href="#" class="btn btn-primary mt-auto">
+                                {% translate 'Choose Plus' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pro -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h3 class="h5 fw-semibold">{% translate 'Pro' %}</h3>
+
+                            <p class="display-6 fw-bold my-3">
+                                $10
+                                <small class="fs-6 fw-normal text-body-secondary">
+                                    / {% translate 'month' %}
+                                </small>
+                            </p>
+
+                            <p class="text-body-secondary">
+                                {% translate 'For users with higher processing needs.' %}
+                            </p>
+
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li class="mb-2">{% translate '✓ Basic processing' %}</li>
+                                <li class="mb-2">{% translate '✓ 100 operations per day' %}</li>
+                            </ul>
+
+                            <a href="#" class="btn btn-outline-primary mt-auto">
+                                {% translate 'Choose Pro' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CTA -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="text-center">
+                <h2 class="fw-semibold mb-3">
+                    {% translate 'Ready to process your image?' %}
+                </h2>
+
+                <p class="text-body-secondary mb-4">
+                    {% translate 'Upload your first image and see how it works.' %}
+                </p>
+
+                <a href="#" class="btn btn-primary btn-lg px-4">
+                    {% translate 'Get started' %}
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load i18n static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'bootstrap-5.3.8/css/bootstrap.min.css' %}" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+<main class="flex-grow-1">
+    {% include 'components/navbar.html' %}
+
+    {% block content %}{% endblock %}
+
+    {% include 'components/footer.html' %}
+</main>
+<script src="{% static 'bootstrap-5.3.8/js/bootstrap.bundle.min.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
