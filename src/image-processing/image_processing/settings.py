@@ -142,3 +142,5 @@ AUTH_USER_MODEL = 'custom_auth.CustomUser'
 LOGIN_URL = reverse_lazy('custom_auth:login')
 
 LOGIN_REDIRECT_URL = reverse_lazy('main:index')
+
+LOGOUT_REDIRECT_URL = reverse_lazy('custom_auth:login')

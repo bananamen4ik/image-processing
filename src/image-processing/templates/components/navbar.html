@@ -33,15 +33,55 @@
                 </li>
             </ul>
 
-            <div class="d-flex gap-2">
-                <a href="{% url 'custom_auth:login' %}" class="btn btn-outline-primary">
-                    {% translate 'Log in' %}
-                </a>
+            {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button
+                            class="btn btn-outline-primary dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        {{ user.username }}
+                    </button>
 
-                <a href="{% url 'custom_auth:signup' %}" class="btn btn-primary">
-                    {% translate 'Get started' %}
-                </a>
-            </div>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                {% translate 'Profile' %}
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                {% translate 'Dashboard' %}
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <form action="{% url 'custom_auth:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">
+                                    {% translate 'Log out' %}
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            {% else %}
+                <div class="d-flex gap-2">
+                    <a href="{% url 'custom_auth:login' %}" class="btn btn-outline-primary">
+                        {% translate 'Log in' %}
+                    </a>
+
+                    <a href="{% url 'custom_auth:signup' %}" class="btn btn-primary">
+                        {% translate 'Get started' %}
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </nav>
