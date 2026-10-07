@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import (
     BaseUserCreationForm,
     AuthenticationForm as BaseAuthenticationForm,
+    PasswordResetForm as BasePasswordResetForm,
+    SetPasswordForm as BaseSetPasswordForm,
 )
 from django.forms import BoundField
 from django.forms.utils import ErrorList
@@ -65,4 +67,12 @@ class UserCreationForm(CustomTemplateFormMixin, BaseUserCreationForm):
 
 
 class AuthenticationForm(CustomTemplateFormMixin, BaseAuthenticationForm):
+    ...
+
+
+class PasswordResetForm(CustomTemplateFormMixin, BasePasswordResetForm):
+    ...
+
+
+class SetPasswordForm(CustomTemplateFormMixin, BaseSetPasswordForm):
     ...

@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-{% block title %}{% translate 'Image Processing — Login' %}{% endblock %}
+{% block title %}{% translate 'Image Processing' %} — {% translate 'Log in' %}{% endblock %}
 
 {% block content %}
     <div class="container py-5">
@@ -22,7 +22,9 @@
                     </button>
 
                     <div class="text-center mt-3">
-                        <a href="#">{% translate 'Forgot your password?' %}</a>
+                        <a href="{% url 'custom_auth:password_reset' %}">
+                            {% translate 'Forgot your password?' %}
+                        </a>
                     </div>
                 </form>
             </div>
