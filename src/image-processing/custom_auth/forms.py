@@ -1,4 +1,7 @@
-from django.contrib.auth.forms import BaseUserCreationForm
+from django.contrib.auth.forms import (
+    BaseUserCreationForm,
+    AuthenticationForm as BaseAuthenticationForm,
+)
 from django.forms import BoundField
 from django.forms.utils import ErrorList
 
@@ -13,7 +16,7 @@ class CustomErrorList(ErrorList):
             renderer=None,
             field_id=None,
     ):
-        error_class = error_class + ' invalid-feedback' if error_class else 'invalid-feedback'
+        error_class = error_class + ' invalid-feedback d-block' if error_class else 'invalid-feedback'
         super().__init__(
             initlist=initlist,
             error_class=error_class,
@@ -59,3 +62,7 @@ class UserCreationForm(CustomTemplateFormMixin, BaseUserCreationForm):
     class Meta(BaseUserCreationForm.Meta):
         model = CustomUser
         fields = BaseUserCreationForm.Meta.fields + ('email',)
+
+
+class AuthenticationForm(CustomTemplateFormMixin, BaseAuthenticationForm):
+    ...

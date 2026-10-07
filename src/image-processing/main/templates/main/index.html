@@ -23,7 +23,7 @@
                         {% endblocktranslate %}
                     </p>
 
-                    <a href="#" class="btn btn-primary btn-lg px-4">
+                    <a href="{% url 'custom_auth:signup' %}" class="btn btn-primary btn-lg px-4">
                         {% translate 'Process an image' %}
                     </a>
                 </div>
@@ -161,7 +161,7 @@
                                 <li class="mb-2">{% translate '✓ 5 operations per day' %}</li>
                             </ul>
 
-                            <a href="#" class="btn btn-outline-primary mt-auto">
+                            <a href="{% url 'custom_auth:signup' %}" class="btn btn-outline-primary mt-auto">
                                 {% translate 'Get started' %}
                             </a>
                         </div>
@@ -246,7 +246,7 @@
                     {% translate 'Upload your first image and see how it works.' %}
                 </p>
 
-                <a href="#" class="btn btn-primary btn-lg px-4">
+                <a href="{% url 'custom_auth:signup' %}" class="btn btn-primary btn-lg px-4">
                     {% translate 'Get started' %}
                 </a>
             </div>

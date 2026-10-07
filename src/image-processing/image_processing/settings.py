@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -131,4 +133,12 @@ MAILERS = {
     },
 }
 
+##################
+# AUTHENTICATION #
+##################
+
 AUTH_USER_MODEL = 'custom_auth.CustomUser'
+
+LOGIN_URL = reverse_lazy('custom_auth:login')
+
+LOGIN_REDIRECT_URL = reverse_lazy('main:index')
