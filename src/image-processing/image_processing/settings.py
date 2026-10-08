@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'common.apps.CommonConfig',
     'main.apps.MainConfig',
+    'custom_auth.apps.CustomAuthConfig',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +133,15 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+##################
+# AUTHENTICATION #
+##################
+
+AUTH_USER_MODEL = 'custom_auth.CustomUser'
+
+LOGIN_URL = reverse_lazy('custom_auth:login')
+
+LOGIN_REDIRECT_URL = reverse_lazy('main:index')
+
+LOGOUT_REDIRECT_URL = reverse_lazy('custom_auth:login')
