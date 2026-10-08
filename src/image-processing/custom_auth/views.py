@@ -11,6 +11,9 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView as BasePasswordResetCompleteView,
 )
 from django.http.response import HttpResponseRedirect
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
 
 from custom_auth.forms import (
     UserCreationForm,
@@ -20,6 +23,10 @@ from custom_auth.forms import (
 )
 
 
+@method_decorator(
+    [sensitive_post_parameters(), never_cache],
+    name='dispatch',
+)
 class SignupView(CreateView):
     form_class = UserCreationForm
     template_name = 'custom_auth/signup.html'
