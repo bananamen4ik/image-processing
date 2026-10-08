@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'common.apps.CommonConfig',
     'main.apps.MainConfig',
     'custom_auth.apps.CustomAuthConfig',
 ]
