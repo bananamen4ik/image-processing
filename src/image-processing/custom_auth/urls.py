@@ -10,7 +10,7 @@ from custom_auth.views import (
     PasswordResetCompleteView,
 )
 
-app_name = "custom_auth"
+app_name = 'custom_auth'
 urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
