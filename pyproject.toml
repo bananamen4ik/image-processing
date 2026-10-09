@@ -17,5 +17,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "coverage>=7.16.2",
     "django-stubs>=6.1.2",
 ]
+
+[tool.coverage.run]
+source = ["src/image-processing"]
+branch = true
+command_line = "src/image-processing/manage.py test"
