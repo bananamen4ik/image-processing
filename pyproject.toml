@@ -19,6 +19,7 @@ dependencies = [
 dev = [
     "coverage>=7.16.2",
     "django-stubs>=6.1.2",
+    "faker>=40.43.0",
 ]
 
 [tool.coverage.run]
