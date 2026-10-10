@@ -22,6 +22,6 @@ dev = [
 ]
 
 [tool.coverage.run]
-source = ["src/image-processing"]
+command_line = "manage.py test"
+source = ["."]
 branch = true
-command_line = "src/image-processing/manage.py test"
