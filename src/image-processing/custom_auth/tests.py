@@ -16,23 +16,22 @@ from faker import Faker
 
 from custom_auth.models import CustomUser
 
-fake = Faker()
-
 
 class SignupViewTests(TestCase):
     URI = reverse_lazy('custom_auth:signup')
+    fake = Faker()
 
     def setUp(self):
         self.user = CustomUser.objects.create_user(
-            username=fake.unique.user_name(),
-            email=fake.unique.email(),
-            password=fake.password(),
+            username=self.fake.unique.user_name(),
+            email=self.fake.unique.email(),
+            password=self.fake.password(),
         )
 
     def test_valid_data(self):
-        username = fake.unique.user_name()
-        email = fake.unique.email()
-        password = fake.password()
+        username = self.fake.unique.user_name()
+        email = self.fake.unique.email()
+        password = self.fake.password()
 
         response = self.client.post(
             self.URI,
@@ -67,12 +66,12 @@ class SignupViewTests(TestCase):
         self.assertRedirects(response, reverse('main:index'))
 
     def test_username_exists(self):
-        password = fake.password()
+        password = self.fake.password()
         response = self.client.post(
             self.URI,
             data={
                 'username': self.user.username,
-                'email': fake.unique.email(),
+                'email': self.fake.unique.email(),
                 'password1': password,
                 'password2': password,
             },
@@ -86,11 +85,11 @@ class SignupViewTests(TestCase):
         )
 
     def test_email_exists(self):
-        password = fake.password()
+        password = self.fake.password()
         response = self.client.post(
             self.URI,
             data={
-                'username': fake.unique.user_name(),
+                'username': self.fake.unique.user_name(),
                 'email': self.user.email,
                 'password1': password,
                 'password2': password,
@@ -108,10 +107,10 @@ class SignupViewTests(TestCase):
         response = self.client.post(
             self.URI,
             data={
-                'username': fake.unique.user_name(),
-                'email': fake.unique.email(),
-                'password1': fake.unique.password(),
-                'password2': fake.unique.password(),
+                'username': self.fake.unique.user_name(),
+                'email': self.fake.unique.email(),
+                'password1': self.fake.unique.password(),
+                'password2': self.fake.unique.password(),
             },
         )
 
@@ -123,9 +122,9 @@ class SignupViewTests(TestCase):
         )
 
     def test_username_email_normalize(self):
-        username = fake.unique.user_name().upper()
-        email = fake.unique.email().upper()
-        password = fake.password()
+        username = self.fake.unique.user_name().upper()
+        email = self.fake.unique.email().upper()
+        password = self.fake.password()
 
         self.client.post(
             self.URI,
@@ -147,8 +146,8 @@ class SignupViewTests(TestCase):
 
     def test_invalid_username(self):
         username = '$invalid-username$'
-        email = fake.unique.email()
-        password = fake.password()
+        email = self.fake.unique.email()
+        password = self.fake.password()
 
         response = self.client.post(
             self.URI,
@@ -170,9 +169,9 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_email(self):
-        username = fake.unique.user_name()
+        username = self.fake.unique.user_name()
         email = 'invalid-email'
-        password = fake.password()
+        password = self.fake.password()
 
         response = self.client.post(
             self.URI,
@@ -191,8 +190,8 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_password_similarity(self):
-        username = fake.unique.user_name()
-        email = fake.unique.email()
+        username = self.fake.unique.user_name()
+        email = self.fake.unique.email()
         password = username
 
         response = self.client.post(
@@ -218,8 +217,8 @@ class SignupViewTests(TestCase):
             for validator in get_default_password_validators()
             if isinstance(validator, MinimumLengthValidator)
         )
-        username = fake.unique.user_name()
-        email = fake.unique.email()
+        username = self.fake.unique.user_name()
+        email = self.fake.unique.email()
         password = 'x' * (validator.min_length - 1)
 
         response = self.client.post(
@@ -243,8 +242,8 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_password_common(self):
-        username = fake.unique.user_name()
-        email = fake.unique.email()
+        username = self.fake.unique.user_name()
+        email = self.fake.unique.email()
         password = 'qwerty'
 
         response = self.client.post(
@@ -263,8 +262,8 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_password_numeric(self):
-        username = fake.unique.user_name()
-        email = fake.unique.email()
+        username = self.fake.unique.user_name()
+        email = self.fake.unique.email()
         password = '1234567890'
 
         response = self.client.post(
