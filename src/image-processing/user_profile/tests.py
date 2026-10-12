@@ -130,3 +130,27 @@ class PasswordChangeViewTests(TestCase):
             'new_password2',
             _('The two password fields didn’t match.'),
         )
+
+
+class PasswordChangeDoneViewTests(TestCase):
+    URI = reverse_lazy('user_profile:password_change_done')
+    fake = Faker()
+
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.user_name(),
+            email=self.fake.email(),
+            password=self.fake.password(),
+        )
+
+    def test_accessibility(self):
+        response = self.client.get(self.URI)
+        self.assertRedirects(
+            response,
+            f'{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={self.URI}',
+        )
+
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
