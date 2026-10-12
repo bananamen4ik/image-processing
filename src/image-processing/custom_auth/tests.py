@@ -20,7 +20,10 @@ from django.conf import settings
 
 from faker import Faker
 
-from custom_auth.models import CustomUser
+from custom_auth.models import (
+    CustomUser,
+    CustomUserManager,
+)
 from custom_auth.views import (
     PasswordResetView,
     PasswordResetConfirmView,
@@ -604,3 +607,56 @@ class CustomUserTests(TestCase):
     def test_normalize_username(self):
         username = self.fake.user_name().upper()
         self.assertEqual(CustomUser.normalize_username(username), username.lower())
+
+
+class CustomUserManagerTests(TestCase):
+    fake = Faker()
+
+    def test_normalize_email(self):
+        email = self.fake.email().upper()
+        self.assertEqual(CustomUserManager.normalize_email(email), email.lower())
+
+    def create_user_and_login(self, is_superuser=False):
+        username = self.fake.user_name()
+        email = self.fake.email()
+        password = self.fake.password()
+
+        create_user = (
+            CustomUser.objects.create_user
+            if not is_superuser
+            else CustomUser.objects.create_superuser
+        )
+
+        user = create_user(
+            username=username.upper(),
+            email=email.upper(),
+            password=password,
+        )
+
+        self.assertTrue(
+            CustomUser.objects.filter(
+                username=username,
+                email=email,
+            ).exists()
+        )
+
+        self.assertTrue(self.client.login(
+            username=username,
+            password=password,
+        ))
+
+        self.assertTrue(user.is_active)
+
+        return user
+
+    def test_create_user(self):
+        user = self.create_user_and_login()
+
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+
+    def test_create_superuser(self):
+        user = self.create_user_and_login(is_superuser=True)
+
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
