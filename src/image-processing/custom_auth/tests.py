@@ -583,3 +583,24 @@ class PasswordResetCompleteTests(TestCase):
     def test_accessibility(self):
         response = self.client.get(reverse('custom_auth:password_reset_complete'))
         self.assertEqual(response.status_code, 200)
+
+
+class CustomUserTests(TestCase):
+    fake = Faker()
+
+    def test_clean(self):
+        username = self.fake.user_name().upper()
+        email = self.fake.email().upper()
+        user = CustomUser(
+            username=username,
+            email=email,
+        )
+
+        user.clean()
+
+        self.assertEqual(user.username, username.lower())
+        self.assertEqual(user.email, email.lower())
+
+    def test_normalize_username(self):
+        username = self.fake.user_name().upper()
+        self.assertEqual(CustomUser.normalize_username(username), username.lower())
