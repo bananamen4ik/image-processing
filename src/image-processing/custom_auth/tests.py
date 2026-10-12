@@ -280,3 +280,82 @@ class SignupViewTests(TestCase):
             _('This password is entirely numeric.'),
             response.context['form'].errors['password2'],
         )
+
+
+class LoginViewTests(TestCase):
+    URI = reverse_lazy('custom_auth:login')
+    fake = Faker()
+
+    def setUp(self):
+        self.user_password = self.fake.password()
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.unique.user_name(),
+            email=self.fake.unique.email(),
+            password=self.user_password,
+        )
+
+    def test_valid_login(self):
+        response = self.client.post(
+            self.URI,
+            data={
+                'username': self.user.username,
+                'password': self.user_password,
+            },
+        )
+
+        self.assertRedirects(response, reverse('main:index'))
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+    def test_invalid_login(self):
+        response = self.client.post(
+            self.URI,
+            data={
+                'username': self.fake.unique.user_name(),
+                'password': self.fake.password(),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context['form'],
+            None,
+            _(
+                'Please enter a correct %(username)s and password. Note that both '
+                'fields may be case-sensitive.',
+            ) % {
+                'username': str(CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name),
+            },
+        )
+
+    def test_not_active_login(self):
+        self.user.is_active = False
+        self.user.save()
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'username': self.user.username,
+                'password': self.user_password,
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context['form'],
+            None,
+            _(
+                'Please enter a correct %(username)s and password. Note that both '
+                'fields may be case-sensitive.',
+            ) % {
+                'username': str(CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name),
+            },
+        )
+
+    def test_user_redirect(self):
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
+
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.URI)
+        self.assertRedirects(response, reverse('main:index'))
