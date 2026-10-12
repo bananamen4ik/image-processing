@@ -13,11 +13,12 @@ from django.db import models
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **other_fields):
         user = self.model(
-            username=self.model.normalize_username(username),
-            email=self.normalize_email(email),
+            username=username,
+            email=email,
             password=make_password(password),
             **other_fields,
         )
+        user.full_clean()
         user.save(using=self._db)
         return user
 
