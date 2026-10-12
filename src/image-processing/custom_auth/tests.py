@@ -24,6 +24,7 @@ from custom_auth.models import CustomUser
 from custom_auth.views import (
     PasswordResetView,
     PasswordResetConfirmView,
+    SignupView,
 )
 
 
@@ -53,7 +54,7 @@ class SignupViewTests(TestCase):
             },
         )
 
-        self.assertRedirects(response, reverse('custom_auth:login'))
+        self.assertRedirects(response, SignupView.success_url)
 
         logged_in = self.client.login(
             username=username,
@@ -313,7 +314,7 @@ class LoginViewTests(TestCase):
             },
         )
 
-        self.assertRedirects(response, reverse('main:index'))
+        self.assertRedirects(response, settings.LOGIN_REDIRECT_URL)
         self.assertTrue(response.wsgi_request.user.is_authenticated)
 
     def test_invalid_login(self):
@@ -368,7 +369,7 @@ class LoginViewTests(TestCase):
         self.client.force_login(self.user)
 
         response = self.client.get(self.URI)
-        self.assertRedirects(response, reverse('main:index'))
+        self.assertRedirects(response, settings.LOGIN_REDIRECT_URL)
 
 
 class LogoutViewTests(TestCase):
@@ -449,7 +450,7 @@ class PasswordResetViewTests(TestCase):
 
         self.assertRedirects(
             response,
-            reverse('custom_auth:password_reset_done'),
+            PasswordResetView.success_url,
         )
         self.assertEqual(len(mail.outbox), 0)
 
@@ -470,7 +471,7 @@ class PasswordResetViewTests(TestCase):
 
         self.assertRedirects(
             response,
-            reverse('custom_auth:password_reset_done'),
+            PasswordResetView.success_url,
         )
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, subject)
@@ -550,7 +551,7 @@ class PasswordResetConfirmViewTests(TestCase):
 
         self.assertRedirects(
             response,
-            reverse('custom_auth:password_reset_complete'),
+            PasswordResetConfirmView.success_url,
         )
 
         self.assertTrue(
