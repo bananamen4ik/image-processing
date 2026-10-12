@@ -11,10 +11,14 @@ from django.contrib.auth.password_validation import (
     MinimumLengthValidator,
     get_default_password_validators,
 )
+from django.core import mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.template import loader
 
 from faker import Faker
 
 from custom_auth.models import CustomUser
+from custom_auth.views import PasswordResetView
 
 
 class SignupViewTests(TestCase):
@@ -359,3 +363,74 @@ class LoginViewTests(TestCase):
 
         response = self.client.get(self.URI)
         self.assertRedirects(response, reverse('main:index'))
+
+
+class PasswordResetViewTests(TestCase):
+    URI = reverse_lazy('custom_auth:password_reset')
+    fake = Faker()
+
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.unique.user_name(),
+            email=self.fake.unique.email(),
+            password=self.fake.password(),
+        )
+
+    def test_invalid_email(self):
+        response = self.client.post(
+            self.URI,
+            data={
+                'email': 'invalid-email',
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context['form'],
+            'email',
+            _('Enter a valid email address.'),
+        )
+
+    def test_user_not_active(self):
+        self.user.is_active = False
+        self.user.save()
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'email': self.user.email,
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            reverse('custom_auth:password_reset_done'),
+        )
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_valid_reset(self):
+        response = self.client.post(
+            self.URI,
+            data={
+                'email': self.user.email,
+            },
+        )
+
+        subject_template_name = PasswordResetView.subject_template_name
+        current_site = get_current_site(response.wsgi_request)
+        context = {
+            'site_name': current_site.name,
+        }
+        subject = loader.render_to_string(subject_template_name, context).strip()
+
+        self.assertRedirects(
+            response,
+            reverse('custom_auth:password_reset_done'),
+        )
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, subject)
+        self.assertEqual(len(mail.outbox[0].to), 1)
+        self.assertIn(
+            self.user.email,
+            mail.outbox[0].to,
+        )
