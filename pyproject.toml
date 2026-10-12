@@ -26,3 +26,8 @@ dev = [
 command_line = "manage.py test"
 source = ["."]
 branch = true
+omit = [
+    "*/asgi.py",
+    "*/wsgi.py",
+    "manage.py",
+]
