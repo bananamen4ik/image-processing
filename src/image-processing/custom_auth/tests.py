@@ -1,3 +1,5 @@
+import re
+
 from django.test import TestCase
 from django.urls import (
     reverse,
@@ -18,7 +20,10 @@ from django.template import loader
 from faker import Faker
 
 from custom_auth.models import CustomUser
-from custom_auth.views import PasswordResetView
+from custom_auth.views import (
+    PasswordResetView,
+    PasswordResetConfirmView,
+)
 
 
 class SignupViewTests(TestCase):
@@ -440,3 +445,94 @@ class PasswordResetDoneViewTests(TestCase):
     def test_accessibility(self):
         response = self.client.get(reverse('custom_auth:password_reset_done'))
         self.assertEqual(response.status_code, 200)
+
+
+class PasswordResetConfirmViewTests(TestCase):
+    fake = Faker()
+
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.unique.user_name(),
+            email=self.fake.unique.email(),
+            password=self.fake.password(),
+        )
+
+    def test_valid_reset(self):
+        reset_url_token = PasswordResetConfirmView.reset_url_token
+
+        self.client.post(
+            reverse('custom_auth:password_reset'),
+            data={
+                'email': self.user.email,
+            },
+        )
+
+        email_body = str(mail.outbox[0].body)
+        match_link = re.search(
+            r'accounts/reset/([^/]+)/([^/]+)/',
+            email_body,
+        )
+
+        self.assertIsNotNone(match_link)
+
+        # noinspection unresolved-references
+        uidb64, token = match_link.groups()
+        uri_confirm = reverse(
+            'custom_auth:password_reset_confirm',
+            kwargs={
+                'uidb64': uidb64,
+                'token': token,
+            },
+        )
+
+        response = self.client.get(uri_confirm)
+        response_uri = reverse(
+            'custom_auth:password_reset_confirm',
+            kwargs={
+                'uidb64': uidb64,
+                'token': reset_url_token,
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            response_uri,
+        )
+
+        new_password = self.fake.password()
+        response = self.client.post(
+            response_uri,
+            data={
+                'new_password1': new_password,
+                'new_password2': new_password,
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            reverse('custom_auth:password_reset_complete'),
+        )
+
+        self.assertTrue(
+            self.client.login(
+                username=self.user.username,
+                password=new_password,
+            ),
+        )
+
+    def test_invalid_reset(self):
+        uri_confirm = reverse(
+            'custom_auth:password_reset_confirm',
+            kwargs={
+                'uidb64': 'invalid-uidb64',
+                'token': 'invalid-token',
+            },
+        )
+
+        response = self.client.get(uri_confirm)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context['title'],
+            _('Password reset unsuccessful'),
+        )
