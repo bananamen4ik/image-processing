@@ -536,3 +536,9 @@ class PasswordResetConfirmViewTests(TestCase):
             response.context['title'],
             _('Password reset unsuccessful'),
         )
+
+
+class PasswordResetCompleteTests(TestCase):
+    def test_accessibility(self):
+        response = self.client.get(reverse('custom_auth:password_reset_complete'))
+        self.assertEqual(response.status_code, 200)
