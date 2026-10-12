@@ -434,3 +434,9 @@ class PasswordResetViewTests(TestCase):
             self.user.email,
             mail.outbox[0].to,
         )
+
+
+class PasswordResetDoneViewTests(TestCase):
+    def test_accessibility(self):
+        response = self.client.get(reverse('custom_auth:password_reset_done'))
+        self.assertEqual(response.status_code, 200)
