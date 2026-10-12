@@ -16,6 +16,7 @@ from django.contrib.auth.password_validation import (
 from django.core import mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
+from django.conf import settings
 
 from faker import Faker
 
@@ -368,6 +369,45 @@ class LoginViewTests(TestCase):
 
         response = self.client.get(self.URI)
         self.assertRedirects(response, reverse('main:index'))
+
+
+class LogoutViewTests(TestCase):
+    URI = reverse_lazy('custom_auth:logout')
+    fake = Faker()
+
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.unique.user_name(),
+            email=self.fake.unique.email(),
+            password=self.fake.password(),
+        )
+
+    def test_get_method_not_allowed(self):
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 405)
+
+    def test_anonymous_user(self):
+        response = self.client.post(self.URI)
+        self.assertRedirects(
+            response,
+            settings.LOGOUT_REDIRECT_URL,
+        )
+
+    def test_valid_user(self):
+        response = self.client.get(self.URI)
+        self.assertTrue(not response.wsgi_request.user.is_authenticated)
+
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.URI)
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+        response = self.client.post(self.URI)
+        self.assertRedirects(
+            response,
+            settings.LOGOUT_REDIRECT_URL,
+        )
+        self.assertTrue(not response.wsgi_request.user.is_authenticated)
 
 
 class PasswordResetViewTests(TestCase):
