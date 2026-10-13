@@ -1,14 +1,18 @@
 from django.urls import path
 
 from user_profile.views import (
-    ProfileView,
-    PasswordChangeView,
     PasswordChangeDoneView,
+    PasswordChangeView,
+    ProfileView,
 )
 
 app_name = 'user_profile'
 urlpatterns = [
     path('', ProfileView.as_view(), name='index'),
     path('password-change/', PasswordChangeView.as_view(), name='password_change'),
-    path('password-change/done/', PasswordChangeDoneView.as_view(), name='password_change_done'),
+    path(
+        'password-change/done/',
+        PasswordChangeDoneView.as_view(),
+        name='password_change_done',
+    ),
 ]

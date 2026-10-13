@@ -15,3 +15,11 @@ Run the following commands from the project root directory:
 1. `cd src/image-processing`.
 2. `coverage run --rcfile="../../pyproject.toml"`.
 3. `coverage report -m --skip-covered`.
+
+## Running Ruff
+
+Run the following commands from the project root directory:
+
+1. `cd src/image-processing`.
+2. `ruff check --config="../../pyproject.toml" --fix`.
+3. `ruff format --config="../../pyproject.toml"`.

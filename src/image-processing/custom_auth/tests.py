@@ -1,5 +1,13 @@
 import re
 
+from django.conf import settings
+from django.contrib.auth.password_validation import (
+    MinimumLengthValidator,
+    get_default_password_validators,
+)
+from django.contrib.sites.shortcuts import get_current_site
+from django.core import mail
+from django.template import loader
 from django.test import TestCase
 from django.urls import (
     reverse,
@@ -7,17 +15,8 @@ from django.urls import (
 )
 from django.utils.translation import (
     gettext as _,
-    ngettext,
 )
-from django.contrib.auth.password_validation import (
-    MinimumLengthValidator,
-    get_default_password_validators,
-)
-from django.core import mail
-from django.contrib.sites.shortcuts import get_current_site
-from django.template import loader
-from django.conf import settings
-
+from django.utils.translation import ngettext
 from faker import Faker
 
 from custom_auth.models import (
@@ -25,8 +24,8 @@ from custom_auth.models import (
     CustomUserManager,
 )
 from custom_auth.views import (
-    PasswordResetView,
     PasswordResetConfirmView,
+    PasswordResetView,
     SignupView,
 )
 
@@ -219,8 +218,11 @@ class SignupViewTests(TestCase):
         )
 
         self.assertIn(
-            _('The password is too similar to the %(verbose_name)s.') % {
-                'verbose_name': str(CustomUser._meta.get_field('username').verbose_name),
+            _('The password is too similar to the %(verbose_name)s.')
+            % {
+                'verbose_name': str(
+                    CustomUser._meta.get_field('username').verbose_name,
+                ),
             },
             response.context['form'].errors['password2'],
         )
@@ -336,8 +338,11 @@ class LoginViewTests(TestCase):
             _(
                 'Please enter a correct %(username)s and password. Note that both '
                 'fields may be case-sensitive.',
-            ) % {
-                'username': str(CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name),
+            )
+            % {
+                'username': str(
+                    CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name,
+                ),
             },
         )
 
@@ -360,8 +365,11 @@ class LoginViewTests(TestCase):
             _(
                 'Please enter a correct %(username)s and password. Note that both '
                 'fields may be case-sensitive.',
-            ) % {
-                'username': str(CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name),
+            )
+            % {
+                'username': str(
+                    CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name,
+                ),
             },
         )
 
@@ -640,10 +648,12 @@ class CustomUserManagerTests(TestCase):
             ).exists()
         )
 
-        self.assertTrue(self.client.login(
-            username=username,
-            password=password,
-        ))
+        self.assertTrue(
+            self.client.login(
+                username=username,
+                password=password,
+            ),
+        )
 
         self.assertTrue(user.is_active)
 

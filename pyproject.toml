@@ -20,8 +20,10 @@ dev = [
     "coverage>=7.16.2",
     "django-stubs>=6.1.2",
     "faker>=40.43.0",
+    "ruff>=0.17.0",
 ]
 
+# Coverage
 [tool.coverage.run]
 command_line = "manage.py test"
 source = ["."]
@@ -31,3 +33,14 @@ omit = [
     "*/wsgi.py",
     "manage.py",
 ]
+
+# Ruff
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+exclude = ["*/migrations/*.py"]
+quote-style = "single"
+
+[tool.ruff.lint.extend-per-file-ignores]
+"*/migrations/*" = ["RUF012"]

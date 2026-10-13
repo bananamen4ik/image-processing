@@ -6,4 +6,4 @@ from common.forms import CustomTemplateFormMixin
 
 
 class PasswordChangeForm(CustomTemplateFormMixin, BasePasswordChangeForm):
-    ...
+    pass
