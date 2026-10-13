@@ -5,4 +5,5 @@ from django.contrib.auth.forms import (
 from common.forms import CustomTemplateFormMixin
 
 
-class PasswordChangeForm(CustomTemplateFormMixin, BasePasswordChangeForm): ...
+class PasswordChangeForm(CustomTemplateFormMixin, BasePasswordChangeForm):
+    pass

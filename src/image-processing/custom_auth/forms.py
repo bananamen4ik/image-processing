@@ -19,10 +19,13 @@ class UserCreationForm(CustomTemplateFormMixin, BaseUserCreationForm):
         fields = BaseUserCreationForm.Meta.fields + ('email',)
 
 
-class AuthenticationForm(CustomTemplateFormMixin, BaseAuthenticationForm): ...
+class AuthenticationForm(CustomTemplateFormMixin, BaseAuthenticationForm):
+    pass
 
 
-class PasswordResetForm(CustomTemplateFormMixin, BasePasswordResetForm): ...
+class PasswordResetForm(CustomTemplateFormMixin, BasePasswordResetForm):
+    pass
 
 
-class SetPasswordForm(CustomTemplateFormMixin, BaseSetPasswordForm): ...
+class SetPasswordForm(CustomTemplateFormMixin, BaseSetPasswordForm):
+    pass
