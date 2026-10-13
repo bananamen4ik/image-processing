@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # Project apps
     'common.apps.CommonConfig',
     'main.apps.MainConfig',
     'custom_auth.apps.CustomAuthConfig',

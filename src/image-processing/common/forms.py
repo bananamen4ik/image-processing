@@ -4,13 +4,17 @@ from django.forms.utils import ErrorList
 
 class CustomErrorList(ErrorList):
     def __init__(
-            self,
-            initlist=None,
-            error_class=None,
-            renderer=None,
-            field_id=None,
+        self,
+        initlist=None,
+        error_class=None,
+        renderer=None,
+        field_id=None,
     ):
-        error_class = error_class + ' invalid-feedback d-block' if error_class else 'invalid-feedback'
+        error_class = (
+            error_class + ' invalid-feedback d-block'
+            if error_class
+            else 'invalid-feedback'
+        )
         super().__init__(
             initlist=initlist,
             error_class=error_class,
@@ -28,7 +32,12 @@ class CustomBoundField(BoundField):
         attrs = attrs or {}
         attrs['class'] = (attrs.get('class', '') + ' form-label').strip()
 
-        return super().label_tag(contents=contents, attrs=attrs, label_suffix=label_suffix, tag=tag)
+        return super().label_tag(
+            contents=contents,
+            attrs=attrs,
+            label_suffix=label_suffix,
+            tag=tag,
+        )
 
     def css_classes(self, extra_classes=None):
         classes = super().css_classes(extra_classes)

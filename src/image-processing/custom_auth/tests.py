@@ -218,8 +218,11 @@ class SignupViewTests(TestCase):
         )
 
         self.assertIn(
-            _('The password is too similar to the %(verbose_name)s.') % {
-                'verbose_name': str(CustomUser._meta.get_field('username').verbose_name),
+            _('The password is too similar to the %(verbose_name)s.')
+            % {
+                'verbose_name': str(
+                    CustomUser._meta.get_field('username').verbose_name,
+                ),
             },
             response.context['form'].errors['password2'],
         )
@@ -335,8 +338,11 @@ class LoginViewTests(TestCase):
             _(
                 'Please enter a correct %(username)s and password. Note that both '
                 'fields may be case-sensitive.',
-            ) % {
-                'username': str(CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name),
+            )
+            % {
+                'username': str(
+                    CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name,
+                ),
             },
         )
 
@@ -359,8 +365,11 @@ class LoginViewTests(TestCase):
             _(
                 'Please enter a correct %(username)s and password. Note that both '
                 'fields may be case-sensitive.',
-            ) % {
-                'username': str(CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name),
+            )
+            % {
+                'username': str(
+                    CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name,
+                ),
             },
         )
 
@@ -639,10 +648,12 @@ class CustomUserManagerTests(TestCase):
             ).exists()
         )
 
-        self.assertTrue(self.client.login(
-            username=username,
-            password=password,
-        ))
+        self.assertTrue(
+            self.client.login(
+                username=username,
+                password=password,
+            ),
+        )
 
         self.assertTrue(user.is_active)
 
