@@ -23,6 +23,7 @@ dev = [
     "ruff>=0.17.0",
 ]
 
+# Coverage
 [tool.coverage.run]
 command_line = "manage.py test"
 source = ["."]
@@ -32,6 +33,14 @@ omit = [
     "*/wsgi.py",
     "manage.py",
 ]
+
+# Ruff
+[tool.ruff.format]
+exclude = [
+    "*/migrations/*.py",
+    "manage.py",
+]
+quote-style = "single"
 
 [tool.ruff.lint.extend-per-file-ignores]
 "*/migrations/*" = ["RUF012"]
