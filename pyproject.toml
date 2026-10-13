@@ -32,3 +32,6 @@ omit = [
     "*/wsgi.py",
     "manage.py",
 ]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"*/migrations/*" = ["RUF012"]
