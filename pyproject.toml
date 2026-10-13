@@ -35,11 +35,11 @@ omit = [
 ]
 
 # Ruff
+[tool.ruff]
+line-length = 88
+
 [tool.ruff.format]
-exclude = [
-    "*/migrations/*.py",
-    "manage.py",
-]
+exclude = ["*/migrations/*.py"]
 quote-style = "single"
 
 [tool.ruff.lint.extend-per-file-ignores]
