@@ -1,11 +1,13 @@
-from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib.auth.views import (
-    PasswordChangeView as BasePasswordChangeView,
     PasswordChangeDoneView as BasePasswordChangeDoneView,
 )
+from django.contrib.auth.views import (
+    PasswordChangeView as BasePasswordChangeView,
+)
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
 
 from user_profile.forms import PasswordChangeForm
 

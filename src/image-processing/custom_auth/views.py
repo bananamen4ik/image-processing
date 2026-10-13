@@ -1,25 +1,33 @@
-from django.views.generic import CreateView
-from django.urls import (
-    reverse_lazy,
-    reverse,
-)
 from django.contrib.auth.views import (
     LoginView as BaseLoginView,
-    PasswordResetView as BasePasswordResetView,
-    PasswordResetDoneView as BasePasswordResetDoneView,
-    PasswordResetConfirmView as BasePasswordResetConfirmView,
+)
+from django.contrib.auth.views import (
     PasswordResetCompleteView as BasePasswordResetCompleteView,
 )
+from django.contrib.auth.views import (
+    PasswordResetConfirmView as BasePasswordResetConfirmView,
+)
+from django.contrib.auth.views import (
+    PasswordResetDoneView as BasePasswordResetDoneView,
+)
+from django.contrib.auth.views import (
+    PasswordResetView as BasePasswordResetView,
+)
 from django.http.response import HttpResponseRedirect
-from django.views.decorators.debug import sensitive_post_parameters
-from django.views.decorators.cache import never_cache
+from django.urls import (
+    reverse,
+    reverse_lazy,
+)
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.generic import CreateView
 
 from custom_auth.forms import (
-    UserCreationForm,
     AuthenticationForm,
     PasswordResetForm,
     SetPasswordForm,
+    UserCreationForm,
 )
 
 

@@ -1,9 +1,8 @@
-from django.test import TestCase
-from django.urls import reverse_lazy
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.test import TestCase
+from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
-
 from faker import Faker
 
 from custom_auth.models import CustomUser
