@@ -1,4 +1,5 @@
 import re
+from typing import cast
 
 from django.conf import settings
 from django.contrib.auth.password_validation import (
@@ -7,6 +8,7 @@ from django.contrib.auth.password_validation import (
 )
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import mail
+from django.db.models import Field
 from django.template import loader
 from django.test import TestCase
 from django.urls import (
@@ -56,7 +58,10 @@ class SignupViewTests(TestCase):
             },
         )
 
-        self.assertRedirects(response, SignupView.success_url)
+        self.assertRedirects(
+            response,
+            str(SignupView.success_url),
+        )
 
         logged_in = self.client.login(
             username=username,
@@ -216,13 +221,15 @@ class SignupViewTests(TestCase):
                 'password2': password,
             },
         )
+        username_field = cast(
+            Field,
+            CustomUser._meta.get_field('username'),
+        )
 
         self.assertIn(
             _('The password is too similar to the %(verbose_name)s.')
             % {
-                'verbose_name': str(
-                    CustomUser._meta.get_field('username').verbose_name,
-                ),
+                'verbose_name': str(username_field.verbose_name),
             },
             response.context['form'].errors['password2'],
         )
@@ -332,6 +339,12 @@ class LoginViewTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+
+        username_field = cast(
+            Field,
+            CustomUser._meta.get_field(CustomUser.USERNAME_FIELD),
+        )
+
         self.assertFormError(
             response.context['form'],
             None,
@@ -340,9 +353,7 @@ class LoginViewTests(TestCase):
                 'fields may be case-sensitive.',
             )
             % {
-                'username': str(
-                    CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name,
-                ),
+                'username': str(username_field.verbose_name),
             },
         )
 
@@ -359,6 +370,12 @@ class LoginViewTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+
+        username_field = cast(
+            Field,
+            CustomUser._meta.get_field(CustomUser.USERNAME_FIELD),
+        )
+
         self.assertFormError(
             response.context['form'],
             None,
@@ -367,9 +384,7 @@ class LoginViewTests(TestCase):
                 'fields may be case-sensitive.',
             )
             % {
-                'username': str(
-                    CustomUser._meta.get_field(CustomUser.USERNAME_FIELD).verbose_name,
-                ),
+                'username': str(username_field.verbose_name),
             },
         )
 
@@ -461,7 +476,7 @@ class PasswordResetViewTests(TestCase):
 
         self.assertRedirects(
             response,
-            PasswordResetView.success_url,
+            str(PasswordResetView.success_url),
         )
         self.assertEqual(len(mail.outbox), 0)
 
@@ -482,7 +497,7 @@ class PasswordResetViewTests(TestCase):
 
         self.assertRedirects(
             response,
-            PasswordResetView.success_url,
+            str(PasswordResetView.success_url),
         )
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, subject)
@@ -525,9 +540,8 @@ class PasswordResetConfirmViewTests(TestCase):
             email_body,
         )
 
-        self.assertIsNotNone(match_link)
+        assert match_link is not None
 
-        # noinspection unresolved-references
         uidb64, token = match_link.groups()
         uri_confirm = reverse(
             'custom_auth:password_reset_confirm',
@@ -562,7 +576,7 @@ class PasswordResetConfirmViewTests(TestCase):
 
         self.assertRedirects(
             response,
-            PasswordResetConfirmView.success_url,
+            str(PasswordResetConfirmView.success_url),
         )
 
         self.assertTrue(
