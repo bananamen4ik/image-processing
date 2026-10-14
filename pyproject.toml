@@ -21,6 +21,7 @@ dev = [
     "django-stubs>=6.1.2",
     "faker>=40.43.0",
     "ruff>=0.17.0",
+    "ty>=0.0.87",
 ]
 
 # Coverage
