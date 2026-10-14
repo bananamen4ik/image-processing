@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib.auth.views import (
     LoginView as BaseLoginView,
 )
@@ -13,7 +15,11 @@ from django.contrib.auth.views import (
 from django.contrib.auth.views import (
     PasswordResetView as BasePasswordResetView,
 )
-from django.http.response import HttpResponseRedirect
+from django.http.request import HttpRequest
+from django.http.response import (
+    HttpResponseBase,
+    HttpResponseRedirect,
+)
 from django.urls import (
     reverse,
     reverse_lazy,
@@ -40,7 +46,12 @@ class SignupView(CreateView):
     template_name = 'custom_auth/signup.html'
     success_url = reverse_lazy('custom_auth:login')
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(
+        self,
+        request: HttpRequest,
+        *args: Any,
+        **kwargs: Any,
+    ) -> HttpResponseBase:
         if self.request.user.is_authenticated:
             return HttpResponseRedirect(reverse('main:index'))
 

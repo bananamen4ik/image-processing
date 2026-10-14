@@ -1,4 +1,7 @@
-from typing import ClassVar
+from typing import (
+    Any,
+    ClassVar,
+)
 
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import (
@@ -13,7 +16,13 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username, email, password=None, **other_fields):
+    def create_user(
+        self,
+        username: str,
+        email: str,
+        password: str | None = None,
+        **other_fields: Any,
+    ) -> CustomUser:
         user = self.model(
             username=username,
             email=email,
@@ -24,7 +33,13 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, password=None, **other_fields):
+    def create_superuser(
+        self,
+        username: str,
+        email: str,
+        password: str | None = None,
+        **other_fields: Any,
+    ) -> CustomUser:
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
         return self.create_user(
@@ -35,7 +50,7 @@ class CustomUserManager(BaseUserManager):
         )
 
     @classmethod
-    def normalize_email(cls, email):
+    def normalize_email(cls, email: str | None) -> str:
         email = super().normalize_email(email)
         return email.lower()
 
@@ -86,11 +101,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    def clean(self):
+    def clean(self) -> None:
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
     @classmethod
-    def normalize_username(cls, username):
+    def normalize_username(cls, username: str) -> str:
+        # noinspection bad-argument-type
         username = super().normalize_username(username)
         return username.lower()

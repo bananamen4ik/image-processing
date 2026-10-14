@@ -43,5 +43,9 @@ line-length = 88
 exclude = ["*/migrations/*.py"]
 quote-style = "single"
 
+[tool.ruff.lint]
+extend-select = ["ANN"]
+ignore = ["ANN401"]
+
 [tool.ruff.lint.extend-per-file-ignores]
 "*/migrations/*" = ["RUF012"]
