@@ -14,7 +14,7 @@ from custom_auth.models import CustomUser
 
 
 class UserCreationForm(CustomTemplateFormMixin, BaseUserCreationForm):
-    class Meta(BaseUserCreationForm.Meta):
+    class Meta(BaseUserCreationForm.Meta):  # ty: ignore[invalid-attribute-override]
         model = CustomUser
         fields = BaseUserCreationForm.Meta.fields + ('email',)
 

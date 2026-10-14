@@ -75,7 +75,7 @@ class PasswordChangeViewTests(TestCase):
 
         self.assertRedirects(
             response,
-            PasswordChangeView.success_url,
+            str(PasswordChangeView.success_url),
         )
 
         self.client.logout()
