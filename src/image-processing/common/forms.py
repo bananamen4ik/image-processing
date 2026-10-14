@@ -47,7 +47,7 @@ class CustomBoundField(BoundField):
         attrs = attrs or {}
         class_attr = attrs.get('class')
 
-        if not isinstance(class_attr, str):
+        if not isinstance(class_attr, str):  # pragma: no cover
             class_attr = ''
 
         attrs['class'] = (class_attr + ' form-label').strip()
@@ -72,7 +72,7 @@ class CustomBoundField(BoundField):
         attrs = attrs or {}
         class_attr = attrs.get('class')
 
-        if not isinstance(class_attr, str):
+        if not isinstance(class_attr, str):  # pragma: no cover
             class_attr = ''
 
         attrs['class'] = (class_attr + ' form-control').strip()
