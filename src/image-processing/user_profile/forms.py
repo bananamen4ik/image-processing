@@ -1,3 +1,5 @@
+"""Provides user profile forms."""
+
 from django.contrib.auth.forms import (
     PasswordChangeForm as BasePasswordChangeForm,
 )
@@ -6,4 +8,4 @@ from common.forms import CustomTemplateFormMixin
 
 
 class PasswordChangeForm(CustomTemplateFormMixin, BasePasswordChangeForm):
-    pass
+    """Extends the default password change form with Mixin."""

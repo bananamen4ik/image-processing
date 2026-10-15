@@ -1,3 +1,5 @@
+"""Provides a tests for authentications system."""
+
 import re
 from typing import cast
 
@@ -33,10 +35,13 @@ from custom_auth.views import (
 
 
 class SignupViewTests(TestCase):
+    """Provides a tests for the signup view."""
+
     URI = reverse_lazy('custom_auth:signup')
     fake = Faker()
 
     def setUp(self) -> None:
+        """Configures the test by creating a new user."""
         self.user = CustomUser.objects.create_user(
             username=self.fake.unique.user_name(),
             email=self.fake.unique.email(),
@@ -44,6 +49,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_valid_data(self) -> None:
+        """Checks whether registration with valid data works properly."""
         username = self.fake.unique.user_name()
         email = self.fake.unique.email()
         password = self.fake.password()
@@ -75,6 +81,7 @@ class SignupViewTests(TestCase):
         self.assertTrue(user.is_active)
 
     def test_user_redirect(self) -> None:
+        """Checks redirects for both authenticated and unauthenticated users."""
         response = self.client.get(self.URI)
         self.assertEqual(response.status_code, 200)
 
@@ -84,6 +91,7 @@ class SignupViewTests(TestCase):
         self.assertRedirects(response, reverse('main:index'))
 
     def test_username_exists(self) -> None:
+        """Checks for a uniqueness error caused by a duplicate username."""
         password = self.fake.password()
         response = self.client.post(
             self.URI,
@@ -103,6 +111,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_email_exists(self) -> None:
+        """Checks for a uniqueness error caused by a duplicate email."""
         password = self.fake.password()
         response = self.client.post(
             self.URI,
@@ -122,6 +131,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_password_mismatch(self) -> None:
+        """Checks if the password matches."""
         response = self.client.post(
             self.URI,
             data={
@@ -140,6 +150,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_username_email_normalize(self) -> None:
+        """Checks whether the email address is normalized correctly."""
         username = self.fake.unique.user_name().upper()
         email = self.fake.unique.email().upper()
         password = self.fake.password()
@@ -163,6 +174,7 @@ class SignupViewTests(TestCase):
         self.assertEqual(user.email, email.lower())
 
     def test_invalid_username(self) -> None:
+        """Tests the password validation process."""
         username = '$invalid-username$'
         email = self.fake.unique.email()
         password = self.fake.password()
@@ -187,6 +199,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_email(self) -> None:
+        """Tests the email validation process."""
         username = self.fake.unique.user_name()
         email = 'invalid-email'
         password = self.fake.password()
@@ -208,6 +221,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_password_similarity(self) -> None:
+        """Tests the password similarity validation process."""
         username = self.fake.unique.user_name()
         email = self.fake.unique.email()
         password = username
@@ -235,6 +249,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_password_min_length(self) -> None:
+        """Tests the password min length validation process."""
         validator = next(
             validator
             for validator in get_default_password_validators()
@@ -265,6 +280,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_password_common(self) -> None:
+        """Tests the password common validation process."""
         username = self.fake.unique.user_name()
         email = self.fake.unique.email()
         password = 'qwerty'
@@ -285,6 +301,7 @@ class SignupViewTests(TestCase):
         )
 
     def test_invalid_password_numeric(self) -> None:
+        """Tests the password numeric validation process."""
         username = self.fake.unique.user_name()
         email = self.fake.unique.email()
         password = '1234567890'
@@ -306,10 +323,13 @@ class SignupViewTests(TestCase):
 
 
 class LoginViewTests(TestCase):
+    """Checks the login view functionality."""
+
     URI = reverse_lazy('custom_auth:login')
     fake = Faker()
 
     def setUp(self) -> None:
+        """Sets up the user."""
         self.user_password = self.fake.password()
         self.user = CustomUser.objects.create_user(
             username=self.fake.unique.user_name(),
@@ -318,6 +338,7 @@ class LoginViewTests(TestCase):
         )
 
     def test_valid_login(self) -> None:
+        """Checks functionality using valid data."""
         response = self.client.post(
             self.URI,
             data={
@@ -330,6 +351,7 @@ class LoginViewTests(TestCase):
         self.assertTrue(response.wsgi_request.user.is_authenticated)
 
     def test_invalid_login(self) -> None:
+        """Checks functionality using invalid data."""
         response = self.client.post(
             self.URI,
             data={
@@ -358,6 +380,7 @@ class LoginViewTests(TestCase):
         )
 
     def test_not_active_login(self) -> None:
+        """Checks whether login for an inactive user is prohibited."""
         self.user.is_active = False  # ty: ignore[invalid-assignment]
         self.user.save()
 
@@ -389,6 +412,7 @@ class LoginViewTests(TestCase):
         )
 
     def test_user_redirect(self) -> None:
+        """Checks redirects for both authenticated and unauthenticated users."""
         response = self.client.get(self.URI)
         self.assertEqual(response.status_code, 200)
 
@@ -399,10 +423,13 @@ class LoginViewTests(TestCase):
 
 
 class LogoutViewTests(TestCase):
+    """Checks the logout view functionality."""
+
     URI = reverse_lazy('custom_auth:logout')
     fake = Faker()
 
     def setUp(self) -> None:
+        """Sets up the user."""
         self.user = CustomUser.objects.create_user(
             username=self.fake.unique.user_name(),
             email=self.fake.unique.email(),
@@ -410,10 +437,12 @@ class LogoutViewTests(TestCase):
         )
 
     def test_get_method_not_allowed(self) -> None:
+        """Checks to make sure the get method is not accessible."""
         response = self.client.get(self.URI)
         self.assertEqual(response.status_code, 405)
 
     def test_anonymous_user(self) -> None:
+        """Checks to ensure that anonymous users are handled correctly."""
         response = self.client.post(self.URI)
         self.assertRedirects(
             response,
@@ -421,6 +450,7 @@ class LogoutViewTests(TestCase):
         )
 
     def test_valid_user(self) -> None:
+        """Checks that the logout correctly."""
         response = self.client.get(self.URI)
         self.assertTrue(not response.wsgi_request.user.is_authenticated)
 
@@ -438,10 +468,13 @@ class LogoutViewTests(TestCase):
 
 
 class PasswordResetViewTests(TestCase):
+    """Checks the password reset view functionality."""
+
     URI = reverse_lazy('custom_auth:password_reset')
     fake = Faker()
 
     def setUp(self) -> None:
+        """Sets up the user."""
         self.user = CustomUser.objects.create_user(
             username=self.fake.unique.user_name(),
             email=self.fake.unique.email(),
@@ -449,6 +482,7 @@ class PasswordResetViewTests(TestCase):
         )
 
     def test_invalid_email(self) -> None:
+        """Checks the default email validator."""
         response = self.client.post(
             self.URI,
             data={
@@ -464,6 +498,7 @@ class PasswordResetViewTests(TestCase):
         )
 
     def test_user_not_active(self) -> None:
+        """Checks to see if an email was not sent to an inactive user."""
         self.user.is_active = False  # ty: ignore[invalid-assignment]
         self.user.save()
 
@@ -481,6 +516,7 @@ class PasswordResetViewTests(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_valid_reset(self) -> None:
+        """Verifying that an email was successfully sent to an active user."""
         response = self.client.post(
             self.URI,
             data={
@@ -509,15 +545,21 @@ class PasswordResetViewTests(TestCase):
 
 
 class PasswordResetDoneViewTests(TestCase):
+    """Checks the password reset done view functionality."""
+
     def test_accessibility(self) -> None:
+        """Checking that the page is accessible."""
         response = self.client.get(reverse('custom_auth:password_reset_done'))
         self.assertEqual(response.status_code, 200)
 
 
 class PasswordResetConfirmViewTests(TestCase):
+    """Checks the password reset confirm view functionality."""
+
     fake = Faker()
 
     def setUp(self) -> None:
+        """Sets up the user."""
         self.user = CustomUser.objects.create_user(
             username=self.fake.unique.user_name(),
             email=self.fake.unique.email(),
@@ -525,6 +567,7 @@ class PasswordResetConfirmViewTests(TestCase):
         )
 
     def test_valid_reset(self) -> None:
+        """Fully verifies password reset and change."""
         reset_url_token = PasswordResetConfirmView.reset_url_token
 
         self.client.post(
@@ -587,6 +630,7 @@ class PasswordResetConfirmViewTests(TestCase):
         )
 
     def test_invalid_reset(self) -> None:
+        """Checks for invalid URI data and displays an error."""
         uri_confirm = reverse(
             'custom_auth:password_reset_confirm',
             kwargs={
@@ -605,15 +649,21 @@ class PasswordResetConfirmViewTests(TestCase):
 
 
 class PasswordResetCompleteTests(TestCase):
+    """Checks the password reset complete view functionality."""
+
     def test_accessibility(self) -> None:
+        """Checking that the page is accessible."""
         response = self.client.get(reverse('custom_auth:password_reset_complete'))
         self.assertEqual(response.status_code, 200)
 
 
 class CustomUserTests(TestCase):
+    """Checks the custom user functionality."""
+
     fake = Faker()
 
     def test_clean(self) -> None:
+        """Checks that the user cleans up."""
         username = self.fake.user_name().upper()
         email = self.fake.email().upper()
         user = CustomUser(
@@ -627,18 +677,23 @@ class CustomUserTests(TestCase):
         self.assertEqual(user.email, email.lower())
 
     def test_normalize_username(self) -> None:
+        """Checks whether the username has been normalized to lowercase."""
         username = self.fake.user_name().upper()
         self.assertEqual(CustomUser.normalize_username(username), username.lower())
 
 
 class CustomUserManagerTests(TestCase):
+    """Checks the custom user manager functionality."""
+
     fake = Faker()
 
     def test_normalize_email(self) -> None:
+        """Checks whether the email has been normalized to lowercase."""
         email = self.fake.email().upper()
         self.assertEqual(CustomUserManager.normalize_email(email), email.lower())
 
     def create_user_and_login(self, is_superuser: bool = False) -> CustomUser:
+        """Creates a user and logs them."""
         username = self.fake.user_name()
         email = self.fake.email()
         password = self.fake.password()
@@ -674,12 +729,14 @@ class CustomUserManagerTests(TestCase):
         return user
 
     def test_create_user(self) -> None:
+        """Checks that the default user can be created."""
         user = self.create_user_and_login()
 
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
 
     def test_create_superuser(self) -> None:
+        """Checks that the superuser can be created."""
         user = self.create_user_and_login(is_superuser=True)
 
         self.assertTrue(user.is_staff)

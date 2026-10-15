@@ -1,3 +1,5 @@
+"""Tests for the user profile app."""
+
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.test import TestCase
@@ -10,10 +12,13 @@ from user_profile.views import PasswordChangeView
 
 
 class ProfileViewTests(TestCase):
+    """Tests the profile view."""
+
     URI = reverse_lazy('user_profile:index')
     fake = Faker()
 
     def setUp(self) -> None:
+        """Sets up the user."""
         self.user = CustomUser.objects.create_user(
             username=self.fake.user_name(),
             email=self.fake.email(),
@@ -21,6 +26,7 @@ class ProfileViewTests(TestCase):
         )
 
     def test_accessibility(self) -> None:
+        """Checking that the page is accessible."""
         response = self.client.get(self.URI)
         self.assertRedirects(
             response,
@@ -34,10 +40,13 @@ class ProfileViewTests(TestCase):
 
 
 class PasswordChangeViewTests(TestCase):
+    """Tests the password change view."""
+
     URI = reverse_lazy('user_profile:password_change')
     fake = Faker()
 
     def setUp(self) -> None:
+        """Sets up the user."""
         self.user_password = self.fake.unique.password()
         self.user = CustomUser.objects.create_user(
             username=self.fake.user_name(),
@@ -46,6 +55,7 @@ class PasswordChangeViewTests(TestCase):
         )
 
     def test_accessibility(self) -> None:
+        """Checking that the page is accessible."""
         response = self.client.get(self.URI)
         self.assertRedirects(
             response,
@@ -58,6 +68,7 @@ class PasswordChangeViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_valid_change_password(self) -> None:
+        """Checks functionality using valid data."""
         self.client.login(
             username=self.user.username,
             password=self.user_password,
@@ -88,6 +99,7 @@ class PasswordChangeViewTests(TestCase):
         )
 
     def test_invalid_old_password(self) -> None:
+        """Tests the logic for an incorrectly entered previous password."""
         self.client.login(
             username=self.user.username,
             password=self.user_password,
@@ -110,6 +122,7 @@ class PasswordChangeViewTests(TestCase):
         )
 
     def test_new_passwords_not_match(self) -> None:
+        """Tests the logic for new passwords that are not equal."""
         self.client.login(
             username=self.user.username,
             password=self.user_password,
@@ -132,10 +145,13 @@ class PasswordChangeViewTests(TestCase):
 
 
 class PasswordChangeDoneViewTests(TestCase):
+    """Tests the password change done view."""
+
     URI = reverse_lazy('user_profile:password_change_done')
     fake = Faker()
 
     def setUp(self) -> None:
+        """Sets up the user."""
         self.user = CustomUser.objects.create_user(
             username=self.fake.user_name(),
             email=self.fake.email(),
@@ -143,6 +159,7 @@ class PasswordChangeDoneViewTests(TestCase):
         )
 
     def test_accessibility(self) -> None:
+        """Checking that the page is accessible."""
         response = self.client.get(self.URI)
         self.assertRedirects(
             response,

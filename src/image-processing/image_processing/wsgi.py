@@ -1,5 +1,4 @@
-"""
-WSGI config for image_processing project.
+"""WSGI config for image_processing project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

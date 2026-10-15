@@ -1,3 +1,5 @@
+"""Shared form mixins for the project."""
+
 from collections.abc import (
     Iterable,
     Sequence,
@@ -12,6 +14,8 @@ from django.utils.safestring import SafeString
 
 
 class CustomErrorList(ErrorList):
+    """Renders form errors with Bootstrap validation classes."""
+
     def __init__(
         self,
         initlist: ErrorList | Sequence[str | Exception] | None = None,
@@ -19,6 +23,7 @@ class CustomErrorList(ErrorList):
         renderer: BaseRenderer | None = None,
         field_id: str | None = None,
     ) -> None:
+        """Initializes the error list with Bootstrap validation classes."""
         error_class = (
             error_class + ' invalid-feedback d-block'
             if error_class
@@ -33,8 +38,11 @@ class CustomErrorList(ErrorList):
 
 
 class CustomBoundField(BoundField):
+    """Renders form fields using Bootstrap styling."""
+
     @property
     def template_name(self) -> str:
+        """Returns the template used to render the form field."""
         return 'common/forms/field.html'
 
     def label_tag(
@@ -44,6 +52,7 @@ class CustomBoundField(BoundField):
         label_suffix: str | None = None,
         tag: str | None = None,
     ) -> SafeString:
+        """Adds Bootstrap styling to the field label."""
         attrs = attrs or {}
         class_attr = attrs.get('class')
 
@@ -60,6 +69,7 @@ class CustomBoundField(BoundField):
         )
 
     def css_classes(self, extra_classes: str | Iterable[str] | None = None) -> str:
+        """Adds bottom spacing to the field wrapper."""
         classes = super().css_classes(extra_classes)
         return ('mb-3 ' + classes).strip()
 
@@ -69,6 +79,7 @@ class CustomBoundField(BoundField):
         attrs: dict[str, str | bool] | None = None,
         only_initial: bool = False,
     ) -> SafeString:
+        """Adds Bootstrap styling and indicates invalid fields."""
         attrs = attrs or {}
         class_attr = attrs.get('class')
 
@@ -84,8 +95,11 @@ class CustomBoundField(BoundField):
 
 
 class CustomTemplateFormMixin:
+    """Configures forms to use Bootstrap styling."""
+
     bound_field_class = CustomBoundField
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Configures the form to use Bootstrap error styling."""
         kwargs['error_class'] = CustomErrorList
         super().__init__(*args, **kwargs)

@@ -1,3 +1,5 @@
+"""URL configuration."""
+
 from django.urls import path
 
 from user_profile.views import (
