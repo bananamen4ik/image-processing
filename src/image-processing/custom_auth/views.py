@@ -1,3 +1,5 @@
+"""Provides views for the authentication system."""
+
 from typing import Any
 
 from django.contrib.auth.views import (
@@ -42,6 +44,8 @@ from custom_auth.forms import (
     name='dispatch',
 )
 class SignupView(CreateView):
+    """Handles user registration."""
+
     form_class = UserCreationForm
     template_name = 'custom_auth/signup.html'
     success_url = reverse_lazy('custom_auth:login')
@@ -52,6 +56,7 @@ class SignupView(CreateView):
         *args: Any,
         **kwargs: Any,
     ) -> HttpResponseBase:
+        """Redirects authenticated users to the main page."""
         if self.request.user.is_authenticated:
             return HttpResponseRedirect(reverse('main:index'))
 
@@ -59,12 +64,16 @@ class SignupView(CreateView):
 
 
 class LoginView(BaseLoginView):
+    """Handles user authentication."""
+
     form_class = AuthenticationForm
     template_name = 'custom_auth/login.html'
     redirect_authenticated_user = True
 
 
 class PasswordResetView(BasePasswordResetView):
+    """Processes the sending of a password reset email."""
+
     form_class = PasswordResetForm
     success_url = reverse_lazy('custom_auth:password_reset_done')
     template_name = 'custom_auth/password_reset.html'
@@ -73,14 +82,20 @@ class PasswordResetView(BasePasswordResetView):
 
 
 class PasswordResetDoneView(BasePasswordResetDoneView):
+    """Displays the page confirming that the email was sent successfully."""
+
     template_name = 'custom_auth/password_reset_done.html'
 
 
 class PasswordResetConfirmView(BasePasswordResetConfirmView):
+    """Handles password reset."""
+
     form_class = SetPasswordForm
     success_url = reverse_lazy('custom_auth:password_reset_complete')
     template_name = 'custom_auth/password_reset_confirm.html'
 
 
 class PasswordResetCompleteView(BasePasswordResetCompleteView):
+    """Displays the password reset success page."""
+
     template_name = 'custom_auth/password_reset_complete.html'

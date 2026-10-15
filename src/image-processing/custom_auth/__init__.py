@@ -1,0 +1,1 @@
+"""Provides an authentication system."""

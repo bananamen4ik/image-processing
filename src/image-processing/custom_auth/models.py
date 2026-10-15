@@ -1,3 +1,5 @@
+"""Provides a custom user and manager model for the user."""
+
 from typing import (
     Any,
     ClassVar,
@@ -16,6 +18,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserManager(BaseUserManager):
+    """Extends the standard user manager with basic functionality."""
+
     def create_user(
         self,
         username: str,
@@ -23,6 +27,7 @@ class CustomUserManager(BaseUserManager):
         password: str | None = None,
         **other_fields: Any,
     ) -> CustomUser:
+        """Creates and saves a User as default user."""
         user = self.model(
             username=username,
             email=email,
@@ -40,6 +45,7 @@ class CustomUserManager(BaseUserManager):
         password: str | None = None,
         **other_fields: Any,
     ) -> CustomUser:
+        """Creates and saves a User as superuser."""
         other_fields.setdefault('is_staff', True)
         other_fields.setdefault('is_superuser', True)
         return self.create_user(
@@ -51,11 +57,14 @@ class CustomUserManager(BaseUserManager):
 
     @classmethod
     def normalize_email(cls, email: str | None) -> str:
+        """Converts an email address to lowercase."""
         email = super().normalize_email(email)
         return email.lower()
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """Extends the standard user model with custom manager and fields."""
+
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS: ClassVar[list[str]] = ['email']
@@ -102,11 +111,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     def clean(self) -> None:
+        """Adds email normalization to the default action."""
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
     @classmethod
     def normalize_username(cls, username: str) -> str:
+        """Converts a username to lowercase."""
         # noinspection bad-argument-type
         username = super().normalize_username(username)
         return username.lower()
