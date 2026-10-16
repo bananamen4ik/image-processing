@@ -12,7 +12,7 @@ Users can upload images, select processing operations, and receive the processed
 
 Runs a complex tests of the entire project.
 
-`pre-commit`
+`pre-commit run && pre-commit run --hook-stage=manual`
 
 ### Running Tests Individually
 
@@ -20,16 +20,16 @@ Runs tests one at a time.
 
 #### Coverage
 
-`pre-commit coverage`
+`pre-commit run --hook-stage=manual coverage`
 
 #### Ruff Check
 
-`pre-commit ruff-check`
+`pre-commit run ruff-check`
 
 #### Ruff Format
 
-`pre-commit ruff-format`
+`pre-commit run ruff-format`
 
 #### Ty
 
-`pre-commit ty`
+`pre-commit run ty`
