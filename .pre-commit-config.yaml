@@ -1,0 +1,38 @@
+repos:
+  - repo: local
+    hooks:
+      - id: coverage
+        name: Running Tests
+        language: unsupported
+        entry: bash -c 'cd src/image-processing && uv run coverage run --rcfile="../../pyproject.toml" && uv run coverage report -m --skip-covered --fail-under=100 --rcfile="../../pyproject.toml"'
+        types: [ file ]
+        pass_filenames: false
+        always_run: true
+        verbose: true
+
+      - id: ruff-check
+        name: Running Ruff Check
+        language: unsupported
+        entry: bash -c 'cd src/image-processing && ruff check --config="../../pyproject.toml" --fix --exit-non-zero-on-fix'
+        types: [ file ]
+        pass_filenames: false
+        always_run: true
+        verbose: true
+
+      - id: ruff-format
+        name: Running Ruff Format
+        language: unsupported
+        entry: bash -c 'cd src/image-processing && ruff format --config="../../pyproject.toml" --exit-non-zero-on-format'
+        types: [ file ]
+        pass_filenames: false
+        always_run: true
+        verbose: true
+
+      - id: ty
+        name: Running Ty
+        language: unsupported
+        entry: bash -c 'cd src/image-processing && ty check .'
+        types: [ file ]
+        pass_filenames: false
+        always_run: true
+        verbose: true
