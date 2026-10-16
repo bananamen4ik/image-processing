@@ -20,6 +20,7 @@ dev = [
     "coverage>=7.16.2",
     "django-stubs>=6.1.2",
     "faker>=40.43.0",
+    "pre-commit>=4.7.0",
     "ruff>=0.17.0",
     "ty>=0.0.87",
 ]
