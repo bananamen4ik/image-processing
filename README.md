@@ -8,25 +8,28 @@ This project is a portfolio web application built with Django.
 
 Users can upload images, select processing operations, and receive the processed result.
 
-## Running Tests
+## Run All Tests
 
-Run the following commands from the project root directory:
+Runs a complex tests of the entire project.
 
-1. `cd src/image-processing`.
-2. `coverage run --rcfile="../../pyproject.toml"`.
-3. `coverage report -m --skip-covered`.
+`pre-commit`
 
-## Running Ruff
+### Running Tests Individually
 
-Run the following commands from the project root directory:
+Runs tests one at a time.
 
-1. `cd src/image-processing`.
-2. `ruff check --config="../../pyproject.toml" --fix`.
-3. `ruff format --config="../../pyproject.toml"`.
+#### Coverage
 
-## Running Ty
+`pre-commit coverage`
 
-Run the following commands from the project root directory:
+#### Ruff Check
 
-1. `cd src/image-processing`.
-2. `ty check .`.
+`pre-commit ruff-check`
+
+#### Ruff Format
+
+`pre-commit ruff-format`
+
+#### Ty
+
+`pre-commit ty`
