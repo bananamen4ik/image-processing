@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-26.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+
+      - name: Setup UV
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version: 0.13.1
+          enable-cache: true
+
+      - name: Setup Project
+        run: uv sync --locked --all-extras --dev
+
+      - name: Setup ENV files
+        run: |
+          cp postgres/.env.ci postgres/.env
+          cp src/image-processing/.env.ci src/image-processing/.env
+
+      - name: Setup Docker
+        run: docker compose up -d
+
+      - name: Run Tests
+        run: |
+          uv run pre-commit run
+          uv run pre-commit run --hook-stage=manual
