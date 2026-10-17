@@ -33,7 +33,7 @@ jobs:
           cp src/image-processing/.env.ci src/image-processing/.env
 
       - name: Setup Docker
-        run: docker compose -f compose.yaml -f compose.ci.yaml up
+        run: docker compose up
 
       - name: Run Tests
         run: |
