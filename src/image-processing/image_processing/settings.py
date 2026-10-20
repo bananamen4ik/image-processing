@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third apps
+    'debug_toolbar',
     # Project apps
     'common.apps.CommonConfig',
     'main.apps.MainConfig',
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -144,3 +147,6 @@ LOGIN_URL = reverse_lazy('custom_auth:login')
 LOGIN_REDIRECT_URL = reverse_lazy('main:index')
 
 LOGOUT_REDIRECT_URL = reverse_lazy('custom_auth:login')
+
+# Debug Toolbar
+INTERNAL_IPS = ['127.0.0.1']
