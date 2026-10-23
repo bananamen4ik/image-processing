@@ -9,8 +9,10 @@ from django.contrib.auth.views import (
 from django.contrib.auth.views import (
     PasswordChangeView as BasePasswordChangeView,
 )
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db import models
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
 
@@ -49,13 +51,16 @@ class ProfileInfoView(LoginRequiredMixin, TemplateView):
     template_name = 'user_profile/info.html'
 
 
-class ProfileEditView(LoginRequiredMixin, UpdateView):
+class ProfileEditView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     """Display profile edit page."""
 
     template_name = 'user_profile/edit.html'
     form_class = ProfileEditForm
     model = CustomUser
     success_url = reverse_lazy('user_profile:edit')
+    success_message = gettext_lazy(
+        'Your profile was successfully updated.',
+    )
 
     def get_object(
         self,
