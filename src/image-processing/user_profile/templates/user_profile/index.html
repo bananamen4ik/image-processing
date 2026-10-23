@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-{% block title %}{% translate 'Image Processing' %} — {% translate 'Profile' %}{% endblock %}
+{% block title %}{% translate 'Profile' %}{% endblock %}
 
 {% block content %}
     <section class="py-5">
@@ -23,7 +23,7 @@
 
                     <div class="row g-4">
                         <div class="col-12 col-md-6">
-                            <a href="#"
+                            <a href="{% url 'user_profile:info' %}"
                                class="card h-100 text-decoration-none text-body shadow-sm">
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-start gap-3">

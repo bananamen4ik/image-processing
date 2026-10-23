@@ -1,21 +1,29 @@
 """User profile views."""
 
-from django.contrib.auth.decorators import login_required
+from typing import TypeVar
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
     PasswordChangeDoneView as BasePasswordChangeDoneView,
 )
 from django.contrib.auth.views import (
     PasswordChangeView as BasePasswordChangeView,
 )
+from django.db import models
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
+from django.views.generic.edit import UpdateView
 
-from user_profile.forms import PasswordChangeForm
+from custom_auth.models import CustomUser
+from user_profile.forms import (
+    PasswordChangeForm,
+    ProfileEditForm,
+)
+
+_M = TypeVar('_M', bound=models.Model)
 
 
-@method_decorator(login_required, name='dispatch')
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
     """Display profile page."""
 
     template_name = 'user_profile/index.html'
@@ -33,3 +41,26 @@ class PasswordChangeDoneView(BasePasswordChangeDoneView):
     """Displays a page with a message confirming that the password change was successful."""
 
     template_name = 'user_profile/password_change_done.html'
+
+
+class ProfileInfoView(LoginRequiredMixin, TemplateView):
+    """Display profile info page."""
+
+    template_name = 'user_profile/info.html'
+
+
+class ProfileEditView(LoginRequiredMixin, UpdateView):
+    """Display profile edit page."""
+
+    template_name = 'user_profile/edit.html'
+    form_class = ProfileEditForm
+    model = CustomUser
+    success_url = reverse_lazy('user_profile:edit')
+
+    def get_object(
+        self,
+        queryset: models.query.QuerySet[_M] | None = None,
+    ) -> _M:
+        """Retrieves the user directly from the session, not from the URL."""
+        self.kwargs['pk'] = self.request.user.pk
+        return super().get_object(queryset=queryset)

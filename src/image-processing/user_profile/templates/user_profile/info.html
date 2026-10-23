@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% translate 'Profile information' %}{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8 col-xl-7">
+                    <!-- Header -->
+                    <div class="mb-4">
+                        <a href="{% url 'user_profile:index' %}"
+                           class="link-secondary text-decoration-none small d-inline-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                 class="bi bi-arrow-left me-1" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
+                            </svg>
+                            {% translate 'Back to profile' %}
+                        </a>
+
+                        <h1 class="h2 fw-semibold mt-3 mb-2">
+                            {% translate 'Profile information' %}
+                        </h1>
+
+                        <p class="text-body-secondary mb-0">
+                            {% translate 'View the information associated with your account.' %}
+                        </p>
+                    </div>
+
+                    <!-- Profile card -->
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 p-md-5">
+                            <!-- Avatar and username -->
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="rounded-circle bg-primary-subtle text-primary
+                                            d-flex align-items-center justify-content-center
+                                            flex-shrink-0"
+                                     style="width: 72px; height: 72px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-person fs-1" viewBox="0 0 16 16">
+                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"></path>
+                                    </svg>
+                                </div>
+
+                                <div class="min-w-0">
+                                    <h2 class="h4 fw-semibold text-break mb-1">
+                                        {{ user.username }}
+                                    </h2>
+
+                                    <p class="text-body-secondary mb-0">
+                                        {% translate 'Member since' %}
+                                        {{ user.date_joined|date:'F j, Y' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <!-- Account details -->
+                            <h3 class="h6 fw-semibold mb-3">
+                                {% translate 'Account details' %}
+                            </h3>
+
+                            <dl class="mb-0">
+
+                                <!-- Username -->
+                                <div class="row g-2 py-3 border-bottom">
+                                    <dt class="col-sm-4 text-body-secondary fw-normal">
+                                        {% translate 'Username' %}
+                                    </dt>
+
+                                    <dd class="col-sm-8 mb-0 fw-medium text-break">
+                                        {{ user.username }}
+                                    </dd>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="row g-2 py-3 border-bottom">
+                                    <dt class="col-sm-4 text-body-secondary fw-normal">
+                                        {% translate 'Email address' %}
+                                    </dt>
+
+                                    <dd class="col-sm-8 mb-0 fw-medium text-break">
+                                        {{ user.email }}
+                                    </dd>
+                                </div>
+
+                                <!-- Registration date -->
+                                <div class="row g-2 py-3">
+                                    <dt class="col-sm-4 text-body-secondary fw-normal">
+                                        {% translate 'Date joined' %}
+                                    </dt>
+
+                                    <dd class="col-sm-8 mb-0 fw-medium">
+                                        {{ user.date_joined|date:"F j, Y" }}
+                                    </dd>
+                                </div>
+
+                            </dl>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex flex-column flex-sm-row gap-2 mt-4">
+                        <a href="{% url 'user_profile:password_change' %}"
+                           class="btn btn-outline-secondary">
+                            {% translate 'Change password' %}
+                        </a>
+
+                        <a href="{% url 'user_profile:edit' %}"
+                           class="btn btn-primary">
+                            {% translate 'Edit profile' %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
