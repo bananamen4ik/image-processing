@@ -7,10 +7,12 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.db.models.fields import Field
 from django.test import TestCase
 from django.urls import reverse_lazy
+from django.utils import translation
 from django.utils.translation import gettext as _
 from faker import Faker
 
 from custom_auth.models import CustomUser
+from user_profile.models import UserProfile
 from user_profile.views import PasswordChangeView
 
 
@@ -330,4 +332,28 @@ class ProfileEditViewTests(TestCase):
             response.context['form'],
             'email',
             str(email_field.error_messages['unique']),
+        )
+
+
+class ProfileCreatePostSaveTests(TestCase):
+    """Tests profile creation after the 'post save' signal."""
+
+    fake = Faker()
+
+    def test_post_save_receiver(self) -> None:
+        """Tests profile creation after a signal."""
+        current_language = 'ru' if settings.LANGUAGE_CODE == 'en' else 'en'
+
+        with translation.override(current_language):
+            user = CustomUser.objects.create_user(
+                username=self.fake.user_name(),
+                email=self.fake.email(),
+                password=self.fake.password(),
+            )
+
+        self.assertTrue(
+            UserProfile.objects.filter(
+                user=user,
+                language=current_language,
+            ).exists(),
         )
