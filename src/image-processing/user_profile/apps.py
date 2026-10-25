@@ -10,3 +10,4 @@ class UserProfileConfig(AppConfig):
 
     def ready(self) -> None:
         """Connects additional components after the application is ready."""
+        import user_profile.receivers  # ruff: ignore[F401]
