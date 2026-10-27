@@ -78,7 +78,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         unique=True,
         max_length=150,
         help_text=_(
-            'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'
+            'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
         ),
         validators=[username_validator],
         error_messages={
@@ -100,7 +100,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         default=True,
         help_text=_(
             'Designates whether this user should be treated as active. '
-            'Unselect this instead of deleting accounts.'
+            'Unselect this instead of deleting accounts.',
         ),
     )
     is_staff = models.BooleanField(

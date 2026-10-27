@@ -32,6 +32,7 @@ command_line = "manage.py test"
 source = ["."]
 branch = true
 omit = [
+    "*/migrations/*.py",
     "*/asgi.py",
     "*/wsgi.py",
     "manage.py",
@@ -51,12 +52,7 @@ extend-select = [
     "D",
 ]
 ignore = ["ANN401"]
+exclude = ["*/migrations/*.py"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
-
-[tool.ruff.lint.extend-per-file-ignores]
-"*/migrations/*.py" = [
-    "RUF012",
-    "D",
-]
