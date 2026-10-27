@@ -56,3 +56,7 @@ exclude = ["*/migrations/*.py"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+# Ty
+[tool.ty.rules]
+unresolved-attribute = "ignore"

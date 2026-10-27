@@ -7,6 +7,7 @@ from user_profile.views import (
     PasswordChangeView,
     ProfileEditView,
     ProfileInfoView,
+    ProfileSettingsView,
     ProfileView,
 )
 
@@ -21,4 +22,5 @@ urlpatterns = [
     ),
     path('info/', ProfileInfoView.as_view(), name='info'),
     path('edit/', ProfileEditView.as_view(), name='edit'),
+    path('settings/', ProfileSettingsView.as_view(), name='settings'),
 ]

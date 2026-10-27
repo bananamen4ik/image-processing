@@ -7,6 +7,7 @@ from django.forms import ModelForm
 
 from common.forms import CustomTemplateFormMixin
 from custom_auth.models import CustomUser
+from user_profile.models import UserProfile
 
 
 class PasswordChangeForm(CustomTemplateFormMixin, BasePasswordChangeForm):
@@ -21,3 +22,13 @@ class ProfileEditForm(CustomTemplateFormMixin, ModelForm):
 
         model = CustomUser
         fields = ('username', 'email')
+
+
+class ProfileSettingsForm(CustomTemplateFormMixin, ModelForm):
+    """A form that allows users to edit their settings."""
+
+    class Meta:
+        """Configures the model and fields used by the form."""
+
+        model = UserProfile
+        fields = ('time_zone', 'language')
