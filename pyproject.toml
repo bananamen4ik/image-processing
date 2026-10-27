@@ -32,6 +32,7 @@ command_line = "manage.py test"
 source = ["."]
 branch = true
 omit = [
+    "*/migrations/*.py",
     "*/asgi.py",
     "*/wsgi.py",
     "manage.py",
