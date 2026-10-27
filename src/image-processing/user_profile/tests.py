@@ -357,3 +357,108 @@ class ProfileCreatePostSaveTests(TestCase):
                 language=current_language,
             ).exists(),
         )
+
+
+class ProfileSettingsViewTests(TestCase):
+    """Tests changes to the settings."""
+
+    URI = reverse_lazy('user_profile:settings')
+    fake = Faker()
+
+    def setUp(self) -> None:
+        """Sets up the user."""
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.user_name(),
+            email=self.fake.email(),
+            password=self.fake.password(),
+        )
+
+        self.user.user_profile.language = 'en'
+        self.user.user_profile.time_zone = 'UTC'
+        self.user.user_profile.save(update_fields=['language', 'time_zone'])
+
+    def test_valid_data(self) -> None:
+        """Tests changes to settings using correct data."""
+        language = 'ru'
+        time_zone = 'Turkey'
+
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'language': language,
+                'time_zone': time_zone,
+            },
+        )
+
+        self.user.user_profile.refresh_from_db()
+
+        self.assertRedirects(response, str(self.URI))
+        self.assertEqual(self.user.user_profile.language, language)
+        self.assertEqual(self.user.user_profile.time_zone, time_zone)
+
+    def test_auth_accessibility(self) -> None:
+        """Checks whether the page is accessible to an authorized user."""
+        response = self.client.get(self.URI)
+        self.assertRedirects(
+            response,
+            f'{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={self.URI}',
+        )
+
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
+
+    def test_invalid_time_zone(self) -> None:
+        """Checks the validation of the 'time_zone' field."""
+        time_zone = 'invalid-time_zone'
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'time_zone': time_zone,
+                'language': self.user.user_profile.language,
+            },
+        )
+
+        self.assertFormError(
+            response.context['form'],
+            'time_zone',
+            str(
+                response.context['form']
+                .fields['time_zone']
+                .error_messages['invalid_choice']
+                % {
+                    'value': time_zone,
+                },
+            ),
+        )
+
+    def test_invalid_language(self) -> None:
+        """Checks the validation of the 'language' field."""
+        language = 'invalid-language'
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'time_zone': self.user.user_profile.time_zone,
+                'language': language,
+            },
+        )
+
+        self.assertFormError(
+            response.context['form'],
+            'language',
+            str(
+                response.context['form']
+                .fields['language']
+                .error_messages['invalid_choice']
+                % {
+                    'value': language,
+                },
+            ),
+        )

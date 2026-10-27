@@ -20,7 +20,9 @@ from custom_auth.models import CustomUser
 from user_profile.forms import (
     PasswordChangeForm,
     ProfileEditForm,
+    ProfileSettingsForm,
 )
+from user_profile.models import UserProfile
 
 _M = TypeVar('_M', bound=models.Model)
 
@@ -68,4 +70,25 @@ class ProfileEditView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     ) -> _M:
         """Retrieves the user directly from the session, not from the URL."""
         self.kwargs['pk'] = self.request.user.pk
+        return super().get_object(queryset=queryset)
+
+
+class ProfileSettingsView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    """Display profile settings page."""
+
+    template_name = 'user_profile/settings.html'
+    form_class = ProfileSettingsForm
+    model = UserProfile
+    slug_field = 'user_id'
+    success_url = reverse_lazy('user_profile:settings')
+    success_message = gettext_lazy(
+        'Your settings was successfully updated.',
+    )
+
+    def get_object(
+        self,
+        queryset: models.query.QuerySet[_M] | None = None,
+    ) -> _M:
+        """Retrieves the user pk directly from the session, not from the URL."""
+        self.kwargs['slug'] = self.request.user.pk
         return super().get_object(queryset=queryset)
