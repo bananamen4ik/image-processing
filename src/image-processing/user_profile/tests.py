@@ -380,7 +380,7 @@ class ProfileSettingsViewTests(TestCase):
     def test_valid_data(self) -> None:
         """Tests changes to settings using correct data."""
         language = 'ru'
-        time_zone = 'Turkey'
+        time_zone = 'America/Santiago'
 
         self.client.force_login(self.user)
 
