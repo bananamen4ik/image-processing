@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-{% block title %}{% translate 'Image Processing' %} — {% translate 'Simple image processing' %}{% endblock %}
+{% block title %}{% translate 'Simple image processing' %}{% endblock %}
 
 {% block content %}
     <!-- Hero -->
@@ -157,8 +157,21 @@
                             </p>
 
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li class="mb-2">{% translate '✓ Basic processing' %}</li>
-                                <li class="mb-2">{% translate '✓ 5 operations per day' %}</li>
+                                <li class="mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-check2 fs-4 text-success" viewBox="0 0 16 16">
+                                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"></path>
+                                    </svg>
+                                    {% translate 'Basic image processing' %}
+                                </li>
+
+                                <li class="mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-check2 fs-4 text-success" viewBox="0 0 16 16">
+                                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"></path>
+                                    </svg>
+                                    {% translate '5 operations per day' %}
+                                </li>
                             </ul>
 
                             <a href="{% url 'custom_auth:signup' %}" class="btn btn-outline-primary mt-auto">
@@ -186,12 +199,25 @@
                             </p>
 
                             <p class="text-body-secondary">
-                                {% translate 'For users who process images regularly.' %}
+                                {% translate 'For regular image processing.' %}
                             </p>
 
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li class="mb-2">{% translate '✓ Basic processing' %}</li>
-                                <li class="mb-2">{% translate '✓ 20 operations per day' %}</li>
+                                <li class="mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-check2 fs-4 text-success" viewBox="0 0 16 16">
+                                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"></path>
+                                    </svg>
+                                    {% translate 'Basic image processing' %}
+                                </li>
+
+                                <li class="mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-check2 fs-4 text-success" viewBox="0 0 16 16">
+                                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"></path>
+                                    </svg>
+                                    {% translate '20 operations per day' %}
+                                </li>
                             </ul>
 
                             <a href="#" class="btn btn-primary mt-auto">
@@ -219,8 +245,21 @@
                             </p>
 
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li class="mb-2">{% translate '✓ Basic processing' %}</li>
-                                <li class="mb-2">{% translate '✓ 100 operations per day' %}</li>
+                                <li class="mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-check2 fs-4 text-success" viewBox="0 0 16 16">
+                                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"></path>
+                                    </svg>
+                                    {% translate 'Basic image processing' %}
+                                </li>
+
+                                <li class="mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-check2 fs-4 text-success" viewBox="0 0 16 16">
+                                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"></path>
+                                    </svg>
+                                    {% translate '100 operations per day' %}
+                                </li>
                             </ul>
 
                             <a href="#" class="btn btn-outline-primary mt-auto">

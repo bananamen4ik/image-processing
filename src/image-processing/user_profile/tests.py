@@ -1,7 +1,10 @@
 """Tests for the user profile app."""
 
+from typing import cast
+
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.db.models.fields import Field
 from django.test import TestCase
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
@@ -170,3 +173,161 @@ class PasswordChangeDoneViewTests(TestCase):
 
         response = self.client.get(self.URI)
         self.assertEqual(response.status_code, 200)
+
+
+class ProfileInfoViewTests(TestCase):
+    """Tests the profile info view."""
+
+    URI = reverse_lazy('user_profile:info')
+    fake = Faker()
+
+    def setUp(self) -> None:
+        """Sets up the user."""
+        password = self.fake.password()
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.user_name(),
+            email=self.fake.email(),
+            password=password,
+        )
+
+    def test_auth_accessibility(self) -> None:
+        """Checks whether the page is accessible to an authorized user."""
+        response = self.client.get(self.URI)
+        self.assertRedirects(
+            response,
+            f'{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={self.URI}',
+        )
+
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
+
+
+class ProfileEditViewTests(TestCase):
+    """Tests the profile edit view."""
+
+    URI = reverse_lazy('user_profile:edit')
+    fake = Faker()
+
+    def setUp(self) -> None:
+        """Sets up the users."""
+        self.user1_password = self.fake.unique.password()
+        self.user1 = CustomUser.objects.create_user(
+            username=self.fake.unique.user_name(),
+            email=self.fake.unique.email(),
+            password=self.user1_password,
+        )
+
+        self.user2_password = self.fake.unique.password()
+        self.user2 = CustomUser.objects.create_user(
+            username=self.fake.unique.user_name(),
+            email=self.fake.unique.email(),
+            password=self.user1_password,
+        )
+
+    def test_auth_accessibility(self) -> None:
+        """Checks whether the page is accessible to an authorized user."""
+        response = self.client.get(self.URI)
+        self.assertRedirects(
+            response,
+            f'{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={self.URI}',
+        )
+
+        self.client.force_login(self.user1)
+
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
+
+    def test_valid_update(self) -> None:
+        """Checks to see if the user data was updated successfully."""
+        is_login = self.client.login(
+            username=self.user1.username,
+            password=self.user1_password,
+        )
+        self.assertTrue(is_login)
+
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['user'].username, self.user1.username)
+        self.assertEqual(response.context['user'].email, self.user1.email)
+
+        new_username = self.fake.unique.user_name()
+        new_email = self.fake.unique.email()
+        response = self.client.post(
+            self.URI,
+            data={
+                'username': new_username,
+                'email': new_email,
+            },
+        )
+
+        self.assertRedirects(response, str(self.URI))
+
+        self.user1.refresh_from_db()
+        self.assertEqual(self.user1.username, new_username)
+        self.assertEqual(self.user1.email, new_email)
+
+    def test_username_exists_update(self) -> None:
+        """Checks for errors when updating an existing username."""
+        is_login = self.client.login(
+            username=self.user1.username,
+            password=self.user1_password,
+        )
+        self.assertTrue(is_login)
+
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['user'].username, self.user1.username)
+        self.assertEqual(response.context['user'].email, self.user1.email)
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'username': self.user2.username,
+                'email': self.user1.email,
+            },
+        )
+        username_field = cast(
+            Field,
+            CustomUser._meta.get_field(CustomUser.USERNAME_FIELD),
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context['form'],
+            'username',
+            str(username_field.error_messages['unique']),
+        )
+
+    def test_email_exists_update(self) -> None:
+        """Checks for errors when updating an existing email."""
+        is_login = self.client.login(
+            username=self.user1.username,
+            password=self.user1_password,
+        )
+        self.assertTrue(is_login)
+
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['user'].username, self.user1.username)
+        self.assertEqual(response.context['user'].email, self.user1.email)
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'username': self.user1.username,
+                'email': self.user2.email,
+            },
+        )
+        email_field = cast(
+            Field,
+            CustomUser._meta.get_field(CustomUser.EMAIL_FIELD),
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context['form'],
+            'email',
+            str(email_field.error_messages['unique']),
+        )

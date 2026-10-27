@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate 'About' %}{% endblock %}
+
+{% block content %}
+    <!-- Hero -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <span class="badge text-bg-light border mb-3">
+                        {% translate 'About the project' %}
+                    </span>
+
+                    <h1 class="display-4 fw-bold mb-4">
+                        {% translate 'Image processing made simple' %}
+                    </h1>
+
+                    <p class="lead text-body-secondary mb-0">
+                        {% blocktranslate trimmed %}
+                            A simple way to transform your images without
+                            complicated software or unnecessary steps.
+                        {% endblocktranslate %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission -->
+    <section class="py-5 bg-body-tertiary">
+        <div class="container py-4">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <h2 class="fw-semibold mb-4">
+                        {% translate 'Why this project exists' %}
+                    </h2>
+
+                    <p class="text-body-secondary">
+                        {% blocktranslate trimmed %}
+                            Image processing should not require installing
+                            large applications or learning complicated tools
+                            just to perform everyday tasks.
+                        {% endblocktranslate %}
+                    </p>
+
+                    <p class="text-body-secondary mb-0">
+                        {% blocktranslate trimmed %}
+                            This project aims to make common image operations
+                            accessible through a straightforward web interface.
+                            Choose an image, select an operation, and get the result.
+                        {% endblocktranslate %}
+                    </p>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="d-flex gap-3 mb-4">
+                                <div class="text-primary fs-3">01</div>
+                                <div>
+                                    <h3 class="h5 fw-semibold">
+                                        {% translate 'Simplicity' %}
+                                    </h3>
+                                    <p class="text-body-secondary mb-0">
+                                        {% translate 'A clear workflow with only the steps you need.' %}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-3 mb-4">
+                                <div class="text-primary fs-3">02</div>
+                                <div>
+                                    <h3 class="h5 fw-semibold">
+                                        {% translate 'Practical tools' %}
+                                    </h3>
+                                    <p class="text-body-secondary mb-0">
+                                        {% translate 'Useful operations for everyday image tasks.' %}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-3">
+                                <div class="text-primary fs-3">03</div>
+                                <div>
+                                    <h3 class="h5 fw-semibold">
+                                        {% translate 'Room to grow' %}
+                                    </h3>
+                                    <p class="text-body-secondary mb-0">
+                                        {% translate 'A project that can evolve as new needs arise.' %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="fw-semibold">
+                    {% translate 'How it works' %}
+                </h2>
+
+                <p class="text-body-secondary">
+                    {% translate 'Three steps from an original image to the result.' %}
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0">
+                        <div class="card-body text-center p-4">
+                            <div class="display-6 fw-bold text-primary mb-3">1</div>
+
+                            <h3 class="h5 fw-semibold">
+                                {% translate 'Upload' %}
+                            </h3>
+
+                            <p class="text-body-secondary mb-0">
+                                {% translate 'Choose an image from your device.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 border-0">
+                        <div class="card-body text-center p-4">
+                            <div class="display-6 fw-bold text-primary mb-3">2</div>
+
+                            <h3 class="h5 fw-semibold">
+                                {% translate 'Choose an operation' %}
+                            </h3>
+
+                            <p class="text-body-secondary mb-0">
+                                {% translate 'Select the transformation you need.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 border-0">
+                        <div class="card-body text-center p-4">
+                            <div class="display-6 fw-bold text-primary mb-3">3</div>
+
+                            <h3 class="h5 fw-semibold">
+                                {% translate 'Get your result' %}
+                            </h3>
+
+                            <p class="text-body-secondary mb-0">
+                                {% translate 'View and download the processed image.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our approach -->
+    <section class="py-5 bg-body-tertiary">
+        <div class="container py-5">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                <span class="badge text-bg-light border mb-3">
+                    {% translate 'Our approach' %}
+                </span>
+
+                    <h2 class="fw-semibold mb-3">
+                        {% translate 'Useful tools, without the complexity' %}
+                    </h2>
+
+                    <p class="lead text-body-secondary mb-0">
+                        {% blocktranslate trimmed %}
+                            We focus on making everyday image processing
+                            straightforward: essential tools, a clear workflow,
+                            and results you can use right away.
+                        {% endblocktranslate %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="text-center">
+                <h2 class="fw-semibold mb-3">
+                    {% translate 'Ready to try it?' %}
+                </h2>
+
+                <p class="text-body-secondary mb-4">
+                    {% translate 'Create an account and start with the free plan.' %}
+                </p>
+
+                <a href="{% url 'custom_auth:signup' %}"
+                   class="btn btn-primary btn-lg px-4">
+                    {% translate 'Get started' %}
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

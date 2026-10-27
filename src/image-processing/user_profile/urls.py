@@ -5,6 +5,8 @@ from django.urls import path
 from user_profile.views import (
     PasswordChangeDoneView,
     PasswordChangeView,
+    ProfileEditView,
+    ProfileInfoView,
     ProfileView,
 )
 
@@ -17,4 +19,6 @@ urlpatterns = [
         PasswordChangeDoneView.as_view(),
         name='password_change_done',
     ),
+    path('info/', ProfileInfoView.as_view(), name='info'),
+    path('edit/', ProfileEditView.as_view(), name='edit'),
 ]
