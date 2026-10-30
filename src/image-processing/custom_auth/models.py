@@ -62,10 +62,7 @@ class CustomUserManager(BaseUserManager):
         return email.lower()
 
 
-class CustomUser(
-    AbstractBaseUser,
-    PermissionsMixin,
-):  # ty: ignore[invalid-attribute-override]
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     """Extends the standard user model with custom manager and fields."""
 
     USERNAME_FIELD = 'username'
