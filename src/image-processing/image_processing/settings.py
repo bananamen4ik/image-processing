@@ -83,6 +83,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'image_processing.wsgi.application'
 
+CACHES = {
+    'default': env.cache(),
+}
+
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
