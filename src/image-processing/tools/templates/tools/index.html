@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate 'Image tools' %}{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            <div class="mb-5">
+                <h1 class="fw-bold mb-2">{% translate 'Image Tools' %}</h1>
+                <p class="text-body-secondary mb-0">
+                    {% translate 'Choose a tool to get started with your image.' %}
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Resize -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="rounded-3 bg-primary-subtle text-primary align-self-start
+                                        d-inline-flex align-items-center justify-content-center mb-4 fs-4 p-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707"></path>
+                                </svg>
+                            </div>
+
+                            <h2 class="h5 fw-semibold">{% translate 'Resize' %}</h2>
+
+                            <p class="text-body-secondary">
+                                {% translate 'Resize your images to the dimensions you need.' %}
+                            </p>
+
+                            <a href="#"
+                               class="btn btn-outline-primary mt-auto">
+                                {% translate 'Open tool' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Convert -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="rounded-3 bg-primary-subtle text-primary align-self-start
+                                        d-inline-flex align-items-center justify-content-center mb-4 fs-4 p-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"></path>
+                                </svg>
+                            </div>
+
+                            <h2 class="h5 fw-semibold">{% translate 'Convert' %}</h2>
+
+                            <p class="text-body-secondary">
+                                {% translate 'Convert images between supported formats.' %}
+                            </p>
+
+                            <a href="#"
+                               class="btn btn-outline-primary mt-auto">
+                                {% translate 'Open tool' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optimize -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="rounded-3 bg-primary-subtle text-primary align-self-start
+                                        d-inline-flex align-items-center justify-content-center mb-4 fs-4 p-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     class="bi bi-file-earmark-zip" viewBox="0 0 16 16">
+                                    <path d="M5 7.5a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v.938l.4 1.599a1 1 0 0 1-.416 1.074l-.93.62a1 1 0 0 1-1.11 0l-.929-.62a1 1 0 0 1-.415-1.074L5 8.438zm2 0H6v.938a1 1 0 0 1-.03.243l-.4 1.598.93.62.929-.62-.4-1.598A1 1 0 0 1 7 8.438z"></path>
+                                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1h-2v1h-1v1h1v1h-1v1h1v1H6V5H5V4h1V3H5V2h1V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"></path>
+                                </svg>
+                            </div>
+
+                            <h2 class="h5 fw-semibold">{% translate 'Optimize' %}</h2>
+
+                            <p class="text-body-secondary">
+                                {% translate 'Reduce image size while maintaining good quality.' %}
+                            </p>
+
+                            <a href="#"
+                               class="btn btn-outline-primary mt-auto">
+                                {% translate 'Open tool' %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

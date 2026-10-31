@@ -31,6 +31,7 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path('', include('main.urls')),
     path('accounts/', include('custom_auth.urls')),
     path('profile/', include('user_profile.urls')),
+    path('tools/', include('tools.urls')),
 ]
 
 if settings.DEBUG:  # pragma: no cover
