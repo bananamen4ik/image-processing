@@ -35,5 +35,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          uv run pre-commit run
-          uv run pre-commit run --hook-stage=manual
+          uv run --no-sync pre-commit run
+          uv run --no-sync pre-commit run --hook-stage=manual
