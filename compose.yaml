@@ -7,5 +7,16 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql
 
+  redis:
+    image: redis:8.10-alpine3.23
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+      - ./redis:/usr/local/etc/redis
+    command:
+      - "redis-server"
+      - "/usr/local/etc/redis/redis.conf"
+
 volumes:
   postgres-data:
+  redis-data:
