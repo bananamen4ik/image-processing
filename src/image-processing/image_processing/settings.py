@@ -161,3 +161,6 @@ LOGOUT_REDIRECT_URL = reverse_lazy('custom_auth:login')
 
 # Debug Toolbar
 INTERNAL_IPS = ['127.0.0.1']
+
+# Celery
+CELERY_BROKER_URL = env.str('CELERY_BROKER_URL')
