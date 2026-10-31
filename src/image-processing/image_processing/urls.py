@@ -33,7 +33,7 @@ urlpatterns: list[URLPattern | URLResolver] = [
     path('profile/', include('user_profile.urls')),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: no cover
     from debug_toolbar.toolbar import debug_toolbar_urls
 
     urlpatterns += debug_toolbar_urls()
