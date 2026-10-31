@@ -17,6 +17,16 @@ services:
       - "redis-server"
       - "/usr/local/etc/redis/redis.conf"
 
+  celery-worker:
+    build:
+      dockerfile: ./celery/worker/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./src/image-processing:/opt/src/image-processing
+    depends_on:
+      - postgres
+      - redis
+
 volumes:
   postgres-data:
   redis-data:

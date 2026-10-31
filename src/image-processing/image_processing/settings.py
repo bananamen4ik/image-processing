@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third apps
-    'debug_toolbar',
     # Project apps
     'common.apps.CommonConfig',
     'main.apps.MainConfig',
@@ -53,7 +51,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -61,6 +58,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:  # pragma: no cover
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.insert(1, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 ROOT_URLCONF = 'image_processing.urls'
 
@@ -160,3 +161,6 @@ LOGOUT_REDIRECT_URL = reverse_lazy('custom_auth:login')
 
 # Debug Toolbar
 INTERNAL_IPS = ['127.0.0.1']
+
+# Celery
+CELERY_BROKER_URL = env.str('CELERY_BROKER_URL')
