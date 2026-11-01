@@ -139,6 +139,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+# Media
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
+
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
@@ -164,4 +168,7 @@ LOGOUT_REDIRECT_URL = reverse_lazy('custom_auth:login')
 INTERNAL_IPS = ['127.0.0.1']
 
 # Celery
-CELERY_BROKER_URL = env.str('CELERY_BROKER_URL')
+CELERY_BROKER_URL = env.str(
+    'CELERY_BROKER_URL_DOCKER',
+    env.str('CELERY_BROKER_URL_HOST'),
+)

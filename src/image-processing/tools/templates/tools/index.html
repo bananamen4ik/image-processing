@@ -8,7 +8,7 @@
     <section class="py-5">
         <div class="container">
             <div class="mb-5">
-                <h1 class="fw-bold mb-2">{% translate 'Image Tools' %}</h1>
+                <h1 class="fw-bold mb-2">{% translate 'Image tools' %}</h1>
                 <p class="text-body-secondary mb-0">
                     {% translate 'Choose a tool to get started with your image.' %}
                 </p>
@@ -34,7 +34,7 @@
                                 {% translate 'Resize your images to the dimensions you need.' %}
                             </p>
 
-                            <a href="#"
+                            <a href="{% url 'tools:resize' %}"
                                class="btn btn-outline-primary mt-auto">
                                 {% translate 'Open tool' %}
                             </a>
