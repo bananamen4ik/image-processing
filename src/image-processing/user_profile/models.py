@@ -41,6 +41,7 @@ class UserProfile(models.Model):
         verbose_name=_('last login ip'),
         null=True,
         default=None,
+        blank=True,
     )
 
     time_zone = models.CharField(
