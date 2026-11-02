@@ -7,7 +7,9 @@ from typing import (
 )
 
 from django import forms
+from django.core.files.uploadedfile import UploadedFile
 from django.utils.translation import gettext_lazy as _
+from PIL import Image
 
 from common.forms import CustomTemplateFormMixin
 from tools.models import Operation
@@ -29,6 +31,13 @@ class ResizeForm(CustomTemplateFormMixin, forms.ModelForm):
         'invalid_max_pixels': _(
             'The maximum number of pixels has been exceeded: '
             '%(current_pixels)s (max: %(max_pixels)s)',
+        ),
+        'invalid_image_format_none': _(
+            'The file extension does not match the image format.',
+        ),
+        'invalid_image_format': _(
+            'The file extension does not match the image format. '
+            'To upload the file, change its extension to: ".%(real_format)s".',
         ),
     }
 
@@ -54,6 +63,47 @@ class ResizeForm(CustomTemplateFormMixin, forms.ModelForm):
         labels: ClassVar[dict[str, '_StrPromise']] = {  # ruff: ignore[UP037]
             'uploaded_image': _('Image'),
         }
+
+    def clean_uploaded_image(self) -> UploadedFile:
+        """Checks whether the image file extension matches the actual format."""
+        FORMAT_ALIASES = {
+            'jpeg': 'jpg',
+            'tiff': 'tif',
+        }
+        uploaded_image: UploadedFile = self.cleaned_data['uploaded_image']
+        uploaded_image_extension = (
+            uploaded_image.name.split('.')[-1].lower()
+            if uploaded_image.name is not None
+            else ''
+        )
+
+        with Image.open(uploaded_image) as image:
+            image_format = image.format
+        uploaded_image.seek(0)
+
+        if image_format is None:
+            raise forms.ValidationError(
+                self.error_messages['invalid_image_format_none'],
+                code='invalid_image_format_none',
+            )
+
+        image_format = image_format.lower()
+        image_format = FORMAT_ALIASES.get(image_format, image_format)
+        uploaded_image_extension = FORMAT_ALIASES.get(
+            uploaded_image_extension,
+            uploaded_image_extension,
+        )
+
+        if image_format != uploaded_image_extension:
+            raise forms.ValidationError(
+                self.error_messages['invalid_image_format'],
+                code='invalid_image_format',
+                params={
+                    'real_format': image_format,
+                },
+            )
+
+        return uploaded_image
 
     def clean(self) -> dict[str, Any] | None:
         """Checks for the pixel count limit."""
