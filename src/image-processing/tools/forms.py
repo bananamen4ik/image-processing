@@ -65,7 +65,7 @@ class ResizeForm(CustomTemplateFormMixin, forms.ModelForm):
         }
 
     def clean_uploaded_image(self) -> UploadedFile:
-        """Checks whether the image file extension matches the actual format."""
+        """Checks whether the image file extension matches the real format."""
         FORMAT_ALIASES = {
             'jpeg': 'jpg',
             'tiff': 'tif',
