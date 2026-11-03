@@ -4,6 +4,38 @@
 
 {% block title %}{% translate 'Resize' %}{% endblock %}
 
+{% block extra_css %}
+    <style>
+        .operation-thumbnail {
+            width: 200px;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 991.98px) {
+            .operation-thumbnail {
+                width: 100px;
+                height: 65px;
+            }
+        }
+
+        .pagination-wrapper {
+            overflow-x: auto;
+        }
+
+        .pagination {
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+
+        @media (max-width: 767.98px) {
+            .pagination {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <section class="py-5">
         <div class="container">
@@ -72,60 +104,86 @@
                         <table class="table table-hover align-middle mb-0">
                             <thead>
                             <tr>
-                                <th>{% translate 'Image' %}</th>
-                                <th>{% translate 'Date' %}</th>
+                                <th>{% translate 'ID' %}</th>
+                                <th>{% translate 'Uploaded image' %}</th>
+                                <th>{% translate 'Processed image' %}</th>
+                                <th>{% translate 'Parameters' %}</th>
                                 <th>{% translate 'Status' %}</th>
-                                <th class="text-end">{% translate 'Result' %}</th>
+                                <th>{% translate 'Type' %}</th>
+                                <th>{% translate 'Created at' %}</th>
+                                <th class="text-end">{% translate 'Processed at' %}</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            {% for operation in operations %}
+                            {% for operation in operation_list %}
                                 <tr>
-                                    <td>
-                                        <span class="fw-medium">
-                                            filename-image.png
-                                        </span>
-                                    </td>
-
-                                    <td class="text-body-secondary">
-                                        11.01.2026 13:00:32 UTC
-                                    </td>
+                                    <td>{{ operation.pk }}</td>
 
                                     <td>
-                                        {% if operation.status == 'completed' %}
-                                            <span class="badge text-bg-success">
-                                                    {% translate 'Completed' %}
-                                                </span>
-                                        {% elif operation.status == 'processing' %}
-                                            <span class="badge text-bg-primary">
-                                                    {% translate 'Processing' %}
-                                                </span>
-                                        {% elif operation.status == 'failed' %}
-                                            <span class="badge text-bg-danger">
-                                                    {% translate 'Failed' %}
-                                                </span>
+                                        <a href="{{ operation.uploaded_image.url }}" target="_blank">
+                                            <img class="operation-thumbnail"
+                                                 src="{{ operation.uploaded_image.url }}"
+                                                 alt="{% translate 'Uploaded image' %} {{ operation.pk }}">
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        {% if operation.processed_image %}
+                                            <a href="{{ operation.processed_image.url }}" target="_blank">
+                                                <img class="operation-thumbnail"
+                                                     src="{{ operation.processed_image.url }}"
+                                                     alt="{% translate 'Processed image' %} {{ operation.pk }}">
+                                            </a>
                                         {% else %}
-                                            <span class="badge text-bg-secondary">
-                                                    {% translate 'Pending' %}
-                                                </span>
+                                            —
                                         {% endif %}
                                     </td>
 
-                                    <td class="text-end">
-                                        {% if operation.status == 'completed' %}
-                                            <a href="{{ operation.result_url }}"
-                                               class="btn btn-sm btn-outline-primary">
-                                                {% translate 'Download' %}
-                                            </a>
+                                    <td>
+                                        <span>{% translate 'Width:' %} {{ operation.parameters.width }}px</span><br>
+                                        <span>{% translate 'Height:' %} {{ operation.parameters.height }}px</span>
+                                    </td>
+
+                                    <td>
+                                        {% if operation.status == operation.Status.CREATED %}
+                                            <span class="badge text-bg-secondary">
+                                                {{ operation.get_status_display }}
+                                            </span>
+                                        {% elif operation.status == operation.Status.PROCESSING %}
+                                            <span class="badge text-bg-primary">
+                                                {{ operation.get_status_display }}
+                                            </span>
+                                        {% elif operation.status == operation.Status.COMPLETED %}
+                                            <span class="badge text-bg-success">
+                                                {{ operation.get_status_display }}
+                                            </span>
                                         {% else %}
-                                            <span class="text-body-secondary">—</span>
+                                            <span class="badge text-bg-danger">
+                                                {{ operation.get_status_display }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="fw-medium">
+                                        {{ operation.get_type_display }}
+                                    </td>
+
+                                    <td class="text-body-secondary">
+                                        {{ operation.created_at }}
+                                    </td>
+
+                                    <td class="text-body-secondary text-end">
+                                        {% if operation.processed_at %}
+                                            {{ operation.processed_at }}
+                                        {% else %}
+                                            —
                                         {% endif %}
                                     </td>
                                 </tr>
                             {% empty %}
                                 <tr>
-                                    <td colspan="4" class="text-center py-5">
+                                    <td colspan="8" class="text-center py-5">
                                         <p class="text-body-secondary mb-1">
                                             {% translate 'No operations yet.' %}
                                         </p>
@@ -139,6 +197,57 @@
                         </table>
                     </div>
                 </div>
+
+                {% if is_paginated %}
+                    <nav aria-label="{% translate 'Pagination' %}" class="mt-4 pagination-wrapper">
+                        <ul class="pagination mb-0">
+                            <li class="page-item{% if not page_obj.has_previous %} disabled{% endif %}">
+                                <a class="page-link d-flex align-items-center justify-content-center h-100"
+                                   {% if page_obj.has_previous %}href="{{ url }}?{{ page_kwarg }}={{ page_obj.previous_page_number }}"{% endif %}
+                                   aria-label="{% translate 'Previous page' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"></path>
+                                        <path fill-rule="evenodd"
+                                              d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"></path>
+                                    </svg>
+                                </a>
+                            </li>
+
+                            {% for page_number in paginator_elided %}
+                                {% if page_number == paginator.ELLIPSIS %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">{{ page_number }}</span>
+                                    </li>
+                                {% elif page_number == page_obj.number %}
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link">{{ page_number }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="{{ url }}?{{ page_kwarg }}={{ page_number }}">{{ page_number }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            <li class="page-item{% if not page_obj.has_next %} disabled{% endif %}">
+                                <a class="page-link d-flex align-items-center justify-content-center h-100"
+                                   {% if page_obj.has_next %}href="{{ url }}?{{ page_kwarg }}={{ page_obj.next_page_number }}"{% endif %}
+                                   aria-label="{% translate 'Next page' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"></path>
+                                        <path fill-rule="evenodd"
+                                              d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
             </div>
         </div>
     </section>
