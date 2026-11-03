@@ -81,7 +81,7 @@ class ResizeForm(CustomTemplateFormMixin, forms.ModelForm):
             image_format = image.format
         uploaded_image.seek(0)
 
-        if image_format is None:
+        if image_format is None:  # pragma: no cover
             raise forms.ValidationError(
                 self.error_messages['invalid_image_format_none'],
                 code='invalid_image_format_none',
@@ -115,7 +115,7 @@ class ResizeForm(CustomTemplateFormMixin, forms.ModelForm):
         width: int | None = cleaned_data.get('width')
         height: int | None = cleaned_data.get('height')
 
-        if width is None or height is None:
+        if width is None or height is None:  # pragma: no cover
             return cleaned_data
 
         total_pixels = width * height

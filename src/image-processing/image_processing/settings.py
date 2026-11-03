@@ -86,14 +86,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'image_processing.wsgi.application'
 
 CACHES = {
-    'default': env.cache(),
+    'default': env.cache(
+        'CACHE_URL_DOCKER',
+        default=env.str('CACHE_URL'),
+    ),
 }
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db(),
+    'default': env.db(
+        'DATABASE_URL_DOCKER',
+        default=env.str('DATABASE_URL'),
+    ),
 }
 
 # Password validation
@@ -170,5 +176,5 @@ INTERNAL_IPS = ['127.0.0.1']
 # Celery
 CELERY_BROKER_URL = env.str(
     'CELERY_BROKER_URL_DOCKER',
-    env.str('CELERY_BROKER_URL_HOST'),
+    default=env.str('CELERY_BROKER_URL_HOST'),
 )

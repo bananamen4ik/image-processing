@@ -33,6 +33,7 @@ class Operation(models.Model):
         """Defines the type of image operation."""
 
         RESIZE = 0, _('Resize')
+        CONVERT = 1, _('Convert')
 
     user = models.ForeignKey(
         verbose_name=_('user'),
