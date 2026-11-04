@@ -113,7 +113,7 @@ class ResizeViewTests(TestCase):
             str(
                 ResizeForm.error_messages['invalid_image_format']
                 % {
-                    'real_format': 'png',
+                    'real_format': 'PNG',
                 }
             ),
         )
@@ -264,7 +264,7 @@ class ConvertViewTests(TestCase):
             str(
                 ConvertForm.error_messages['invalid_image_format']
                 % {
-                    'real_format': 'png',
+                    'real_format': 'PNG',
                 },
             ),
         )

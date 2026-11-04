@@ -1,5 +1,6 @@
 """Application forms."""
 
+from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -39,7 +40,7 @@ class BaseOperationForm(CustomTemplateFormMixin, forms.ModelForm):
         ),
         'invalid_image_format': _(
             'The file extension does not match the image format. '
-            'To upload the file, change its extension to: ".%(real_format)s".',
+            'Real image format: ".%(real_format)s".',
         ),
     }
 
@@ -54,15 +55,14 @@ class BaseOperationForm(CustomTemplateFormMixin, forms.ModelForm):
 
     def clean_uploaded_image(self) -> UploadedFile:
         """Checks whether the image file extension matches the real format."""
-        FORMAT_ALIASES = {
-            'jpeg': 'jpg',
-            'tiff': 'tif',
-        }
         uploaded_image: UploadedFile = self.cleaned_data['uploaded_image']
         uploaded_image_extension = (
-            uploaded_image.name.split('.')[-1].lower()
+            str(Path(uploaded_image.name).suffix).lower()
             if uploaded_image.name is not None
             else ''
+        )
+        uploaded_image_format = Image.registered_extensions().get(
+            uploaded_image_extension,
         )
 
         with Image.open(uploaded_image) as image:
@@ -75,14 +75,7 @@ class BaseOperationForm(CustomTemplateFormMixin, forms.ModelForm):
                 code='invalid_image_format_none',
             )
 
-        image_format = image_format.lower()
-        image_format = FORMAT_ALIASES.get(image_format, image_format)
-        uploaded_image_extension = FORMAT_ALIASES.get(
-            uploaded_image_extension,
-            uploaded_image_extension,
-        )
-
-        if image_format != uploaded_image_extension:
+        if image_format != uploaded_image_format:
             raise forms.ValidationError(
                 self.error_messages['invalid_image_format'],
                 code='invalid_image_format',
