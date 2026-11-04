@@ -19,6 +19,14 @@ if TYPE_CHECKING:
     from django.utils.functional import _StrPromise
 
 
+def registered_extensions() -> list[tuple[str, str]]:
+    """Returns a collections of all supported image extensions."""
+    return [
+        (extension, f'{pil_format} ({extension})')
+        for extension, pil_format in Image.registered_extensions().items()
+    ]
+
+
 class BaseOperationForm(CustomTemplateFormMixin, forms.ModelForm):
     """A base class that describes form operation.
 
@@ -144,3 +152,18 @@ class ResizeForm(BaseOperationForm):
             )
 
         return cleaned_data
+
+
+class ConvertForm(BaseOperationForm):
+    """Form for the convert operation."""
+
+    field_order = (
+        'uploaded_image',
+        'extension',
+    )
+
+    extension = forms.ChoiceField(
+        label=_('Format'),
+        help_text=_('Format for the final image.'),
+        choices=registered_extensions,
+    )

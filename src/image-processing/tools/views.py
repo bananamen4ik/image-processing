@@ -15,9 +15,13 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import MultipleObjectMixin
+from PIL import Image
 
 from tools import tasks
-from tools.forms import ResizeForm
+from tools.forms import (
+    ConvertForm,
+    ResizeForm,
+)
 from tools.models import Operation
 
 if TYPE_CHECKING:
@@ -125,4 +129,47 @@ class ResizeView(BaseOperationView):
 
         # A countdown has been added to simulate a busy queue.
         tasks.image_resize_processing.apply_async((instance.pk,), countdown=5)
+        return response
+
+
+class ConvertView(BaseOperationView):
+    """Displays the convert tool page."""
+
+    template_name = 'tools/convert.html'
+    form_class = ConvertForm
+    success_url = reverse_lazy('tools:convert')
+    success_message = _(
+        'The image has been successfully submitted for "Convert" processing.',
+    )
+
+    current_url = reverse_lazy('tools:convert')
+    title = _('Convert')
+    description = _('Convert images between supported formats.')
+    button_title = _('Convert image')
+
+    def get_queryset(self) -> 'QuerySet[_M]':
+        """Displays only its own images of a specific type."""
+        self.queryset = Operation.objects.filter(
+            user=self.request.user,
+            type=Operation.Type.CONVERT,
+        )
+        return super().get_queryset()
+
+    def form_valid(self, form: '_F') -> HttpResponse:
+        """Before saving, it sets the required fields and runs a celery task."""
+        instance: Operation = form.instance
+        instance.user = self.request.user
+        instance.type = Operation.Type.CONVERT
+
+        extension = form.cleaned_data['extension']
+        pil_format = Image.registered_extensions()[extension]
+        instance.parameters = {
+            'extension': extension,
+            'format': pil_format,
+        }
+
+        response = super().form_valid(form)
+
+        # A countdown has been added to simulate a busy queue.
+        tasks.image_convert_processing.apply_async((instance.pk,), countdown=5)
         return response
