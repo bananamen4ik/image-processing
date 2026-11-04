@@ -27,7 +27,7 @@ class ResizeForm(CustomTemplateFormMixin, forms.ModelForm):
         'width',
         'height',
     )
-    error_messages: ClassVar[dict[str, '_StrPromise']] = {  # ruff: ignore[UP037]
+    error_messages: ClassVar[dict[str, '_StrPromise']] = {
         'invalid_max_pixels': _(
             'The maximum number of pixels has been exceeded: '
             '%(current_pixels)s (max: %(max_pixels)s)',
@@ -60,7 +60,7 @@ class ResizeForm(CustomTemplateFormMixin, forms.ModelForm):
 
         model = Operation
         fields = ('uploaded_image',)
-        labels: ClassVar[dict[str, '_StrPromise']] = {  # ruff: ignore[UP037]
+        labels: ClassVar[dict[str, '_StrPromise']] = {
             'uploaded_image': _('Image'),
         }
 
