@@ -20,6 +20,7 @@ from PIL import Image
 from tools import tasks
 from tools.forms import (
     ConvertForm,
+    OptimizeForm,
     ResizeForm,
 )
 from tools.models import Operation
@@ -172,4 +173,41 @@ class ConvertView(BaseOperationView):
 
         # A countdown has been added to simulate a busy queue.
         tasks.image_convert_processing.apply_async((instance.pk,), countdown=5)
+        return response
+
+
+class OptimizeView(BaseOperationView):
+    """Displays the optimize tool page."""
+
+    template_name = 'tools/optimize.html'
+    form_class = OptimizeForm
+    success_url = reverse_lazy('tools:optimize')
+    success_message = _(
+        'The image has been successfully submitted for "Optimize" processing.',
+    )
+
+    current_url = reverse_lazy('tools:optimize')
+    title = _('Optimize')
+    description = _('Reduce image size while maintaining good quality.')
+    button_title = _('Optimize image')
+
+    def get_queryset(self) -> 'QuerySet[_M]':
+        """Displays only its own images of a specific type."""
+        self.queryset = Operation.objects.filter(
+            user=self.request.user,
+            type=Operation.Type.OPTIMIZE,
+        )
+        return super().get_queryset()
+
+    def form_valid(self, form: '_F') -> HttpResponse:
+        """Before saving, it sets the required fields and runs a celery task."""
+        instance: Operation = form.instance
+        instance.user = self.request.user
+        instance.type = Operation.Type.OPTIMIZE
+        instance.parameters = {}
+
+        response = super().form_valid(form)
+
+        # A countdown has been added to simulate a busy queue.
+        tasks.image_optimize_processing.apply_async((instance.pk,), countdown=5)
         return response

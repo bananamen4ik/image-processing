@@ -34,6 +34,7 @@ class Operation(models.Model):
 
         RESIZE = 0, _('Resize')
         CONVERT = 1, _('Convert')
+        OPTIMIZE = 2, _('Optimize')
 
     user = models.ForeignKey(
         verbose_name=_('user'),

@@ -16,6 +16,8 @@ from PIL import Image
 from common.forms import CustomTemplateFormMixin
 from tools.models import Operation
 
+OPTIMIZE_IMAGE_FORMATS = ('JPEG', 'PNG')
+
 if TYPE_CHECKING:
     from django.utils.functional import _StrPromise
 
@@ -160,3 +162,40 @@ class ConvertForm(BaseOperationForm):
         help_text=_('Format for the final image.'),
         choices=registered_extensions,
     )
+
+
+class OptimizeForm(BaseOperationForm):
+    """Form for the optimize operation."""
+
+    class Meta(BaseOperationForm.Meta):  # ty: ignore[invalid-attribute-override]
+        """Adds a notification about supported image formats."""
+
+        help_texts: ClassVar[dict[str, str]] = {
+            'uploaded_image': _('Available formats: %(formats)s.')
+            % {
+                'formats': ', '.join(OPTIMIZE_IMAGE_FORMATS),
+            },
+        }
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initializes new errors."""
+        self.error_messages['invalid_accepted_image_format'] = gettext(
+            'Invalid image format.',
+        )
+        super().__init__(*args, **kwargs)
+
+    def clean_uploaded_image(self) -> UploadedFile:
+        """Checks whether the image format is valid."""
+        uploaded_image: UploadedFile = super().clean_uploaded_image()
+
+        with Image.open(uploaded_image) as image:
+            image_format = image.format
+        uploaded_image.seek(0)
+
+        if image_format not in OPTIMIZE_IMAGE_FORMATS:
+            raise forms.ValidationError(
+                self.error_messages['invalid_accepted_image_format'],
+                code='invalid_accepted_image_format',
+            )
+
+        return uploaded_image
