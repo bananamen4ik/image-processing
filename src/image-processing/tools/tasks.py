@@ -151,7 +151,7 @@ def image_optimize_processing(operation_id: int) -> None:
                         'quality': 85,
                         'optimize': True,
                         'progressive': True,
-                    }
+                    },
                 )
             else:
                 raise ValueError(_('Invalid image format'))
