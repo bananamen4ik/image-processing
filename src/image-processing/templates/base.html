@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %} — {% translate 'Image Processing' %}</title>
+    <script src="{% static 'js/theme-inline.js' %}"></script>
     <link href="{% static 'bootstrap-5.3.8/css/bootstrap.min.css' %}" rel="stylesheet">
     {% block extra_css %}{% endblock %}
 </head>
@@ -20,6 +21,7 @@
     {% include 'components/footer.html' %}
 </main>
 <script src="{% static 'bootstrap-5.3.8/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/theme.js' %}" defer></script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>
