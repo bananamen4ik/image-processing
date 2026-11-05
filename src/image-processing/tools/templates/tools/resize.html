@@ -1,0 +1,8 @@
+{% extends 'tools/base.html' %}
+
+{% load i18n %}
+
+{% block operation_parameters %}
+    <span>{% translate 'Width:' %} {{ operation.parameters.width }}px</span><br>
+    <span>{% translate 'Height:' %} {{ operation.parameters.height }}px</span>
+{% endblock %}

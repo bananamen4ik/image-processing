@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .operation-thumbnail {
+            width: 200px;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 991.98px) {
+            .operation-thumbnail {
+                width: 100px;
+                height: 65px;
+            }
+        }
+
+        .pagination-wrapper {
+            overflow-x: auto;
+        }
+
+        .pagination {
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+
+        @media (max-width: 767.98px) {
+            .pagination {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav aria-label="{% translate 'Breadcrumb' %}" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'tools:index' %}">
+                            {% translate 'Image tools' %}
+                        </a>
+                    </li>
+
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ title }}
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Heading -->
+            <div class="mb-4">
+                <h1 class="fw-bold mb-2">{{ title }}</h1>
+                <p class="text-body-secondary">{{ description }}</p>
+            </div>
+
+            <!-- Form -->
+            <div class="card shadow-sm mb-5">
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success d-flex align-items-center gap-3 rounded-3 border-0 shadow-sm mb-4"
+                                     role="status">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-check-circle-fill fs-3" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                                    </svg>
+
+                                    <div class="small fw-medium">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        {{ form }}
+
+                        <button type="submit" class="btn btn-primary">
+                            {{ button_title }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h4 fw-semibold mb-0">
+                        {% translate 'Recent operations' %}
+                    </h2>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                            <tr>
+                                <th>{% translate 'ID' %}</th>
+                                <th>{% translate 'Uploaded image' %}</th>
+                                <th>{% translate 'Processed image' %}</th>
+                                <th>{% translate 'Parameters' %}</th>
+                                <th>{% translate 'Status' %}</th>
+                                <th>{% translate 'Type' %}</th>
+                                <th>{% translate 'Created at' %}</th>
+                                <th class="text-end">{% translate 'Processed at' %}</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for operation in operation_list %}
+                                <tr>
+                                    <td>{{ operation.pk }}</td>
+
+                                    <td>
+                                        <a href="{{ operation.uploaded_image.url }}" target="_blank">
+                                            <img class="operation-thumbnail"
+                                                 src="{{ operation.uploaded_image.url }}"
+                                                 alt="{% translate 'Uploaded image' %} {{ operation.pk }}">
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        {% if operation.processed_image %}
+                                            <a href="{{ operation.processed_image.url }}" target="_blank">
+                                                <img class="operation-thumbnail"
+                                                     src="{{ operation.processed_image.url }}"
+                                                     alt="{% translate 'Processed image' %} {{ operation.pk }}">
+                                            </a>
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+
+                                    <td>{% block operation_parameters %}{% endblock %}</td>
+
+                                    <td>
+                                        {% if operation.status == operation.Status.CREATED %}
+                                            <span class="badge text-bg-secondary">
+                                                {{ operation.get_status_display }}
+                                            </span>
+                                        {% elif operation.status == operation.Status.PROCESSING %}
+                                            <span class="badge text-bg-primary">
+                                                {{ operation.get_status_display }}
+                                            </span>
+                                        {% elif operation.status == operation.Status.COMPLETED %}
+                                            <span class="badge text-bg-success">
+                                                {{ operation.get_status_display }}
+                                            </span>
+                                        {% else %}
+                                            <span class="badge text-bg-danger">
+                                                {{ operation.get_status_display }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="fw-medium">
+                                        {{ operation.get_type_display }}
+                                    </td>
+
+                                    <td class="text-body-secondary">
+                                        {{ operation.created_at }}
+                                    </td>
+
+                                    <td class="text-body-secondary text-end">
+                                        {% if operation.processed_at %}
+                                            {{ operation.processed_at }}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="8" class="text-center py-5">
+                                        <p class="text-body-secondary mb-1">
+                                            {% translate 'No operations yet.' %}
+                                        </p>
+                                        <small class="text-body-secondary">
+                                            {% translate 'Your processed images will appear here.' %}
+                                        </small>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {% if is_paginated %}
+                    <nav aria-label="{% translate 'Pagination' %}" class="mt-4 pagination-wrapper">
+                        <ul class="pagination mb-0">
+                            <li class="page-item{% if not page_obj.has_previous %} disabled{% endif %}">
+                                <a class="page-link d-flex align-items-center justify-content-center h-100"
+                                   {% if page_obj.has_previous %}href="{{ url }}?{{ page_kwarg }}={{ page_obj.previous_page_number }}"{% endif %}
+                                   aria-label="{% translate 'Previous page' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"></path>
+                                        <path fill-rule="evenodd"
+                                              d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"></path>
+                                    </svg>
+                                </a>
+                            </li>
+
+                            {% for page_number in paginator_elided %}
+                                {% if page_number == paginator.ELLIPSIS %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">{{ page_number }}</span>
+                                    </li>
+                                {% elif page_number == page_obj.number %}
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link">{{ page_number }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="{{ url }}?{{ page_kwarg }}={{ page_number }}">{{ page_number }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            <li class="page-item{% if not page_obj.has_next %} disabled{% endif %}">
+                                <a class="page-link d-flex align-items-center justify-content-center h-100"
+                                   {% if page_obj.has_next %}href="{{ url }}?{{ page_kwarg }}={{ page_obj.next_page_number }}"{% endif %}
+                                   aria-label="{% translate 'Next page' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                         class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"></path>
+                                        <path fill-rule="evenodd"
+                                              d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

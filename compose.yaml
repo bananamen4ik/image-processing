@@ -21,6 +21,7 @@ services:
     build:
       dockerfile: ./celery/worker/Dockerfile
     restart: unless-stopped
+    env_file: ./celery/.env
     volumes:
       - ./src/image-processing:/opt/src/image-processing
     depends_on:

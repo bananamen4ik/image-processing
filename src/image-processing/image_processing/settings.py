@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'custom_auth.apps.CustomAuthConfig',
     'user_profile.apps.UserProfileConfig',
+    'tools.apps.ToolsConfig',
 ]
 
 MIDDLEWARE = [
@@ -85,14 +86,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'image_processing.wsgi.application'
 
 CACHES = {
-    'default': env.cache(),
+    'default': env.cache(
+        'CACHE_URL_DOCKER',
+        default=env.str('CACHE_URL'),
+    ),
 }
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db(),
+    'default': env.db(
+        'DATABASE_URL_DOCKER',
+        default=env.str('DATABASE_URL'),
+    ),
 }
 
 # Password validation
@@ -138,6 +145,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+# Media
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
+
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
@@ -163,4 +174,7 @@ LOGOUT_REDIRECT_URL = reverse_lazy('custom_auth:login')
 INTERNAL_IPS = ['127.0.0.1']
 
 # Celery
-CELERY_BROKER_URL = env.str('CELERY_BROKER_URL')
+CELERY_BROKER_URL = env.str(
+    'CELERY_BROKER_URL_DOCKER',
+    default=env.str('CELERY_BROKER_URL_HOST'),
+)

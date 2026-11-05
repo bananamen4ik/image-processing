@@ -28,6 +28,7 @@ jobs:
       - name: Setup ENV files
         run: |
           cp postgres/.env.ci postgres/.env
+          cp celery/.env.ci celery/.env
           cp src/image-processing/.env.ci src/image-processing/.env
 
       - name: Setup Docker
