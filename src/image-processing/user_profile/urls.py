@@ -8,6 +8,7 @@ from user_profile.views import (
     ProfileEditView,
     ProfileInfoView,
     ProfileSettingsView,
+    ProfileUsageView,
     ProfileView,
 )
 
@@ -23,4 +24,5 @@ urlpatterns = [
     path('info/', ProfileInfoView.as_view(), name='info'),
     path('edit/', ProfileEditView.as_view(), name='edit'),
     path('settings/', ProfileSettingsView.as_view(), name='settings'),
+    path('usage/', ProfileUsageView.as_view(), name='usage'),
 ]

@@ -32,3 +32,13 @@ class ProfileSettingsForm(CustomTemplateFormMixin, ModelForm):
 
         model = UserProfile
         fields = ('time_zone', 'language')
+
+
+class ProfileChangePlanForm(ModelForm):
+    """A form that allows you to change a user's plan."""
+
+    class Meta:
+        """Configures the model and fields used by the form."""
+
+        model = UserProfile
+        fields = ('plan',)

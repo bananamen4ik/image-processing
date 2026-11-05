@@ -4,6 +4,7 @@ from zoneinfo import available_timezones
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
 from custom_auth.models import CustomUser
@@ -23,6 +24,29 @@ class UserProfile(models.Model):
         FREE = 0, _('Free')
         PLUS = 1, _('Plus')
         PRO = 2, _('Pro')
+
+        @property
+        def daily_operation_limit(self) -> int:
+            """Returns the daily operation limit."""
+            return {
+                self.FREE: 10,
+                self.PLUS: 30,
+                self.PRO: 100,
+            }[self]
+
+        @property
+        def description(self) -> str:
+            """Returns a description of the plan."""
+            return {
+                self.FREE: gettext('For occasional image processing.'),
+                self.PLUS: gettext('For regular image processing.'),
+                self.PRO: gettext('For users with higher processing needs.'),
+            }[self]
+
+    @property
+    def daily_operation_limit(self) -> int:
+        """Returns the daily operation limit via user."""
+        return UserProfile.Plan(self.plan).daily_operation_limit
 
     user = models.OneToOneField(
         verbose_name=_('user'),

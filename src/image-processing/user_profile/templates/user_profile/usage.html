@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% translate 'Usage and limits' %}{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8 col-xl-7">
+                    <!-- Header -->
+                    <div class="mb-4">
+                        <a href="{% url 'user_profile:index' %}"
+                           class="text-body-secondary text-decoration-none small d-inline-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                 fill="currentColor" class="bi bi-arrow-left me-1" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
+                            </svg>
+                            {% translate 'Back to profile' %}
+                        </a>
+
+                        <h1 class="h2 fw-semibold mt-3 mb-2">
+                            {% translate 'Usage and limits' %}
+                        </h1>
+
+                        <p class="text-body-secondary mb-0">
+                            {% translate 'Check your current plan, usage, and limits.' %}
+                        </p>
+                    </div>
+
+                    <!-- Current plan -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="d-flex flex-column flex-sm-row
+                                        align-items-sm-center justify-content-between gap-3">
+                                <div>
+                                    <h2 class="h5 fw-semibold mb-2">
+                                        {% translate 'Current plan' %}
+                                    </h2>
+
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="fs-3 fw-semibold">
+                                            {{ current_plan_title }}
+                                        </span>
+
+                                        <span class="badge text-bg-primary">
+                                            {% translate 'Active' %}
+                                        </span>
+                                    </div>
+
+                                    <p class="text-body-secondary small mb-0 mt-1">
+                                        {% blocktranslate %}
+                                            {{ daily_limit }} operations per day
+                                        {% endblocktranslate %}
+                                    </p>
+                                </div>
+
+                                <button type="button"
+                                        class="btn btn-outline-primary flex-shrink-0"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#changePlanModal">
+                                    {% translate 'Change plan' %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily usage -->
+                    <div class="card border-0 shadow-sm mb-5">
+                        <div class="card-body p-4 p-md-5">
+                            <div class="mb-4">
+                                <h2 class="h5 fw-semibold mb-1">
+                                    {% translate 'Daily usage' %}
+                                </h2>
+
+                                <p class="text-body-secondary small mb-0">
+                                    {% translate 'Your usage over the last 24 hours.' %}
+                                </p>
+                            </div>
+
+                            <div class="d-flex flex-column flex-sm-row
+                                        justify-content-between gap-2 mb-2">
+                                <div>
+                                    <span class="fs-2 fw-semibold">
+                                        {{ daily_used }}
+                                    </span>
+
+                                    <span class="text-body-secondary">
+                                        / {{ daily_limit }}
+                                        {% translate 'operations' %}
+                                    </span>
+                                </div>
+
+                                <div class="text-success fw-medium align-self-sm-center">
+                                    {{ daily_remaining }}
+                                    {% translate 'remaining' %}
+                                </div>
+                            </div>
+
+                            <div class="progress"
+                                 role="progressbar"
+                                 aria-label="{% translate 'Daily usage' %}"
+                                 aria-valuenow="{{ daily_usage_percent }}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"
+                                 style="height: 10px;">
+
+                                <div class="progress-bar
+                                            {% if daily_usage_percent >= 90 %}
+                                                bg-danger
+                                            {% elif daily_usage_percent >= 70 %}
+                                                bg-warning
+                                            {% endif %}"
+                                     style="width: {{ daily_usage_percent }}%">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between
+                                        text-body-secondary small mt-2">
+                                <span>{{ daily_used }}</span>
+                                <span>{{ daily_limit }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Usage statistics -->
+                    <div class="mb-3">
+                        <h2 class="h5 fw-semibold mb-1">
+                            {% translate 'Usage and limits' %}
+                        </h2>
+
+                        <p class="text-body-secondary small mb-0">
+                            {% translate 'Total number of operations performed with each tool.' %}
+                        </p>
+                    </div>
+
+                    <div class="row g-3">
+                        {% for type_operation_id, type_operation_info in types_operations_total.items %}
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center
+                                                    justify-content-between mb-3">
+                                            <h3 class="h6 fw-semibold mb-0">
+                                                {{ type_operation_info.title }}
+                                            </h3>
+
+                                            <span class="rounded-circle bg-primary-subtle
+                                                         text-primary p-3 fs-5 d-flex
+                                                         align-items-center justify-content-center">
+                                                {% if operation_type.RESIZE == type_operation_id %}
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                         width="1em" height="1em"
+                                                         fill="currentColor"
+                                                         class="bi bi-arrows-angle-expand"
+                                                         viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                          d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707"></path>
+                                                {% elif operation_type.CONVERT == type_operation_id %}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                         fill="currentColor"
+                                                         class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                              d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"></path>
+                                                    </svg>
+                                                {% elif operation_type.OPTIMIZE == type_operation_id %}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                         fill="currentColor"
+                                                         class="bi bi-file-earmark-zip" viewBox="0 0 16 16">
+                                                        <path d="M5 7.5a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v.938l.4 1.599a1 1 0 0 1-.416 1.074l-.93.62a1 1 0 0 1-1.11 0l-.929-.62a1 1 0 0 1-.415-1.074L5 8.438zm2 0H6v.938a1 1 0 0 1-.03.243l-.4 1.598.93.62.929-.62-.4-1.598A1 1 0 0 1 7 8.438z"></path>
+                                                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1h-2v1h-1v1h1v1h-1v1h1v1H6V5H5V4h1V3H5V2h1V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"></path>
+                                                    </svg>
+                                                {% endif %}
+                                                </svg>
+                                            </span>
+                                        </div>
+
+                                        <div class="fs-2 fw-semibold">
+                                            {{ type_operation_info.total }}
+                                        </div>
+
+                                        <p class="text-body-secondary small mb-0">
+                                            {% translate 'Total operations' %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Change plan modal -->
+    <div class="modal fade" id="changePlanModal"
+         tabindex="-1" aria-labelledby="changePlanModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <div>
+                        <h2 class="modal-title fs-5 fw-semibold"
+                            id="changePlanModalLabel">
+                            {% translate 'Choose your plan' %}
+                        </h2>
+
+                        <p class="text-body-secondary small mb-0 mt-1">
+                            {% translate 'Select a plan that suits your needs.' %}
+                        </p>
+                    </div>
+
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="{% translate 'Close' %}">
+                    </button>
+                </div>
+
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        {% for plan in plans %}
+                            <div class="col-12 col-md-4">
+                                <div class="border rounded-3 p-3 h-100
+                                            d-flex flex-column
+                                            {% if user_profile.plan == plan.id %}
+                                                border-primary bg-primary-subtle
+                                            {% endif %}">
+
+                                    <div class="mb-3">
+                                        <h3 class="h5 fw-semibold mb-1">
+                                            {{ plan.title }}
+                                        </h3>
+
+                                        <p class="text-body-secondary small mb-0">
+                                            {{ plan.description }}
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <span class="fs-4 fw-semibold">
+                                            {{ plan.daily_limit }}
+                                        </span>
+
+                                        <span class="text-body-secondary small">
+                                            {% translate 'operations / day' %}
+                                        </span>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        {% if user_profile.plan == plan.id %}
+                                            <button type="button"
+                                                    class="btn btn-primary w-100"
+                                                    disabled>
+                                                {% translate 'Current plan' %}
+                                            </button>
+                                        {% else %}
+                                            <form method="post" action="{% url 'user_profile:usage' %}">
+                                                {% csrf_token %}
+
+                                                <input type="hidden"
+                                                       name="plan"
+                                                       value="{{ plan.id }}">
+
+                                                <button type="submit"
+                                                        class="btn btn-outline-primary w-100">
+                                                    {% translate 'Select plan' %}
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        {% translate 'Close' %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
