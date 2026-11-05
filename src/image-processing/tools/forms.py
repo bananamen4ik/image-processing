@@ -9,7 +9,6 @@ from typing import (
 
 from django import forms
 from django.core.files.uploadedfile import UploadedFile
-from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
@@ -99,6 +98,14 @@ class ResizeForm(BaseOperationForm):
         'height',
     )
 
+    error_messages: ClassVar[dict[str, '_StrPromise | str']] = {
+        **BaseOperationForm.error_messages,
+        'invalid_max_pixels': _(
+            'The maximum number of pixels has been exceeded: '
+            '%(current_pixels)s (max: %(max_pixels)s)',
+        ),
+    }
+
     width = forms.IntegerField(
         label=_('Width'),
         help_text=_('The final width of the image in pixels.'),
@@ -112,14 +119,6 @@ class ResizeForm(BaseOperationForm):
         min_value=1,
         max_value=10_000,
     )
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initializes new errors."""
-        self.error_messages['invalid_max_pixels'] = gettext(
-            'The maximum number of pixels has been exceeded: '
-            '%(current_pixels)s (max: %(max_pixels)s)',
-        )
-        super().__init__(*args, **kwargs)
 
     def clean(self) -> dict[str, Any] | None:
         """Checks for the pixel count limit."""
@@ -167,6 +166,11 @@ class ConvertForm(BaseOperationForm):
 class OptimizeForm(BaseOperationForm):
     """Form for the optimize operation."""
 
+    error_messages: ClassVar[dict[str, '_StrPromise | str']] = {
+        **BaseOperationForm.error_messages,
+        'invalid_accepted_image_format': _('Invalid image format.'),
+    }
+
     class Meta(BaseOperationForm.Meta):  # ty: ignore[invalid-attribute-override]
         """Adds a notification about supported image formats."""
 
@@ -176,13 +180,6 @@ class OptimizeForm(BaseOperationForm):
                 'formats': ', '.join(OPTIMIZE_IMAGE_FORMATS),
             },
         }
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initializes new errors."""
-        self.error_messages['invalid_accepted_image_format'] = gettext(
-            'Invalid image format.',
-        )
-        super().__init__(*args, **kwargs)
 
     def clean_uploaded_image(self) -> UploadedFile:
         """Checks whether the image format is valid."""
