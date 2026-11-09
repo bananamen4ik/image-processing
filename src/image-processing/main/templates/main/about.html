@@ -202,8 +202,13 @@
                     {% translate 'Create an account and start with the free plan.' %}
                 </p>
 
-                <a href="{% url 'custom_auth:signup' %}"
-                   class="btn btn-primary btn-lg px-4">
+                <a class="btn btn-primary btn-lg px-4"
+                        {% if user.is_authenticated %}
+                   href="{% url 'tools:index' %}"
+                        {% else %}
+                   href="{% url 'custom_auth:signup' %}"
+                        {% endif %}
+                >
                     {% translate 'Get started' %}
                 </a>
             </div>

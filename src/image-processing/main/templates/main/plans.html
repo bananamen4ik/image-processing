@@ -71,8 +71,13 @@
                                 </li>
                             </ul>
 
-                            <a href="{% url 'custom_auth:signup' %}"
-                               class="btn btn-outline-primary mt-auto">
+                            <a class="btn btn-outline-primary mt-auto"
+                                    {% if user.is_authenticated %}
+                               href="{% url 'tools:index' %}"
+                                    {% else %}
+                               href="{% url 'custom_auth:signup' %}"
+                                    {% endif %}
+                            >
                                 {% translate 'Get started' %}
                             </a>
                         </div>
@@ -121,7 +126,7 @@
                                 </li>
                             </ul>
 
-                            <a href="#"
+                            <a href="{% url 'user_profile:usage' %}"
                                class="btn btn-primary mt-auto">
                                 {% translate 'Choose Plus' %}
                             </a>
@@ -167,7 +172,7 @@
                                 </li>
                             </ul>
 
-                            <a href="#"
+                            <a href="{% url 'user_profile:usage' %}"
                                class="btn btn-outline-primary mt-auto">
                                 {% translate 'Choose Pro' %}
                             </a>
@@ -266,8 +271,13 @@
                     {% translate 'Create an account and process your first image for free.' %}
                 </p>
 
-                <a href="{% url 'custom_auth:signup' %}"
-                   class="btn btn-primary btn-lg px-4">
+                <a class="btn btn-primary btn-lg px-4"
+                        {% if user.is_authenticated %}
+                   href="{% url 'tools:index' %}"
+                        {% else %}
+                   href="{% url 'custom_auth:signup' %}"
+                        {% endif %}
+                >
                     {% translate 'Create an account' %}
                 </a>
             </div>

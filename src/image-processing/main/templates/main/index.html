@@ -23,7 +23,13 @@
                         {% endblocktranslate %}
                     </p>
 
-                    <a href="{% url 'custom_auth:signup' %}" class="btn btn-primary btn-lg px-4">
+                    <a class="btn btn-primary btn-lg px-4"
+                            {% if user.is_authenticated %}
+                       href="{% url 'tools:index' %}"
+                            {% else %}
+                       href="{% url 'custom_auth:signup' %}"
+                            {% endif %}
+                    >
                         {% translate 'Process an image' %}
                     </a>
                 </div>
@@ -174,7 +180,13 @@
                                 </li>
                             </ul>
 
-                            <a href="{% url 'custom_auth:signup' %}" class="btn btn-outline-primary mt-auto">
+                            <a class="btn btn-outline-primary mt-auto"
+                                    {% if user.is_authenticated %}
+                               href="{% url 'tools:index' %}"
+                                    {% else %}
+                               href="{% url 'custom_auth:signup' %}"
+                                    {% endif %}
+                            >
                                 {% translate 'Get started' %}
                             </a>
                         </div>
@@ -220,7 +232,7 @@
                                 </li>
                             </ul>
 
-                            <a href="#" class="btn btn-primary mt-auto">
+                            <a href="{% url 'user_profile:usage' %}" class="btn btn-primary mt-auto">
                                 {% translate 'Choose Plus' %}
                             </a>
                         </div>
@@ -262,7 +274,7 @@
                                 </li>
                             </ul>
 
-                            <a href="#" class="btn btn-outline-primary mt-auto">
+                            <a href="{% url 'user_profile:usage' %}" class="btn btn-outline-primary mt-auto">
                                 {% translate 'Choose Pro' %}
                             </a>
                         </div>
@@ -285,7 +297,13 @@
                     {% translate 'Upload your first image and see how it works.' %}
                 </p>
 
-                <a href="{% url 'custom_auth:signup' %}" class="btn btn-primary btn-lg px-4">
+                <a class="btn btn-primary btn-lg px-4"
+                        {% if user.is_authenticated %}
+                   href="{% url 'tools:index' %}"
+                        {% else %}
+                   href="{% url 'custom_auth:signup' %}"
+                        {% endif %}
+                >
                     {% translate 'Get started' %}
                 </a>
             </div>
