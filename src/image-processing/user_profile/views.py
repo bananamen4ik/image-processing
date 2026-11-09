@@ -136,7 +136,7 @@ class ProfileUsageView(LoginRequiredMixin, TemplateView):
         user_profile = user.user_profile
 
         now = timezone.now()
-        current_plan_title = user_profile.get_plan_display
+        current_plan_title = user_profile.get_plan_display()
         daily_limit = user_profile.daily_operation_limit
 
         daily_used = Operation.objects.filter(
@@ -147,7 +147,7 @@ class ProfileUsageView(LoginRequiredMixin, TemplateView):
 
         daily_remaining = daily_limit - daily_used
 
-        plans = (
+        plans = [
             {
                 'id': plan_id,
                 'title': plan_title,
@@ -155,7 +155,7 @@ class ProfileUsageView(LoginRequiredMixin, TemplateView):
                 'daily_limit': UserProfile.Plan(plan_id).daily_operation_limit,
             }
             for plan_id, plan_title in UserProfile.Plan.choices
-        )
+        ]
 
         daily_usage_percent = min(
             round(daily_used / daily_limit * 100),
