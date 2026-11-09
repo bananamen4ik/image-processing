@@ -26,6 +26,7 @@ from tools.tasks import (
     image_optimize_processing,
     image_resize_processing,
 )
+from tools.views import PreOrderMixin
 
 
 class IndexViewTests(TestCase):
@@ -688,3 +689,54 @@ def get_image_file(
         buffer.getvalue(),
         content_type,
     )
+
+
+class PreOrderMixinTests(TestCase):
+    """Tests pre-order validations.
+
+    Uses the optimize tool.
+    """
+
+    URI = reverse_lazy('tools:optimize')
+    fake = Faker()
+    DEFAULT_IMAGE_NAME = 'test.png'
+
+    def setUp(self) -> None:
+        """Sets up the user."""
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.user_name(),
+            email=self.fake.email(),
+            password=self.fake.password(),
+        )
+        self.files_path: list[str] = []
+
+    def tearDown(self) -> None:
+        """Deletes stored files."""
+        for file_path in self.files_path:
+            Path(file_path).unlink(missing_ok=True)
+
+    def test_limit(self) -> None:
+        """Tests the limit value of the current plan."""
+        self.client.force_login(self.user)
+
+        for _ in range(self.user.user_profile.daily_operation_limit):
+            operation = Operation.objects.create(
+                user=self.user,
+                uploaded_image=get_image_file(self.DEFAULT_IMAGE_NAME),
+                parameters={},
+                type=Operation.Type.OPTIMIZE,
+            )
+            self.files_path.append(operation.uploaded_image.path)
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'uploaded_image': get_image_file(self.DEFAULT_IMAGE_NAME),
+            },
+        )
+
+        self.assertFormError(
+            response.context['form'],
+            None,
+            str(PreOrderMixin.pre_order_error_message),
+        )

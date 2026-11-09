@@ -21,3 +21,12 @@ def get_daily_used(user: CustomUser) -> int:
             Operation.Status.COMPLETED,
         ),
     ).count()
+
+
+def check_daily_used_limit(user: CustomUser) -> bool:
+    """Checks the remaining daily limit.
+
+    True if the remaining amount is greater than 0.
+    """
+    daily_used = get_daily_used(user)
+    return (user.user_profile.daily_operation_limit - daily_used) > 0
