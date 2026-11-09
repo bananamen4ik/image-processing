@@ -1,6 +1,5 @@
 """User profile views."""
 
-from datetime import timedelta
 from typing import (
     Any,
     TypeVar,
@@ -19,7 +18,6 @@ from django.db import models
 from django.http.request import HttpRequest
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.utils import timezone
 from django.utils.translation import gettext_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
@@ -33,6 +31,7 @@ from user_profile.forms import (
     ProfileSettingsForm,
 )
 from user_profile.models import UserProfile
+from user_profile.services import get_daily_used
 
 _M = TypeVar('_M', bound=models.Model)
 
@@ -135,16 +134,9 @@ class ProfileUsageView(LoginRequiredMixin, TemplateView):
         user = cast(CustomUser, self.request.user)
         user_profile = user.user_profile
 
-        now = timezone.now()
         current_plan_title = user_profile.get_plan_display()
         daily_limit = user_profile.daily_operation_limit
-
-        daily_used = Operation.objects.filter(
-            user=user,
-            created_at__gte=(now - timedelta(days=1)),
-            status=Operation.Status.COMPLETED,
-        ).count()
-
+        daily_used = get_daily_used(user)
         daily_remaining = daily_limit - daily_used
 
         plans = [
@@ -165,7 +157,11 @@ class ProfileUsageView(LoginRequiredMixin, TemplateView):
         operations_stats = (
             Operation.objects.filter(
                 user=user,
-                status=Operation.Status.COMPLETED,
+                status__in=(
+                    Operation.Status.CREATED,
+                    Operation.Status.PROCESSING,
+                    Operation.Status.COMPLETED,
+                ),
             )
             .values(
                 'type',
