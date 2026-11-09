@@ -3,6 +3,7 @@
 from typing import (
     TYPE_CHECKING,
     Any,
+    cast,
 )
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,6 +18,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.list import MultipleObjectMixin
 from PIL import Image
 
+from custom_auth.models import CustomUser
 from tools import tasks
 from tools.forms import (
     ConvertForm,
@@ -24,6 +26,7 @@ from tools.forms import (
     ResizeForm,
 )
 from tools.models import Operation
+from user_profile.services import check_daily_used_limit
 
 if TYPE_CHECKING:
     from django.contrib.messages.views import _F
@@ -31,6 +34,32 @@ if TYPE_CHECKING:
     from django.db.models.query import QuerySet
     from django.utils.functional import _StrPromise
     from django.views.generic.list import _M
+
+
+class PreOrderMixin:
+    """Pre-order verification."""
+
+    pre_order_error_message = _(
+        'You have reached your daily limit. Please wait or upgrade your plan.',
+    )
+
+    def post(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        """Checks the remaining daily limit according to the plan.
+
+        Use only after LoginRequiredMixin.
+        """
+        user = cast(CustomUser, request.user)
+        can_order = check_daily_used_limit(user)
+
+        if not can_order:
+            self.object = None
+            form = self.get_form()
+            form.add_error(
+                None,
+                self.pre_order_error_message,
+            )
+            return self.form_invalid(form)
+        return super().post(request, *args, **kwargs)
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -41,6 +70,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
 class BaseOperationView(
     LoginRequiredMixin,
+    PreOrderMixin,
     MultipleObjectMixin,
     SuccessMessageMixin,
     CreateView,

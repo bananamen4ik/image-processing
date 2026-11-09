@@ -1,6 +1,10 @@
 """User profile views."""
 
-from typing import TypeVar
+from typing import (
+    Any,
+    TypeVar,
+    cast,
+)
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
@@ -11,18 +15,23 @@ from django.contrib.auth.views import (
 )
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import models
+from django.http.request import HttpRequest
+from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
 
 from custom_auth.models import CustomUser
+from tools.models import Operation
 from user_profile.forms import (
     PasswordChangeForm,
+    ProfileChangePlanForm,
     ProfileEditForm,
     ProfileSettingsForm,
 )
 from user_profile.models import UserProfile
+from user_profile.services import get_daily_used
 
 _M = TypeVar('_M', bound=models.Model)
 
@@ -92,3 +101,104 @@ class ProfileSettingsView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         """Retrieves the user pk directly from the session, not from the URL."""
         self.kwargs['slug'] = self.request.user.pk
         return super().get_object(queryset=queryset)
+
+
+class ProfileUsageView(LoginRequiredMixin, TemplateView):
+    """Display profile usage page."""
+
+    template_name = 'user_profile/usage.html'
+    redirect_url = reverse_lazy('user_profile:usage')
+
+    def post(
+        self,
+        request: HttpRequest,
+        *args: Any,
+        **kwargs: Any,
+    ) -> HttpResponseRedirect:
+        """Changes the user's rate plan."""
+        user = cast(CustomUser, self.request.user)
+        change_plan_form = ProfileChangePlanForm(
+            request.POST,
+            instance=user.user_profile,
+        )
+
+        if change_plan_form.is_valid():
+            change_plan_form.save()
+
+        return HttpResponseRedirect(self.redirect_url)
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        """Adds additional data to the template."""
+        context = super().get_context_data(**kwargs)
+
+        user = cast(CustomUser, self.request.user)
+        user_profile = user.user_profile
+
+        current_plan_title = user_profile.get_plan_display()
+        daily_limit = user_profile.daily_operation_limit
+        daily_used = get_daily_used(user)
+        daily_remaining = daily_limit - daily_used
+
+        plans = [
+            {
+                'id': plan_id,
+                'title': plan_title,
+                'description': UserProfile.Plan(plan_id).description,
+                'daily_limit': UserProfile.Plan(plan_id).daily_operation_limit,
+            }
+            for plan_id, plan_title in UserProfile.Plan.choices
+        ]
+
+        daily_usage_percent = min(
+            round(daily_used / daily_limit * 100),
+            100,
+        )
+
+        operations_stats = (
+            Operation.objects.filter(
+                user=user,
+                status__in=(
+                    Operation.Status.CREATED,
+                    Operation.Status.PROCESSING,
+                    Operation.Status.COMPLETED,
+                ),
+            )
+            .values(
+                'type',
+            )
+            .annotate(
+                total=models.Count('id'),
+            )
+            .all()
+        )
+
+        types_operations_total = {
+            operation_id: {
+                'title': operation_title,
+                'total': next(
+                    (
+                        operation_stats['total']
+                        for operation_stats in operations_stats
+                        if operation_stats['type'] == operation_id
+                    ),
+                    0,
+                ),
+            }
+            for operation_id, operation_title in Operation.Type.choices
+        }
+
+        context.update(
+            {
+                'user_profile': user_profile,
+                'current_plan_title': current_plan_title,
+                'daily_limit': daily_limit,
+                'daily_used': daily_used,
+                'daily_remaining': daily_remaining,
+                'plans': plans,
+                'daily_usage_percent': daily_usage_percent,
+                'types_operations_total': types_operations_total,
+                'operation_type': Operation.Type,
+            },
+        )
+
+        return context

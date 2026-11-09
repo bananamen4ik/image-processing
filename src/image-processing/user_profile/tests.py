@@ -1,19 +1,32 @@
 """Tests for the user profile app."""
 
+import io
+from datetime import timedelta
+from pathlib import Path
 from typing import cast
 
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.fields import Field
 from django.test import TestCase
 from django.urls import reverse_lazy
-from django.utils import translation
+from django.utils import (
+    timezone,
+    translation,
+)
 from django.utils.translation import gettext as _
 from faker import Faker
+from PIL import Image
 
 from custom_auth.models import CustomUser
+from tools.models import Operation
+from user_profile.forms import ProfileSettingsForm
 from user_profile.models import UserProfile
-from user_profile.views import PasswordChangeView
+from user_profile.views import (
+    PasswordChangeView,
+    ProfileUsageView,
+)
 
 
 class ProfileViewTests(TestCase):
@@ -428,9 +441,9 @@ class ProfileSettingsViewTests(TestCase):
             response.context['form'],
             'time_zone',
             str(
-                response.context['form']
-                .fields['time_zone']
-                .error_messages['invalid_choice']
+                ProfileSettingsForm.base_fields['time_zone'].error_messages[
+                    'invalid_choice'
+                ]
                 % {
                     'value': time_zone,
                 },
@@ -454,11 +467,174 @@ class ProfileSettingsViewTests(TestCase):
             response.context['form'],
             'language',
             str(
-                response.context['form']
-                .fields['language']
-                .error_messages['invalid_choice']
+                ProfileSettingsForm.base_fields['language'].error_messages[
+                    'invalid_choice'
+                ]
                 % {
                     'value': language,
                 },
             ),
         )
+
+
+class ProfileUsageViewTests(TestCase):
+    """Tests the profile usage view."""
+
+    URI = reverse_lazy('user_profile:usage')
+    fake = Faker()
+
+    def setUp(self) -> None:
+        """Sets up the user."""
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.user_name(),
+            email=self.fake.email(),
+            password=self.fake.password(),
+        )
+
+    def test_accessibility(self) -> None:
+        """Checking that the page is accessible."""
+        response = self.client.get(self.URI)
+        self.assertRedirects(
+            response,
+            f'{settings.LOGIN_URL}?{REDIRECT_FIELD_NAME}={self.URI}',
+        )
+
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.URI)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_valid_data(self) -> None:
+        """Checks that the valid data is processed correctly."""
+        self.client.force_login(self.user)
+
+        self.assertEqual(self.user.user_profile.plan, UserProfile.Plan.FREE)
+
+        response = self.client.post(
+            self.URI,
+            data={
+                'plan': UserProfile.Plan.PRO,
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            str(ProfileUsageView.redirect_url),
+        )
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.user_profile.plan, UserProfile.Plan.PRO)
+
+    def test_post_invalid_data(self) -> None:
+        """Checks that the invalid data is processed correctly."""
+        self.client.force_login(self.user)
+
+        current_plan = self.user.user_profile.plan
+        response = self.client.post(
+            self.URI,
+            data={
+                'plan': 'invalid-plan',
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            str(ProfileUsageView.redirect_url),
+        )
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.user_profile.plan, current_plan)
+
+    def test_context_data(self) -> None:
+        """Checks the validity of the context data passed to the template."""
+        self.client.force_login(self.user)
+
+        image_title = 'test.png'
+
+        operation1 = Operation.objects.create(
+            user=self.user,
+            uploaded_image=get_image_file(image_title),
+            parameters={},
+            type=Operation.Type.OPTIMIZE,
+            status=Operation.Status.COMPLETED,
+        )
+        operation2 = Operation.objects.create(
+            user=self.user,
+            uploaded_image=get_image_file(image_title),
+            parameters={},
+            type=Operation.Type.OPTIMIZE,
+            status=Operation.Status.COMPLETED,
+        )
+        operation2.created_at = timezone.now() - timedelta(hours=24, minutes=1)
+        operation2.save(update_fields=['created_at'])
+
+        Path(operation1.uploaded_image.path).unlink()
+        Path(operation2.uploaded_image.path).unlink()
+
+        response = self.client.get(self.URI)
+
+        self.assertEqual(
+            response.context['user_profile'],
+            self.user.user_profile,
+        )
+
+        self.assertEqual(
+            response.context['current_plan_title'],
+            self.user.user_profile.get_plan_display(),
+        )
+
+        self.assertEqual(
+            response.context['daily_limit'],
+            self.user.user_profile.daily_operation_limit,
+        )
+
+        self.assertEqual(
+            response.context['daily_used'],
+            1,
+        )
+
+        self.assertEqual(
+            response.context['daily_remaining'],
+            self.user.user_profile.daily_operation_limit - 1,
+        )
+
+        self.assertEqual(
+            len(response.context['plans']),
+            len(UserProfile.Plan.choices),
+        )
+
+        self.assertNotEqual(
+            response.context['daily_usage_percent'],
+            0,
+        )
+
+        self.assertEqual(
+            len(response.context['types_operations_total']),
+            len(UserProfile.Plan.choices),
+        )
+
+        self.assertEqual(
+            response.context['types_operations_total'][Operation.Type.OPTIMIZE][
+                'total'
+            ],
+            2,
+        )
+
+
+def get_image_file(
+    name: str,
+    size: tuple[int, int] = (100, 100),
+    color: str = 'green',
+    pil_format: str = 'PNG',
+    content_type: str = 'image/png',
+) -> SimpleUploadedFile:
+    """Creates an image file in memory."""
+    image = Image.new('RGB', size, color)
+    buffer = io.BytesIO()
+    image.save(buffer, format=pil_format)
+
+    return SimpleUploadedFile(
+        name,
+        buffer.getvalue(),
+        content_type,
+    )
