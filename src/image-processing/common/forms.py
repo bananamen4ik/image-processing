@@ -141,7 +141,7 @@ class CFTurnstileField(CharField):
 
     def clean(self, value: Any) -> Any:  # pragma: no cover
         """Validates the token."""
-        if settings.DEBUG:
+        if settings.DEBUG or settings.TESTING:
             return value
 
         url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
