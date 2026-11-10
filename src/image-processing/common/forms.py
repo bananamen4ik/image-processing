@@ -6,6 +6,7 @@ from collections.abc import (
 )
 from typing import Any
 
+import httpx
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.forms import (
@@ -138,9 +139,32 @@ class CFTurnstileField(CharField):
             },
         )
 
-    def clean(self, value: Any) -> Any:
+    def clean(self, value: Any) -> Any:  # pragma: no cover
         """Validates the token."""
-        raise ValidationError(
-            self.error_messages['cf_turnstile_invalid'],
-            code='cf_turnstile_invalid',
-        )
+        if settings.DEBUG:
+            return value
+
+        url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+        data = {
+            'secret': settings.CF_TURNSTILE_SECRET_KEY,
+            'response': value,
+        }
+        error = False
+
+        try:
+            response = httpx.post(url, data=data, timeout=10)
+            response.raise_for_status()
+
+            validation = response.json()
+            if not validation['success']:
+                error = True
+        except httpx.HTTPStatusError:
+            error = True
+
+        if error:
+            raise ValidationError(
+                self.error_messages['cf_turnstile_invalid'],
+                code='cf_turnstile_invalid',
+            )
+
+        return value
