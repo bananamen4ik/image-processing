@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 14:41+0000\n"
+"POT-Creation-Date: 2026-11-11 16:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,7 +104,7 @@ msgstr "Сброс пароля на сайте %(site_name)s"
 #: custom_auth/templates/custom_auth/login.html:12
 #: custom_auth/templates/custom_auth/login.html:21
 #: custom_auth/templates/custom_auth/password_reset_complete.html:15
-#: templates/components/navbar.html:89
+#: templates/components/navbar.html:113
 msgid "Log in"
 msgstr "Войти"
 
@@ -365,7 +365,7 @@ msgstr "Создайте учётную запись и начните с бес
 
 #: main/templates/main/about.html:212 main/templates/main/index.html:190
 #: main/templates/main/index.html:307 main/templates/main/plans.html:81
-#: templates/components/navbar.html:93
+#: templates/components/navbar.html:117
 msgid "Get started"
 msgstr "Начать работу"
 
@@ -608,21 +608,21 @@ msgstr "Переключить навигацию"
 msgid "Home"
 msgstr "Главная"
 
-#: templates/components/navbar.html:41 templates/components/navbar.html:42
+#: templates/components/navbar.html:65 templates/components/navbar.html:66
 msgid "Toggle theme"
 msgstr "Переключить тему"
 
-#: templates/components/navbar.html:62
+#: templates/components/navbar.html:86
 #: user_profile/templates/user_profile/index.html:5
 msgid "Profile"
 msgstr "Профиль"
 
-#: templates/components/navbar.html:68
+#: templates/components/navbar.html:92
 msgctxt "navbar dropdown"
 msgid "Image tools"
 msgstr "Инструменты"
 
-#: templates/components/navbar.html:80
+#: templates/components/navbar.html:104
 msgid "Log out"
 msgstr "Выйти"
 

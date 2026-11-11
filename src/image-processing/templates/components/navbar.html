@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n common_basic %}
 
 <nav class="navbar navbar-expand-lg border-bottom">
     <div class="container">
@@ -34,6 +34,30 @@
             </ul>
 
             <div class="d-flex align-items-center gap-2">
+                <div class="dropdown">
+                    <button
+                            class="btn btn-outline-secondary dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        {% get_current_language as current_language_code %}
+                        {{ current_language_code|upper }}
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        {% get_available_languages as languages %}
+                        {% for language_code, language_name in languages %}
+                            <li>
+                                <a class="dropdown-item{% if current_language_code == language_code %} active{% endif %}"
+                                   href="{% uri_to_language request.get_full_path language_code %}">
+                                    {{ language_name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
                 <button
                         class="btn btn-outline-secondary"
                         type="button"
