@@ -167,12 +167,12 @@
                                     </td>
 
                                     <td class="text-body-secondary">
-                                        {{ operation.created_at }}
+                                        {{ operation.created_at|date:'DATETIME_FORMAT' }}
                                     </td>
 
                                     <td class="text-body-secondary text-end">
                                         {% if operation.processed_at %}
-                                            {{ operation.processed_at }}
+                                            {{ operation.processed_at|date:'DATETIME_FORMAT' }}
                                         {% else %}
                                             —
                                         {% endif %}
