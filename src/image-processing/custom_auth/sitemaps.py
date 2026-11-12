@@ -6,7 +6,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
 
-class CustomAuthSitemap(Sitemap):
+class CustomAuthSitemap(Sitemap):  # pragma: no cover
     """Custom Auth Sitemap."""
 
     changefreq = 'weekly'

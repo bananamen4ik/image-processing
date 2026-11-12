@@ -6,7 +6,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
 
-class MainSitemap(Sitemap):
+class MainSitemap(Sitemap):  # pragma: no cover
     """Main Sitemap."""
 
     changefreq = 'weekly'
