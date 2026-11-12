@@ -1,0 +1,1096 @@
+# This file is distributed under the same license as the Image Processing package.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-11 16:59+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: common/forms.py:138
+msgid "Verification failed. Please try again."
+msgstr "Проверка не пройдена. Пожалуйста, попробуйте ещё раз."
+
+#: custom_auth/models.py:77
+msgid "username"
+msgstr "имя пользователя"
+
+#: custom_auth/models.py:81
+msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr ""
+"Обязательное поле. Не более 150 символов. Допускаются только буквы, цифры и "
+"символы @/./+/-/_."
+
+#: custom_auth/models.py:85 custom_auth/tests.py:110
+msgid "A user with that username already exists."
+msgstr "Пользователь с таким именем уже существует."
+
+#: custom_auth/models.py:89
+msgid "email address"
+msgstr "адрес электронной почты"
+
+#: custom_auth/models.py:92
+msgid "Required. Valid email address."
+msgstr "Обязательное поле. Укажите действительный адрес электронной почты."
+
+#: custom_auth/models.py:95 custom_auth/tests.py:130
+msgid "A user with that email already exists."
+msgstr "Пользователь с таким адресом электронной почты уже существует."
+
+#: custom_auth/models.py:99
+msgid "active"
+msgstr "активен"
+
+#: custom_auth/models.py:102
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+"Определяет, следует ли считать пользователя активным. Снимите отметку вместо "
+"удаления учётной записи."
+
+#: custom_auth/models.py:107
+msgid "staff status"
+msgstr "статус персонала"
+
+#: custom_auth/models.py:109
+msgid "Designates whether the user can log into this admin site."
+msgstr "Определяет, может ли пользователь входить в административную панель."
+
+#: custom_auth/models.py:111
+msgid "date joined"
+msgstr "дата регистрации"
+
+#: custom_auth/templates/custom_auth/email/password_reset.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Вы получили это письмо, потому что запросили сброс пароля для своей учётной "
+"записи на сайте %(site_name)s."
+
+#: custom_auth/templates/custom_auth/email/password_reset.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr "Перейдите по следующей ссылке и задайте новый пароль:"
+
+#: custom_auth/templates/custom_auth/email/password_reset.html:8
+msgid "In case you’ve forgotten, you are:"
+msgstr "На случай, если вы забыли, ваше имя пользователя:"
+
+#: custom_auth/templates/custom_auth/email/password_reset.html:10
+msgid "Thanks for using our site!"
+msgstr "Спасибо, что пользуетесь нашим сайтом!"
+
+#: custom_auth/templates/custom_auth/email/password_reset.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "Команда %(site_name)s"
+
+#: custom_auth/templates/custom_auth/email/password_reset_subject.txt:2
+#, python-format
+msgid "Password reset on %(site_name)s"
+msgstr "Сброс пароля на сайте %(site_name)s"
+
+#: custom_auth/templates/custom_auth/login.html:5
+#: custom_auth/templates/custom_auth/login.html:12
+#: custom_auth/templates/custom_auth/login.html:21
+#: custom_auth/templates/custom_auth/password_reset_complete.html:15
+#: templates/components/navbar.html:113
+msgid "Log in"
+msgstr "Войти"
+
+#: custom_auth/templates/custom_auth/login.html:26
+msgid "Forgot your password?"
+msgstr "Забыли пароль?"
+
+#: custom_auth/templates/custom_auth/password_reset.html:13
+msgid ""
+"Forgotten your password? Enter your email address below, and we’ll email "
+"instructions for setting a new one."
+msgstr ""
+"Забыли пароль? Введите свой адрес электронной почты ниже, и мы отправим вам "
+"инструкции по его восстановлению."
+
+#: custom_auth/templates/custom_auth/password_reset.html:21
+msgid "Reset my password"
+msgstr "Сбросить пароль"
+
+#: custom_auth/templates/custom_auth/password_reset_complete.html:13
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Ваш пароль успешно установлен. Теперь вы можете войти в систему."
+
+#: custom_auth/templates/custom_auth/password_reset_confirm.html:14
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Введите новый пароль дважды, чтобы мы могли убедиться, что вы ввели его "
+"правильно."
+
+#: custom_auth/templates/custom_auth/password_reset_confirm.html:22
+#: user_profile/templates/user_profile/password_change.html:32
+msgid "Change my password"
+msgstr "Изменить пароль"
+
+#: custom_auth/templates/custom_auth/password_reset_confirm.html:26
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+"Ссылка для сброса пароля недействительна. Возможно, она уже была "
+"использована. Запросите сброс пароля ещё раз."
+
+#: custom_auth/templates/custom_auth/password_reset_done.html:13
+msgid ""
+"We’ve emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+"Мы отправили вам инструкции по установке пароля, если учётная запись с "
+"указанным адресом электронной почты существует. Вы должны получить письмо в "
+"ближайшее время."
+
+#: custom_auth/templates/custom_auth/password_reset_done.html:15
+msgid ""
+"If you don’t receive an email, please make sure you’ve entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+"Если вы не получили письмо, убедитесь, что указали адрес электронной почты, "
+"использованный при регистрации, и проверьте папку «Спам»."
+
+#: custom_auth/templates/custom_auth/signup.html:5
+#: custom_auth/templates/custom_auth/signup.html:21
+msgid "Sign up"
+msgstr "Зарегистрироваться"
+
+#: custom_auth/templates/custom_auth/signup.html:12
+#: main/templates/main/plans.html:281
+msgid "Create an account"
+msgstr "Создать учётную запись"
+
+#: custom_auth/templates/custom_auth/signup.html:26
+msgid "Do you have an account?"
+msgstr "Уже есть учётная запись?"
+
+#: custom_auth/tests.py:149 user_profile/tests.py:161
+msgid "The two password fields didn’t match."
+msgstr "Введённые пароли не совпадают."
+
+#: custom_auth/tests.py:196
+msgid ""
+"Enter a valid username. This value may contain only letters, numbers, and "
+"@/./+/-/_ characters."
+msgstr ""
+"Введите корректное имя пользователя. Оно может содержать только буквы, цифры "
+"и символы @/./+/-/_."
+
+#: custom_auth/tests.py:220 custom_auth/tests.py:497
+msgid "Enter a valid email address."
+msgstr "Введите корректный адрес электронной почты."
+
+#: custom_auth/tests.py:244
+#, python-format
+msgid "The password is too similar to the %(verbose_name)s."
+msgstr "Пароль слишком похож на значение поля «%(verbose_name)s»."
+
+#: custom_auth/tests.py:274
+#, python-format
+msgid "This password is too short. It must contain at least %d character."
+msgid_plural ""
+"This password is too short. It must contain at least %d characters."
+msgstr[0] ""
+"Этот пароль слишком короткий. Он должен содержать не менее %d символа."
+msgstr[1] ""
+"Этот пароль слишком короткий. Он должен содержать не менее %d символов."
+
+#: custom_auth/tests.py:299
+msgid "This password is too common."
+msgstr "Этот пароль слишком распространён."
+
+#: custom_auth/tests.py:320
+msgid "This password is entirely numeric."
+msgstr "Этот пароль состоит только из цифр."
+
+#: custom_auth/tests.py:374 custom_auth/tests.py:406
+#, python-format
+msgid ""
+"Please enter a correct %(username)s and password. Note that both fields may "
+"be case-sensitive."
+msgstr ""
+"Введите правильные %(username)s и пароль. Обратите внимание, что оба поля "
+"могут учитывать регистр символов."
+
+#: custom_auth/tests.py:647
+msgid "Password reset unsuccessful"
+msgstr "Не удалось сбросить пароль"
+
+#: image_processing/settings.py:141
+msgid "English"
+msgstr "Английский"
+
+#: image_processing/settings.py:142
+msgid "Russian"
+msgstr "Русский"
+
+#: main/templates/main/about.html:5 templates/components/footer.html:26
+msgid "About"
+msgstr "О проекте"
+
+#: main/templates/main/about.html:14
+msgid "About the project"
+msgstr "О проекте"
+
+#: main/templates/main/about.html:18
+msgid "Image processing made simple"
+msgstr "Обработка изображений — это просто"
+
+#: main/templates/main/about.html:22
+msgid ""
+"A simple way to transform your images without complicated software or "
+"unnecessary steps."
+msgstr ""
+"Простой способ преобразовывать изображения без сложных программ и лишних "
+"действий."
+
+#: main/templates/main/about.html:38
+msgid "Why this project exists"
+msgstr "Для чего создан этот проект"
+
+#: main/templates/main/about.html:42
+msgid ""
+"Image processing should not require installing large applications or "
+"learning complicated tools just to perform everyday tasks."
+msgstr ""
+"Для повседневной обработки изображений не должно требоваться устанавливать "
+"громоздкие приложения или осваивать сложные инструменты."
+
+#: main/templates/main/about.html:50
+msgid ""
+"This project aims to make common image operations accessible through a "
+"straightforward web interface. Choose an image, select an operation, and get "
+"the result."
+msgstr ""
+"Цель проекта — сделать распространённые операции с изображениями доступными "
+"через простой веб-интерфейс. Выберите изображение, укажите нужную операцию и "
+"получите результат."
+
+#: main/templates/main/about.html:65
+msgid "Simplicity"
+msgstr "Простота"
+
+#: main/templates/main/about.html:68
+msgid "A clear workflow with only the steps you need."
+msgstr "Понятный процесс, включающий только необходимые шаги."
+
+#: main/templates/main/about.html:77
+msgid "Practical tools"
+msgstr "Практичные инструменты"
+
+#: main/templates/main/about.html:80
+msgid "Useful operations for everyday image tasks."
+msgstr "Полезные инструменты для повседневной работы с изображениями."
+
+#: main/templates/main/about.html:89
+msgid "Room to grow"
+msgstr "Возможности для развития"
+
+#: main/templates/main/about.html:92
+msgid "A project that can evolve as new needs arise."
+msgstr "Проект, который может развиваться по мере появления новых задач."
+
+#: main/templates/main/about.html:108 main/templates/main/index.html:97
+msgid "How it works"
+msgstr "Как это работает"
+
+#: main/templates/main/about.html:112
+msgid "Three steps from an original image to the result."
+msgstr "Три шага от исходного изображения до готового результата."
+
+#: main/templates/main/about.html:123 main/templates/main/index.html:107
+msgid "Upload"
+msgstr "Загрузите изображение"
+
+#: main/templates/main/about.html:127 main/templates/main/index.html:110
+msgid "Choose an image from your device."
+msgstr "Выберите изображение на своём устройстве."
+
+#: main/templates/main/about.html:139
+msgid "Choose an operation"
+msgstr "Выберите операцию"
+
+#: main/templates/main/about.html:143
+msgid "Select the transformation you need."
+msgstr "Выберите нужный способ обработки."
+
+#: main/templates/main/about.html:155
+msgid "Get your result"
+msgstr "Получите результат"
+
+#: main/templates/main/about.html:159
+msgid "View and download the processed image."
+msgstr "Просмотрите и скачайте обработанное изображение."
+
+#: main/templates/main/about.html:174
+msgid "Our approach"
+msgstr "Наш подход"
+
+#: main/templates/main/about.html:178
+msgid "Useful tools, without the complexity"
+msgstr "Полезные инструменты без лишних сложностей"
+
+#: main/templates/main/about.html:182
+msgid ""
+"We focus on making everyday image processing straightforward: essential "
+"tools, a clear workflow, and results you can use right away."
+msgstr ""
+"Мы стремимся сделать повседневную обработку изображений простой: только "
+"необходимые инструменты, понятный процесс и готовый результат, которым можно "
+"сразу воспользоваться."
+
+#: main/templates/main/about.html:198
+msgid "Ready to try it?"
+msgstr "Готовы попробовать?"
+
+#: main/templates/main/about.html:202
+msgid "Create an account and start with the free plan."
+msgstr "Создайте учётную запись и начните с бесплатного тарифа."
+
+#: main/templates/main/about.html:212 main/templates/main/index.html:190
+#: main/templates/main/index.html:307 main/templates/main/plans.html:81
+#: templates/components/navbar.html:117
+msgid "Get started"
+msgstr "Начать работу"
+
+#: main/templates/main/index.html:5 main/templates/main/index.html:13
+msgid "Simple image processing"
+msgstr "Простая обработка изображений"
+
+#: main/templates/main/index.html:16
+msgid "Transform your images in a few clicks"
+msgstr "Преобразуйте изображения в несколько кликов"
+
+#: main/templates/main/index.html:20
+msgid ""
+"Upload an image, choose a processing operation, and get your result when "
+"it's ready."
+msgstr ""
+"Загрузите изображение, выберите операцию обработки и получите результат, "
+"когда он будет готов."
+
+#: main/templates/main/index.html:33
+msgid "Process an image"
+msgstr "Обработать изображение"
+
+#: main/templates/main/index.html:45
+msgid "What you can do"
+msgstr "Возможности"
+
+#: main/templates/main/index.html:47
+msgid "Simple tools for everyday image processing."
+msgstr "Простые инструменты для повседневной обработки изображений."
+
+#: main/templates/main/index.html:55 tools/models.py:35
+#: tools/templates/tools/index.html:31 tools/views.py:137
+msgid "Resize"
+msgstr "Изменение размера"
+
+#: main/templates/main/index.html:58 tools/templates/tools/index.html:34
+#: tools/views.py:138
+msgid "Resize your images to the dimensions you need."
+msgstr "Изменяйте размер изображений до нужных вам значений."
+
+#: main/templates/main/index.html:67 tools/models.py:36
+#: tools/templates/tools/index.html:58 tools/views.py:177
+msgid "Convert"
+msgstr "Конвертация"
+
+#: main/templates/main/index.html:70 tools/templates/tools/index.html:61
+#: tools/views.py:178
+msgid "Convert images between supported formats."
+msgstr "Преобразуйте изображения в другие поддерживаемые форматы."
+
+#: main/templates/main/index.html:79 tools/models.py:37
+#: tools/templates/tools/index.html:85 tools/views.py:220
+msgid "Optimize"
+msgstr "Оптимизация"
+
+#: main/templates/main/index.html:82 tools/templates/tools/index.html:88
+#: tools/views.py:221
+msgid "Reduce image size while maintaining good quality."
+msgstr "Уменьшайте размер файлов изображений, сохраняя хорошее качество."
+
+#: main/templates/main/index.html:99
+msgid "Three simple steps to get your processed image."
+msgstr "Три простых шага, чтобы получить обработанное изображение."
+
+#: main/templates/main/index.html:117
+msgid "Configure"
+msgstr "Настройте"
+
+#: main/templates/main/index.html:120
+msgid "Select the operation you want to perform."
+msgstr "Выберите операцию, которую хотите выполнить."
+
+#: main/templates/main/index.html:127
+msgid "Download"
+msgstr "Скачайте"
+
+#: main/templates/main/index.html:130
+msgid "Get your processed image when it's ready."
+msgstr "Скачайте обработанное изображение, когда оно будет готово."
+
+#: main/templates/main/index.html:143 main/templates/main/plans.html:5
+#: templates/components/footer.html:20 templates/components/navbar.html:31
+msgid "Plans"
+msgstr "Тарифы"
+
+#: main/templates/main/index.html:145
+msgid "Choose the plan that fits your needs."
+msgstr "Выберите тариф, который подходит именно вам."
+
+#: main/templates/main/index.html:155 main/templates/main/plans.html:41
+#: user_profile/models.py:24
+msgid "Free"
+msgstr "Бесплатный"
+
+#: main/templates/main/index.html:162 main/templates/main/plans.html:45
+#: user_profile/models.py:41
+msgid "For occasional image processing."
+msgstr "Для периодической обработки изображений."
+
+#: main/templates/main/index.html:171 main/templates/main/index.html:223
+#: main/templates/main/index.html:265 main/templates/main/plans.html:63
+#: main/templates/main/plans.html:118 main/templates/main/plans.html:164
+msgid "Basic image processing"
+msgstr "Базовая обработка изображений"
+
+#: main/templates/main/index.html:179 main/templates/main/plans.html:70
+msgid "5 operations per day"
+msgstr "5 операций в день"
+
+#: main/templates/main/index.html:201 main/templates/main/plans.html:96
+#: user_profile/models.py:25
+msgid "Plus"
+msgstr "Плюс"
+
+#: main/templates/main/index.html:203
+msgid "Popular"
+msgstr "Популярный"
+
+#: main/templates/main/index.html:209 main/templates/main/index.html:251
+#: main/templates/main/plans.html:106 main/templates/main/plans.html:152
+msgid "month"
+msgstr "месяц"
+
+#: main/templates/main/index.html:214 main/templates/main/plans.html:100
+#: user_profile/models.py:42
+msgid "For regular image processing."
+msgstr "Для регулярной обработки изображений."
+
+#: main/templates/main/index.html:231 main/templates/main/plans.html:125
+msgid "20 operations per day"
+msgstr "20 операций в день"
+
+#: main/templates/main/index.html:236 main/templates/main/plans.html:131
+msgid "Choose Plus"
+msgstr "Выбрать Плюс"
+
+#: main/templates/main/index.html:246 main/templates/main/plans.html:142
+#: user_profile/models.py:26
+msgid "Pro"
+msgstr "Профессиональный"
+
+#: main/templates/main/index.html:256 main/templates/main/plans.html:146
+#: user_profile/models.py:43
+msgid "For users with higher processing needs."
+msgstr "Для пользователей с повышенными потребностями в обработке изображений."
+
+#: main/templates/main/index.html:273 main/templates/main/plans.html:171
+msgid "100 operations per day"
+msgstr "100 операций в день"
+
+#: main/templates/main/index.html:278 main/templates/main/plans.html:177
+msgid "Choose Pro"
+msgstr "Выбрать Профессиональный"
+
+#: main/templates/main/index.html:293
+msgid "Ready to process your image?"
+msgstr "Готовы обработать изображение?"
+
+#: main/templates/main/index.html:297
+msgid "Upload your first image and see how it works."
+msgstr "Загрузите своё первое изображение и оцените, как всё работает."
+
+#: main/templates/main/plans.html:14
+msgid "Simple and transparent pricing"
+msgstr "Простые и прозрачные цены"
+
+#: main/templates/main/plans.html:18
+#: user_profile/templates/user_profile/usage.html:207
+msgid "Choose your plan"
+msgstr "Выберите тариф"
+
+#: main/templates/main/plans.html:22
+msgid ""
+"Start for free and upgrade when you need more image processing capacity."
+msgstr ""
+"Начните бесплатно и перейдите на другой тариф, когда вам потребуется больше "
+"возможностей для обработки изображений."
+
+#: main/templates/main/plans.html:51
+msgid "forever"
+msgstr "навсегда"
+
+#: main/templates/main/plans.html:91
+msgid "Most popular"
+msgstr "Самый популярный"
+
+#: main/templates/main/plans.html:191
+msgid "Simple by design"
+msgstr "Ничего лишнего"
+
+#: main/templates/main/plans.html:195
+msgid "Everything you need to process images without unnecessary complexity."
+msgstr "Всё необходимое для обработки изображений без лишних сложностей."
+
+#: main/templates/main/plans.html:210
+msgid "Easy to use"
+msgstr "Простота использования"
+
+#: main/templates/main/plans.html:214
+msgid "Upload an image, choose an operation, and get your result."
+msgstr "Загрузите изображение, выберите операцию и получите результат."
+
+#: main/templates/main/plans.html:229
+msgid "Flexible plans"
+msgstr "Гибкие тарифы"
+
+#: main/templates/main/plans.html:233
+msgid "Start with the free plan and upgrade as your needs grow."
+msgstr ""
+"Начните с бесплатного тарифа и переходите на следующий по мере роста "
+"потребностей."
+
+#: main/templates/main/plans.html:250
+msgid "Clear limits"
+msgstr "Понятные ограничения"
+
+#: main/templates/main/plans.html:254
+msgid "Know your daily processing limit before you get started."
+msgstr "Заранее узнайте свой дневной лимит обработки."
+
+#: main/templates/main/plans.html:267
+msgid "Ready to get started?"
+msgstr "Готовы начать?"
+
+#: main/templates/main/plans.html:271
+msgid "Create an account and process your first image for free."
+msgstr ""
+"Создайте учётную запись и бесплатно обработайте своё первое изображение."
+
+#: templates/components/footer.html:12
+msgid "2026 Armen Akopyan"
+msgstr "2026 Armen Akopyan"
+
+#: templates/components/navbar.html:16
+msgid "Toggle navigation"
+msgstr "Переключить навигацию"
+
+#: templates/components/navbar.html:25
+msgid "Home"
+msgstr "Главная"
+
+#: templates/components/navbar.html:65 templates/components/navbar.html:66
+msgid "Toggle theme"
+msgstr "Переключить тему"
+
+#: templates/components/navbar.html:86
+#: user_profile/templates/user_profile/index.html:5
+msgid "Profile"
+msgstr "Профиль"
+
+#: templates/components/navbar.html:92
+msgctxt "navbar dropdown"
+msgid "Image tools"
+msgstr "Инструменты"
+
+#: templates/components/navbar.html:104
+msgid "Log out"
+msgstr "Выйти"
+
+#: tools/forms.py:43
+msgid "The file extension does not match the image format."
+msgstr "Расширение файла не соответствует формату изображения."
+
+#: tools/forms.py:46
+#, python-format
+msgid ""
+"The file extension does not match the image format. Real image format: \"."
+"%(real_format)s\"."
+msgstr ""
+"Расширение файла не соответствует формату изображения. Фактический формат "
+"изображения: «.%(real_format)s»."
+
+#: tools/forms.py:57
+msgid "Image"
+msgstr "Изображение"
+
+#: tools/forms.py:108
+#, python-format
+msgid ""
+"The maximum number of pixels has been exceeded: %(current_pixels)s (max: "
+"%(max_pixels)s)"
+msgstr ""
+"Превышено максимально допустимое количество пикселей: %(current_pixels)s "
+"(максимум: %(max_pixels)s)"
+
+#: tools/forms.py:114
+msgid "Width"
+msgstr "Ширина"
+
+#: tools/forms.py:115
+msgid "The final width of the image in pixels."
+msgstr "Итоговая ширина изображения в пикселях."
+
+#: tools/forms.py:121
+msgid "Height"
+msgstr "Высота"
+
+#: tools/forms.py:122
+msgid "The final height of the image in pixels."
+msgstr "Итоговая высота изображения в пикселях."
+
+#: tools/forms.py:167
+msgid "Format"
+msgstr "Формат"
+
+#: tools/forms.py:168
+msgid "Format for the final image."
+msgstr "Формат итогового изображения."
+
+#: tools/forms.py:180
+msgid "Invalid image format."
+msgstr "Недопустимый формат изображения."
+
+#: tools/forms.py:189
+#, python-format
+msgid "Available formats: %(formats)s."
+msgstr "Доступные форматы: %(formats)s."
+
+#: tools/models.py:27
+msgid "Created"
+msgstr "Создано"
+
+#: tools/models.py:28
+msgid "Processing"
+msgstr "Обрабатывается"
+
+#: tools/models.py:29
+msgid "Completed"
+msgstr "Завершено"
+
+#: tools/models.py:30
+msgid "Failed"
+msgstr "Ошибка"
+
+#: tools/models.py:40 user_profile/models.py:52
+msgid "user"
+msgstr "пользователь"
+
+#: tools/models.py:47
+msgid "uploaded image"
+msgstr "загруженное изображение"
+
+#: tools/models.py:52
+msgid "parameters"
+msgstr "параметры"
+
+#: tools/models.py:56
+msgid "type"
+msgstr "тип"
+
+#: tools/models.py:61
+msgid "processed image"
+msgstr "обработанное изображение"
+
+#: tools/models.py:67
+msgid "status"
+msgstr "статус"
+
+#: tools/models.py:73
+msgid "created at"
+msgstr "дата создания"
+
+#: tools/models.py:78
+msgid "processed at"
+msgstr "дата обработки"
+
+#: tools/tasks.py:22
+#, python-format
+msgid "Starting image resizing: %(operation_id)s"
+msgstr "Начало изменения размера изображения: %(operation_id)s"
+
+#: tools/tasks.py:31 tools/tasks.py:79 tools/tasks.py:131
+msgid "Operation status is not CREATED"
+msgstr "Статус операции не CREATED"
+
+#: tools/tasks.py:34
+msgid "Operation type is not RESIZE"
+msgstr "Тип операции не RESIZE"
+
+#: tools/tasks.py:70
+#, python-format
+msgid "Starting image converting: %(operation_id)s"
+msgstr "Начало конвертации изображения: %(operation_id)s"
+
+#: tools/tasks.py:82
+msgid "Operation type is not CONVERT"
+msgstr "Тип операции не CONVERT"
+
+#: tools/tasks.py:122
+#, python-format
+msgid "Starting image optimizing: %(operation_id)s"
+msgstr "Начало оптимизации изображения: %(operation_id)s"
+
+#: tools/tasks.py:134
+msgid "Operation type is not OPTIMIZE"
+msgstr "Тип операции не OPTIMIZE"
+
+#: tools/tasks.py:157
+msgid "Invalid image format"
+msgstr "Недопустимый формат изображения"
+
+#: tools/templates/tools/base.html:43
+msgid "Breadcrumb"
+msgstr "Навигационная цепочка"
+
+#: tools/templates/tools/base.html:47 tools/templates/tools/index.html:5
+#: tools/templates/tools/index.html:11
+msgid "Image tools"
+msgstr "Инструменты для изображений"
+
+#: tools/templates/tools/base.html:98
+msgid "Recent operations"
+msgstr "Последние операции"
+
+#: tools/templates/tools/base.html:107
+msgid "ID"
+msgstr "ID"
+
+#: tools/templates/tools/base.html:108 tools/templates/tools/base.html:127
+msgid "Uploaded image"
+msgstr "Загруженное изображение"
+
+#: tools/templates/tools/base.html:109 tools/templates/tools/base.html:136
+msgid "Processed image"
+msgstr "Обработанное изображение"
+
+#: tools/templates/tools/base.html:110
+msgid "Parameters"
+msgstr "Параметры"
+
+#: tools/templates/tools/base.html:111
+msgid "Status"
+msgstr "Статус"
+
+#: tools/templates/tools/base.html:112
+msgid "Type"
+msgstr "Тип"
+
+#: tools/templates/tools/base.html:113
+msgid "Created at"
+msgstr "Дата создания"
+
+#: tools/templates/tools/base.html:114
+msgid "Processed at"
+msgstr "Дата обработки"
+
+#: tools/templates/tools/base.html:185
+msgid "No operations yet."
+msgstr "Операций пока нет."
+
+#: tools/templates/tools/base.html:188
+msgid "Your processed images will appear here."
+msgstr "Здесь будут отображаться обработанные изображения."
+
+#: tools/templates/tools/base.html:199
+msgid "Pagination"
+msgstr "Постраничная навигация"
+
+#: tools/templates/tools/base.html:204
+msgid "Previous page"
+msgstr "Предыдущая страница"
+
+#: tools/templates/tools/base.html:235
+msgid "Next page"
+msgstr "Следующая страница"
+
+#: tools/templates/tools/convert.html:6
+msgid "Format:"
+msgstr "Формат:"
+
+#: tools/templates/tools/convert.html:7
+msgid "Extension:"
+msgstr "Расширение:"
+
+#: tools/templates/tools/index.html:13
+msgid "Choose a tool to get started with your image."
+msgstr "Выберите инструмент для обработки изображения."
+
+#: tools/templates/tools/index.html:39 tools/templates/tools/index.html:66
+#: tools/templates/tools/index.html:93
+msgid "Open tool"
+msgstr "Открыть инструмент"
+
+#: tools/templates/tools/resize.html:6
+msgid "Width:"
+msgstr "Ширина:"
+
+#: tools/templates/tools/resize.html:7
+msgid "Height:"
+msgstr "Высота:"
+
+#: tools/views.py:43
+msgid "You have reached your daily limit. Please wait or upgrade your plan."
+msgstr "Вы достигли дневного лимита. Подождите или перейдите на другой тариф."
+
+#: tools/views.py:133
+msgid "The image has been successfully submitted for \"Resize\" processing."
+msgstr "Изображение успешно отправлено на обработку (изменение размера)."
+
+#: tools/views.py:139
+msgid "Resize image"
+msgstr "Изменить размер изображения"
+
+#: tools/views.py:173
+msgid "The image has been successfully submitted for \"Convert\" processing."
+msgstr "Изображение успешно отправлено на обработку (конвертация)."
+
+#: tools/views.py:179
+msgid "Convert image"
+msgstr "Конвертировать изображение"
+
+#: tools/views.py:216
+msgid "The image has been successfully submitted for \"Optimize\" processing."
+msgstr "Изображение успешно отправлено на обработку (оптимизация)."
+
+#: tools/views.py:222
+msgid "Optimize image"
+msgstr "Оптимизировать изображение"
+
+#: user_profile/models.py:59
+msgid "plan"
+msgstr "тариф"
+
+#: user_profile/models.py:65
+msgid "last login ip"
+msgstr "IP-адрес последнего входа"
+
+#: user_profile/models.py:72
+msgid "time zone"
+msgstr "часовой пояс"
+
+#: user_profile/models.py:79
+msgid "language"
+msgstr "язык"
+
+#: user_profile/templates/user_profile/edit.html:5
+#: user_profile/templates/user_profile/edit.html:22
+#: user_profile/templates/user_profile/edit.html:48
+#: user_profile/templates/user_profile/info.html:114
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+#: user_profile/templates/user_profile/edit.html:19
+msgid "Back to profile information"
+msgstr "Вернуться к информации профиля"
+
+#: user_profile/templates/user_profile/edit.html:24
+msgid "Manage your personal information and profile details."
+msgstr "Управляйте личной информацией и данными своего профиля."
+
+#: user_profile/templates/user_profile/index.html:14
+#, python-format
+msgid "Welcome, %(username)s!"
+msgstr "Добро пожаловать, %(username)s!"
+
+#: user_profile/templates/user_profile/index.html:20
+msgid "Manage your profile, account settings, and preferences."
+msgstr "Управляйте профилем, настройками учётной записи и предпочтениями."
+
+#: user_profile/templates/user_profile/index.html:42
+#: user_profile/templates/user_profile/info.html:5
+#: user_profile/templates/user_profile/info.html:25
+msgid "Profile information"
+msgstr "Информация профиля"
+
+#: user_profile/templates/user_profile/index.html:46
+msgid "View and update your personal information."
+msgstr "Просматривайте и обновляйте личную информацию."
+
+#: user_profile/templates/user_profile/index.html:80
+#: user_profile/templates/user_profile/info.html:109
+msgid "Change password"
+msgstr "Изменить пароль"
+
+#: user_profile/templates/user_profile/index.html:84
+msgid "Update your password to keep your account secure."
+msgstr "Обновите пароль, чтобы защитить свою учётную запись."
+
+#: user_profile/templates/user_profile/index.html:119
+#: user_profile/templates/user_profile/usage.html:5
+#: user_profile/templates/user_profile/usage.html:25
+#: user_profile/templates/user_profile/usage.html:131
+msgid "Usage and limits"
+msgstr "Использование и ограничения"
+
+#: user_profile/templates/user_profile/index.html:123
+#: user_profile/templates/user_profile/usage.html:29
+msgid "Check your current plan, usage, and limits."
+msgstr "Просматривайте текущий тариф, использование и ограничения."
+
+#: user_profile/templates/user_profile/index.html:157
+msgid "Account settings"
+msgstr "Настройки учётной записи"
+
+#: user_profile/templates/user_profile/index.html:161
+#: user_profile/templates/user_profile/settings.html:24
+msgid "Manage your account preferences and settings."
+msgstr "Управляйте предпочтениями и настройками своей учётной записи."
+
+#: user_profile/templates/user_profile/info.html:21
+#: user_profile/templates/user_profile/password_change.html:19
+#: user_profile/templates/user_profile/password_change_done.html:15
+#: user_profile/templates/user_profile/settings.html:19
+#: user_profile/templates/user_profile/usage.html:21
+msgid "Back to profile"
+msgstr "Вернуться в профиль"
+
+#: user_profile/templates/user_profile/info.html:29
+msgid "View the information associated with your account."
+msgstr "Просмотрите информацию, связанную с вашей учётной записью."
+
+#: user_profile/templates/user_profile/info.html:53
+msgid "Member since"
+msgstr "Участник с"
+
+#: user_profile/templates/user_profile/info.html:63
+msgid "Account details"
+msgstr "Данные учётной записи"
+
+#: user_profile/templates/user_profile/info.html:71
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: user_profile/templates/user_profile/info.html:82
+msgid "Email address"
+msgstr "Адрес электронной почты"
+
+#: user_profile/templates/user_profile/info.html:93
+msgid "Date joined"
+msgstr "Дата регистрации"
+
+#: user_profile/templates/user_profile/password_change.html:24
+msgid ""
+"Please enter your old password, for security’s sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"В целях безопасности введите старый пароль, а затем дважды введите новый "
+"пароль, чтобы мы могли убедиться, что вы указали его правильно."
+
+#: user_profile/templates/user_profile/password_change_done.html:13
+msgid "Your password was changed."
+msgstr "Ваш пароль изменён."
+
+#: user_profile/templates/user_profile/settings.html:5
+#: user_profile/templates/user_profile/settings.html:22
+#: user_profile/templates/user_profile/settings.html:48
+msgid "Edit settings"
+msgstr "Изменить настройки"
+
+#: user_profile/templates/user_profile/usage.html:40
+#: user_profile/templates/user_profile/usage.html:256
+msgid "Current plan"
+msgstr "Текущий тариф"
+
+#: user_profile/templates/user_profile/usage.html:49
+msgid "Active"
+msgstr "Активен"
+
+#: user_profile/templates/user_profile/usage.html:54
+#, python-format
+msgid ""
+"\n"
+"                                            %(daily_limit)s operations per "
+"day\n"
+"                                        "
+msgstr ""
+"\n"
+"                                            %(daily_limit)s операций в день\n"
+"                                        "
+
+#: user_profile/templates/user_profile/usage.html:64
+msgid "Change plan"
+msgstr "Сменить тариф"
+
+#: user_profile/templates/user_profile/usage.html:75
+#: user_profile/templates/user_profile/usage.html:104
+msgid "Daily usage"
+msgstr "Использование за день"
+
+#: user_profile/templates/user_profile/usage.html:79
+msgid "Your usage over the last 24 hours."
+msgstr "Ваше использование за последние 24 часа."
+
+#: user_profile/templates/user_profile/usage.html:92
+msgid "operations"
+msgstr "операций"
+
+#: user_profile/templates/user_profile/usage.html:98
+msgid "remaining"
+msgstr "осталось"
+
+#: user_profile/templates/user_profile/usage.html:135
+msgid "Total number of operations performed with each tool."
+msgstr "Общее количество операций, выполненных с помощью каждого инструмента."
+
+#: user_profile/templates/user_profile/usage.html:185
+msgid "Total operations"
+msgstr "Всего операций"
+
+#: user_profile/templates/user_profile/usage.html:211
+msgid "Select a plan that suits your needs."
+msgstr "Выберите тариф, который соответствует вашим потребностям."
+
+#: user_profile/templates/user_profile/usage.html:217
+#: user_profile/templates/user_profile/usage.html:283
+msgid "Close"
+msgstr "Закрыть"
+
+#: user_profile/templates/user_profile/usage.html:247
+msgid "operations / day"
+msgstr "операций в день"
+
+#: user_profile/templates/user_profile/usage.html:268
+msgid "Select plan"
+msgstr "Выбрать тариф"
+
+#: user_profile/tests.py:139
+msgid "Your old password was entered incorrectly. Please enter it again."
+msgstr "Старый пароль введён неверно. Попробуйте ещё раз."
+
+#: user_profile/views.py:73
+msgid "Your profile was successfully updated."
+msgstr "Профиль успешно обновлён."
+
+#: user_profile/views.py:94
+msgid "Your settings was successfully updated."
+msgstr "Настройки успешно обновлены."

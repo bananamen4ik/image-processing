@@ -16,8 +16,10 @@ Including another URLconf
 """
 
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import (
     URLPattern,
     URLResolver,
@@ -25,15 +27,22 @@ from django.urls import (
     path,
 )
 
+from common.views import RobotsView
+from image_processing.sitemaps import sitemaps
+
 urlpatterns: list[URLPattern | URLResolver] = [
-    # Django
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+    path('robots.txt', RobotsView.as_view(), name='robots'),
+]
+
+urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
-    # Project
     path('', include('main.urls')),
     path('accounts/', include('custom_auth.urls')),
     path('profile/', include('user_profile.urls')),
     path('tools/', include('tools.urls')),
-]
+    prefix_default_language=False,
+)
 
 if settings.DEBUG:  # pragma: no cover
     from debug_toolbar.toolbar import debug_toolbar_urls
