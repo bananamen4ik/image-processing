@@ -156,11 +156,29 @@ MEDIA_URL = 'media/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL')
+
+if DEBUG or TESTING:
+    MAILERS = {
+        'default': {
+            'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        },
+    }
+else:  # pragma: no cover
+    MAILERS = {
+        'default': {
+            'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+            'OPTIONS': {
+                'host': env.str('EMAIL_HOST'),
+                'port': env.int('EMAIL_PORT'),
+                'username': env.str('EMAIL_USERNAME'),
+                'password': env.str('EMAIL_PASSWORD'),
+                'use_ssl': env.bool('EMAIL_USE_SSL'),
+                'use_tls': env.bool('EMAIL_USE_TLS'),
+                'timeout': env.int('EMAIL_TIMEOUT'),
+            },
+        },
+    }
 
 ##################
 # AUTHENTICATION #
