@@ -9,11 +9,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import copy
 import sys
 from pathlib import Path
 
 import environ
 from django.urls import reverse_lazy
+from django.utils.log import DEFAULT_LOGGING
 from django.utils.translation import gettext_lazy as _
 
 # Test environment
@@ -217,3 +219,26 @@ CELERY_BROKER_URL = env.str(
 # Cloudflare CAPTCHA
 CF_TURNSTILE_SITE_KEY = env.str('CF_TURNSTILE_SITE_KEY')
 CF_TURNSTILE_SECRET_KEY = env.str('CF_TURNSTILE_SECRET_KEY')
+
+# Logging
+LOGGING = copy.deepcopy(DEFAULT_LOGGING)
+
+LOGGING['formatters']['main'] = {
+    'format': '[%(asctime)s: %(levelname)s] %(message)s',
+}
+
+LOGGING['handlers']['console'] = {
+    'level': 'INFO',
+    'formatter': 'main',
+    'class': 'logging.StreamHandler',
+}
+
+LOGGING['root'] = {
+    'level': 'INFO',
+    'handlers': ['console'],
+}
+
+LOGGING['loggers']['django'] = {
+    'level': 'INFO',
+    'handlers': ['mail_admins'],
+}
