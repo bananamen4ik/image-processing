@@ -164,7 +164,7 @@ if DEBUG or TESTING:
             'BACKEND': 'django.core.mail.backends.console.EmailBackend',
         },
     }
-else:
+else:  # pragma: no cover
     MAILERS = {
         'default': {
             'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
