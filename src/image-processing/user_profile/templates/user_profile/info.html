@@ -64,7 +64,6 @@
                             </h3>
 
                             <dl class="mb-0">
-
                                 <!-- Username -->
                                 <div class="row g-2 py-3 border-bottom">
                                     <dt class="col-sm-4 text-body-secondary fw-normal">
@@ -88,7 +87,7 @@
                                 </div>
 
                                 <!-- Registration date -->
-                                <div class="row g-2 py-3">
+                                <div class="row g-2 py-3 border-bottom">
                                     <dt class="col-sm-4 text-body-secondary fw-normal">
                                         {% translate 'Date joined' %}
                                     </dt>
@@ -98,6 +97,15 @@
                                     </dd>
                                 </div>
 
+                                <div class="row g-2 py-3">
+                                    <dt class="col-sm-4 text-body-secondary fw-normal">
+                                        {% translate 'Authorization IP' %}
+                                    </dt>
+
+                                    <dd class="col-sm-8 mb-0 fw-medium">
+                                        {{ user.user_profile.last_login_ip }}
+                                    </dd>
+                                </div>
                             </dl>
                         </div>
                     </div>
