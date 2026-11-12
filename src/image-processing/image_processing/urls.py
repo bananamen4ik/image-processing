@@ -27,10 +27,12 @@ from django.urls import (
     path,
 )
 
+from common.views import RobotsView
 from image_processing.sitemaps import sitemaps
 
 urlpatterns: list[URLPattern | URLResolver] = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+    path('robots.txt', RobotsView.as_view(), name='robots'),
 ]
 
 urlpatterns += i18n_patterns(

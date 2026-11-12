@@ -1,0 +1,11 @@
+{% load common_basic %}
+
+User-agent: *
+
+{% url 'admin:index' as admin_uri %}
+{% get_uris_languages admin_uri as admin_uris %}
+{% for uri in admin_uris %}
+Disallow: {{ uri }}
+{% endfor %}
+
+Sitemap: {{ request.scheme }}://{{ request.site.domain }}{% url 'sitemap' %}

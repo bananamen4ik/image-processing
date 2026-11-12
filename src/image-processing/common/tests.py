@@ -3,12 +3,16 @@
 from typing import cast
 
 from django.test import TestCase
+from django.utils.translation.trans_real import get_languages
 
-from common.templatetags.common_basic import uri_to_language
+from common.templatetags.common_basic import (
+    get_uris_languages,
+    uri_to_language,
+)
 
 
 class TagUriToLanguageTests(TestCase):
-    """Tests for the simple tag."""
+    """Tests tag."""
 
     def test_uris(self) -> None:
         """Tests a set of URIs."""
@@ -36,3 +40,12 @@ class TagUriToLanguageTests(TestCase):
             for language_code, expected_result in expected_results.items():
                 result_uri = uri_to_language(uri, language_code)
                 self.assertEqual(result_uri, expected_result)
+
+
+class TagGetUrisLanguagesTests(TestCase):
+    """Tests tag."""
+
+    def test_get_uris_languages(self) -> None:
+        """Tests the retrieval of all language variants of a URI."""
+        uris = get_uris_languages('/some/uri')
+        self.assertEqual(len(uris), len(get_languages()))
