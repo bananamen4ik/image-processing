@@ -12,7 +12,10 @@ from django.core.files.uploadedfile import UploadedFile
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
-from common.forms import CustomTemplateFormMixin
+from common.forms import (
+    CFTurnstileField,
+    CustomTemplateFormMixin,
+)
 from tools.models import Operation
 
 OPTIMIZE_IMAGE_FORMATS = ('JPEG', 'PNG')
@@ -96,6 +99,7 @@ class ResizeForm(BaseOperationForm):
         'uploaded_image',
         'width',
         'height',
+        'cf_turnstile_response',
     )
 
     error_messages: ClassVar[dict[str, '_StrPromise | str']] = {
@@ -119,6 +123,8 @@ class ResizeForm(BaseOperationForm):
         min_value=1,
         max_value=10_000,
     )
+
+    cf_turnstile_response = CFTurnstileField()
 
     def clean(self) -> dict[str, Any] | None:
         """Checks for the pixel count limit."""
@@ -154,6 +160,7 @@ class ConvertForm(BaseOperationForm):
     field_order = (
         'uploaded_image',
         'extension',
+        'cf_turnstile_response',
     )
 
     extension = forms.ChoiceField(
@@ -161,6 +168,8 @@ class ConvertForm(BaseOperationForm):
         help_text=_('Format for the final image.'),
         choices=registered_extensions,
     )
+
+    cf_turnstile_response = CFTurnstileField()
 
 
 class OptimizeForm(BaseOperationForm):
@@ -170,6 +179,8 @@ class OptimizeForm(BaseOperationForm):
         **BaseOperationForm.error_messages,
         'invalid_accepted_image_format': _('Invalid image format.'),
     }
+
+    cf_turnstile_response = CFTurnstileField()
 
     class Meta(BaseOperationForm.Meta):  # ty: ignore[invalid-attribute-override]
         """Adds a notification about supported image formats."""

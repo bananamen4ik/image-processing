@@ -9,11 +9,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import sys
 from pathlib import Path
 
 import environ
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+
+# Test environment
+TESTING = 'test' in sys.argv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -178,3 +182,7 @@ CELERY_BROKER_URL = env.str(
     'CELERY_BROKER_URL_DOCKER',
     default=env.str('CELERY_BROKER_URL_HOST'),
 )
+
+# Cloudflare CAPTCHA
+CF_TURNSTILE_SITE_KEY = env.str('CF_TURNSTILE_SITE_KEY')
+CF_TURNSTILE_SECRET_KEY = env.str('CF_TURNSTILE_SECRET_KEY')

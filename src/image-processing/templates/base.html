@@ -10,6 +10,12 @@
     <title>{% block title %}{% endblock %} — {% translate 'Image Processing' %}</title>
     <script src="{% static 'js/theme-inline.js' %}"></script>
     <link href="{% static 'bootstrap-5.3.8/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- CF turnstile -->
+    <link rel="preconnect" href="https://challenges.cloudflare.com"/>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- END CF turnstile -->
+
     {% block extra_css %}{% endblock %}
 </head>
 <body class="d-flex flex-column min-vh-100">
