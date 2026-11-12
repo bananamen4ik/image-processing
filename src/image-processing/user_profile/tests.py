@@ -10,7 +10,10 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.fields import Field
 from django.test import TestCase
-from django.urls import reverse_lazy
+from django.urls import (
+    reverse,
+    reverse_lazy,
+)
 from django.utils import (
     timezone,
     translation,
@@ -619,6 +622,58 @@ class ProfileUsageViewTests(TestCase):
             ],
             2,
         )
+
+
+class ProfileUserLoggedInReceiverTests(TestCase):
+    """Tests user logged in receiver."""
+
+    fake = Faker()
+
+    def setUp(self) -> None:
+        """Sets up the user."""
+        self.password = self.fake.password()
+        self.user = CustomUser.objects.create_user(
+            username=self.fake.user_name(),
+            email=self.fake.email(),
+            password=self.password,
+        )
+
+    def test_set_remote_addr(self) -> None:
+        """Tests setting the IP address from REMOTE_ADDR META."""
+        ip = '127.0.0.1'
+
+        self.assertEqual(self.user.user_profile.last_login_ip, None)
+
+        self.client.post(
+            reverse('custom_auth:login'),
+            data={
+                'username': self.user.username,
+                'password': self.password,
+            },
+        )
+
+        self.user.user_profile.refresh_from_db()
+        self.assertEqual(self.user.user_profile.last_login_ip, ip)
+
+    def test_set_x_real_ip(self) -> None:
+        """Tests setting the IP address from X-Real-Ip header."""
+        ip = '1.1.1.1'
+
+        self.assertEqual(self.user.user_profile.last_login_ip, None)
+
+        self.client.post(
+            reverse('custom_auth:login'),
+            data={
+                'username': self.user.username,
+                'password': self.password,
+            },
+            headers={
+                'X-Real-Ip': ip,
+            },
+        )
+
+        self.user.user_profile.refresh_from_db()
+        self.assertEqual(self.user.user_profile.last_login_ip, ip)
 
 
 def get_image_file(
