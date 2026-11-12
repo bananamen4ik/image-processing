@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 16:59+0000\n"
+"POT-Creation-Date: 2026-11-12 14:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -180,7 +180,7 @@ msgstr "Создать учётную запись"
 msgid "Do you have an account?"
 msgstr "Уже есть учётная запись?"
 
-#: custom_auth/tests.py:149 user_profile/tests.py:161
+#: custom_auth/tests.py:149 user_profile/tests.py:164
 msgid "The two password fields didn’t match."
 msgstr "Введённые пароли не совпадают."
 
@@ -232,11 +232,11 @@ msgstr ""
 msgid "Password reset unsuccessful"
 msgstr "Не удалось сбросить пароль"
 
-#: image_processing/settings.py:141
+#: image_processing/settings.py:144
 msgid "English"
 msgstr "Английский"
 
-#: image_processing/settings.py:142
+#: image_processing/settings.py:145
 msgid "Russian"
 msgstr "Русский"
 
@@ -905,7 +905,7 @@ msgstr "язык"
 #: user_profile/templates/user_profile/edit.html:5
 #: user_profile/templates/user_profile/edit.html:22
 #: user_profile/templates/user_profile/edit.html:48
-#: user_profile/templates/user_profile/info.html:114
+#: user_profile/templates/user_profile/info.html:122
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
@@ -937,7 +937,7 @@ msgid "View and update your personal information."
 msgstr "Просматривайте и обновляйте личную информацию."
 
 #: user_profile/templates/user_profile/index.html:80
-#: user_profile/templates/user_profile/info.html:109
+#: user_profile/templates/user_profile/info.html:117
 msgid "Change password"
 msgstr "Изменить пароль"
 
@@ -986,17 +986,21 @@ msgstr "Участник с"
 msgid "Account details"
 msgstr "Данные учётной записи"
 
-#: user_profile/templates/user_profile/info.html:71
+#: user_profile/templates/user_profile/info.html:70
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: user_profile/templates/user_profile/info.html:82
+#: user_profile/templates/user_profile/info.html:81
 msgid "Email address"
 msgstr "Адрес электронной почты"
 
-#: user_profile/templates/user_profile/info.html:93
+#: user_profile/templates/user_profile/info.html:92
 msgid "Date joined"
 msgstr "Дата регистрации"
+
+#: user_profile/templates/user_profile/info.html:102
+msgid "Authorization IP"
+msgstr "IP-адрес авторизации"
 
 #: user_profile/templates/user_profile/password_change.html:24
 msgid ""
@@ -1083,7 +1087,7 @@ msgstr "операций в день"
 msgid "Select plan"
 msgstr "Выбрать тариф"
 
-#: user_profile/tests.py:139
+#: user_profile/tests.py:142
 msgid "Your old password was entered incorrectly. Please enter it again."
 msgstr "Старый пароль введён неверно. Попробуйте ещё раз."
 
