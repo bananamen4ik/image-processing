@@ -1,0 +1,13 @@
+services:
+  celery-worker:
+    entrypoint:
+      - "uv"
+      - "run"
+      - "--locked"
+      - "--no-dev"
+      - "celery"
+      - "-A"
+      - "image_processing"
+      - "worker"
+      - "-l"
+      - "INFO"
