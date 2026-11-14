@@ -221,3 +221,4 @@ __marimo__/
 
 .DS_Store
 src/image-processing/media/
+src/image-processing/staticfiles/
