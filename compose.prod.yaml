@@ -11,3 +11,23 @@ services:
       - "worker"
       - "-l"
       - "INFO"
+
+  gunicorn:
+    build:
+      dockerfile: ./gunicorn/Dockerfile
+    restart: unless-stopped
+    env_file: ./gunicorn/.env
+    volumes:
+      - ./src/image-processing:/opt/src/image-processing
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "127.0.0.1:8000:8000"
+    entrypoint:
+      - "uv"
+      - "run"
+      - "--locked"
+      - "--no-dev"
+      - "gunicorn"
+      - "image_processing.wsgi"
