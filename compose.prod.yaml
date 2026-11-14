@@ -37,8 +37,10 @@ services:
       - gunicorn
     ports:
       - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
       - ./src/image-processing/staticfiles:/usr/share/nginx/staticfiles
       - ./src/image-processing/media:/usr/share/nginx/media
