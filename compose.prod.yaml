@@ -1,0 +1,46 @@
+services:
+  celery-worker:
+    entrypoint:
+      - "uv"
+      - "run"
+      - "--locked"
+      - "--no-dev"
+      - "celery"
+      - "-A"
+      - "image_processing"
+      - "worker"
+      - "-l"
+      - "INFO"
+
+  gunicorn:
+    build:
+      dockerfile: ./gunicorn/Dockerfile
+    restart: unless-stopped
+    env_file: ./gunicorn/.env
+    volumes:
+      - ./src/image-processing:/opt/src/image-processing
+    depends_on:
+      - postgres
+      - redis
+    entrypoint:
+      - "uv"
+      - "run"
+      - "--locked"
+      - "--no-dev"
+      - "gunicorn"
+      - "image_processing.wsgi"
+
+  nginx:
+    image: nginx:1.30.6-alpine3.24
+    restart: unless-stopped
+    depends_on:
+      - gunicorn
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./src/image-processing/staticfiles:/usr/share/nginx/staticfiles
+      - ./src/image-processing/media:/usr/share/nginx/media

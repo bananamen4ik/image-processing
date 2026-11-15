@@ -14,5 +14,3 @@ WORKDIR /opt/src
 COPY pyproject.toml uv.lock .python-version ./
 
 WORKDIR image-processing
-
-ENTRYPOINT ["uv", "run", "--locked", "--all-extras", "--dev", "celery", "-A", "image_processing", "worker", "-l", "INFO"]

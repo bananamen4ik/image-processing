@@ -6,3 +6,17 @@ services:
   redis:
     ports:
       - "127.0.0.1:6379:6379"
+
+  celery-worker:
+    entrypoint:
+      - "uv"
+      - "run"
+      - "--locked"
+      - "--all-extras"
+      - "--dev"
+      - "celery"
+      - "-A"
+      - "image_processing"
+      - "worker"
+      - "-l"
+      - "INFO"
