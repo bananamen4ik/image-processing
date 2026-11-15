@@ -5,7 +5,7 @@ ENV PATH="/root/.local/bin:$PATH"
 RUN <<EOT
 apt update
 apt upgrade -y
-apt install -y curl
+apt install -y curl gettext
 curl -LsSf https://astral.sh/uv/0.13.6/install.sh | env UV_NO_MODIFY_PATH=1 sh
 EOT
 
