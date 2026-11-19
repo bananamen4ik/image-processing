@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'rest_framework',
     # Project apps
     'common.apps.CommonConfig',
     'main.apps.MainConfig',
