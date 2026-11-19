@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'custom_auth.apps.CustomAuthConfig',
     'user_profile.apps.UserProfileConfig',
     'tools.apps.ToolsConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [

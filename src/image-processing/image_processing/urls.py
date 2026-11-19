@@ -33,6 +33,7 @@ from image_processing.sitemaps import sitemaps
 urlpatterns: list[URLPattern | URLResolver] = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
     path('robots.txt', RobotsView.as_view(), name='robots'),
+    path('api/', include('api.urls')),
 ]
 
 urlpatterns += i18n_patterns(
