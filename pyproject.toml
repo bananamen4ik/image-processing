@@ -67,4 +67,4 @@ convention = "google"
 
 # Ty
 [tool.ty.rules]
-unresolved-attribute = "ignore"
+missing-attribute = "ignore"
