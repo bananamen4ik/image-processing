@@ -23,7 +23,7 @@ class UserCreationForm(CustomTemplateFormMixin, BaseUserCreationForm):
 
     cf_turnstile_response = CFTurnstileField()
 
-    class Meta(BaseUserCreationForm.Meta):  # ty: ignore[invalid-attribute-override]
+    class Meta(BaseUserCreationForm.Meta):
         """Configures the model and fields used by the form."""
 
         model = CustomUser

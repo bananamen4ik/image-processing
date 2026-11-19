@@ -182,7 +182,7 @@ class OptimizeForm(BaseOperationForm):
 
     cf_turnstile_response = CFTurnstileField()
 
-    class Meta(BaseOperationForm.Meta):  # ty: ignore[invalid-attribute-override]
+    class Meta(BaseOperationForm.Meta):
         """Adds a notification about supported image formats."""
 
         help_texts: ClassVar[dict[str, str]] = {

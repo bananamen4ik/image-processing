@@ -74,7 +74,7 @@ class BaseOperationView(
     MultipleObjectMixin,
     SuccessMessageMixin,
     CreateView,
-):  # ty: ignore[invalid-attribute-override, invalid-method-override]
+):  # ty: ignore[incompatible-attribute-override, lost-keyword-for-regular-parameter]
     """A base class that describes view operation.
 
     Not intended for direct use!
