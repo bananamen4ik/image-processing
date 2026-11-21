@@ -9,11 +9,12 @@ from typing import (
 
 from django import forms
 from django.core.files.uploadedfile import UploadedFile
+from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
 from common.forms import (
-    CFTurnstileField,
+    CFTurnstileFormMixin,
     CustomTemplateFormMixin,
 )
 from tools.models import Operation
@@ -21,6 +22,7 @@ from tools.models import Operation
 OPTIMIZE_IMAGE_FORMATS = ('JPEG', 'PNG')
 
 if TYPE_CHECKING:
+    from django.forms.models import _M
     from django.utils.functional import _StrPromise
 
 
@@ -57,6 +59,11 @@ class BaseOperationForm(CustomTemplateFormMixin, forms.ModelForm):
             'uploaded_image': _('Image'),
         }
 
+    def __init__(self, *args: Any, request: HttpRequest, **kwargs: Any) -> None:
+        """Saves the request attribute."""
+        super().__init__(*args, **kwargs)
+        self.request = request
+
     def clean_uploaded_image(self) -> UploadedFile:
         """Checks whether the image file extension matches the real format."""
         uploaded_image: UploadedFile = self.cleaned_data['uploaded_image']
@@ -91,7 +98,7 @@ class BaseOperationForm(CustomTemplateFormMixin, forms.ModelForm):
         return uploaded_image
 
 
-class ResizeForm(BaseOperationForm):
+class ResizeForm(CFTurnstileFormMixin, BaseOperationForm):
     """Form for the resize operation."""
 
     MAX_PIXELS = 40_000_000
@@ -124,8 +131,6 @@ class ResizeForm(BaseOperationForm):
         max_value=10_000,
     )
 
-    cf_turnstile_response = CFTurnstileField()
-
     def clean(self) -> dict[str, Any] | None:
         """Checks for the pixel count limit."""
         cleaned_data = super().clean()
@@ -153,8 +158,19 @@ class ResizeForm(BaseOperationForm):
 
         return cleaned_data
 
+    def save(self, commit: bool = True) -> '_M':
+        """Sets valid data."""
+        instance: Operation = self.instance
+        instance.user = self.request.user
+        instance.type = Operation.Type.RESIZE
+        instance.parameters = {
+            'width': self.cleaned_data['width'],
+            'height': self.cleaned_data['height'],
+        }
+        return super().save(commit)
 
-class ConvertForm(BaseOperationForm):
+
+class ConvertForm(CFTurnstileFormMixin, BaseOperationForm):
     """Form for the convert operation."""
 
     field_order = (
@@ -169,18 +185,14 @@ class ConvertForm(BaseOperationForm):
         choices=registered_extensions,
     )
 
-    cf_turnstile_response = CFTurnstileField()
 
-
-class OptimizeForm(BaseOperationForm):
+class OptimizeForm(CFTurnstileFormMixin, BaseOperationForm):
     """Form for the optimize operation."""
 
     error_messages: ClassVar[dict[str, '_StrPromise | str']] = {
         **BaseOperationForm.error_messages,
         'invalid_accepted_image_format': _('Invalid image format.'),
     }
-
-    cf_turnstile_response = CFTurnstileField()
 
     class Meta(BaseOperationForm.Meta):
         """Adds a notification about supported image formats."""

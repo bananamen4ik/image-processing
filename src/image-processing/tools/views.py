@@ -119,8 +119,13 @@ class BaseOperationView(
         context['title'] = self.title
         context['description'] = self.description
         context['button_title'] = self.button_title
-
         return context
+
+    def get_form_kwargs(self) -> dict[str, Any]:
+        """Sets the request for the form."""
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
 
 class ResizeView(BaseOperationView):
@@ -147,19 +152,11 @@ class ResizeView(BaseOperationView):
         return super().get_queryset()
 
     def form_valid(self, form: '_F') -> HttpResponse:
-        """Before saving, it sets the required fields and runs a celery task."""
-        instance: Operation = form.instance
-        instance.user = self.request.user
-        instance.type = Operation.Type.RESIZE
-        instance.parameters = {
-            'width': form.cleaned_data['width'],
-            'height': form.cleaned_data['height'],
-        }
-
+        """Before saving runs a celery task."""
         response = super().form_valid(form)
 
         # A countdown has been added to simulate a busy queue.
-        tasks.image_resize_processing.apply_async((instance.pk,), countdown=5)
+        tasks.image_resize_processing.apply_async((form.instance.pk,), countdown=5)
         return response
 
 

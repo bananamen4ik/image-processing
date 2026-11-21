@@ -12,6 +12,7 @@ from django.core.exceptions import ValidationError
 from django.forms import (
     BoundField,
     CharField,
+    Form,
 )
 from django.forms.renderers import BaseRenderer
 from django.forms.utils import ErrorList
@@ -168,3 +169,21 @@ class CFTurnstileField(CharField):
             )
 
         return value
+
+
+class CFTurnstileFormMixin(Form):
+    """Form for the turnstile CAPTCHA."""
+
+    cf_turnstile_response = CFTurnstileField()
+
+    def __init__(
+        self,
+        *args: Any,
+        require_captcha: bool = True,
+        **kwargs: Any,
+    ) -> None:
+        """Removes the CAPTCHA if it's an API."""
+        super().__init__(*args, **kwargs)
+
+        if not require_captcha:
+            self.fields.pop('cf_turnstile_response')

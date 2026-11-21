@@ -2,7 +2,10 @@
 
 from django.urls import path
 
-from api.views import ProfileRemainingOperationsView
+from api.views import (
+    ProfileRemainingOperationsView,
+    ResizeOperationView,
+)
 
 app_name = 'api'
 urlpatterns = [
@@ -10,5 +13,10 @@ urlpatterns = [
         'profile/remaining-operations/',
         ProfileRemainingOperationsView.as_view(),
         name='profile_remaining_operations',
+    ),
+    path(
+        'tools/resize/',
+        ResizeOperationView.as_view(),
+        name='tools_resize',
     ),
 ]
