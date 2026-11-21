@@ -19,6 +19,7 @@ dependencies = [
     "pillow>=13.0.0",
     "psycopg[binary]>=3.3.6",
     "redis[hiredis]>=8.1.0",
+    "tzdata>=2026.6",
 ]
 
 [dependency-groups]
