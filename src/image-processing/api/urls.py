@@ -9,6 +9,6 @@ urlpatterns = [
     path(
         'profile/remaining-operations/',
         ProfileRemainingOperationsView.as_view(),
-        name='profile_ramaining_operations',
+        name='profile_remaining_operations',
     ),
 ]

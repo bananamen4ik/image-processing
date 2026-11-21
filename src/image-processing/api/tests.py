@@ -34,7 +34,7 @@ class ProfileRemainingOperationsViewTests(APITestCase):
     """Tests the profile remaining operations view."""
 
     fake = Faker()
-    URI = reverse_lazy('api:profile_ramaining_operations')
+    URI = reverse_lazy('api:profile_remaining_operations')
 
     def setUp(self) -> None:
         """Creates a user."""
