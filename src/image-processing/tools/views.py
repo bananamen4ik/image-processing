@@ -215,14 +215,9 @@ class OptimizeView(BaseOperationView):
         return super().get_queryset()
 
     def form_valid(self, form: '_F') -> HttpResponse:
-        """Before saving, it sets the required fields and runs a celery task."""
-        instance: Operation = form.instance
-        instance.user = self.request.user
-        instance.type = Operation.Type.OPTIMIZE
-        instance.parameters = {}
-
+        """After saving runs a celery task."""
         response = super().form_valid(form)
 
         # A countdown has been added to simulate a busy queue.
-        tasks.image_optimize_processing.apply_async((instance.pk,), countdown=5)
+        tasks.image_optimize_processing.apply_async((form.instance.pk,), countdown=5)
         return response

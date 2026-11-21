@@ -21,6 +21,7 @@ from custom_auth.models import CustomUser
 from tools import tasks
 from tools.forms import (
     ConvertForm,
+    OptimizeForm,
     ResizeForm,
 )
 from user_profile.services import get_daily_remaining
@@ -89,5 +90,30 @@ class ConvertOperationView(APIView):
 
         # A countdown has been added to simulate a busy queue.
         tasks.image_convert_processing.apply_async((form.instance.pk,), countdown=5)
+
+        return Response({'success': True}, status.HTTP_201_CREATED)
+
+
+class OptimizeOperationView(APIView):
+    """Creates an optimize operation."""
+
+    # ty: ignore[incompatible-attribute-override]
+    parser_classes: ClassVar[Sequence[type[BaseParser]]] = [MultiPartParser]
+
+    def post(self, request: Request) -> Response:
+        """Creates an optimize operation."""
+        form = OptimizeForm(
+            files=request.FILES,
+            require_captcha=False,
+            request=request,
+        )
+
+        if not form.is_valid():
+            raise ValidationError(form.errors.get_json_data())
+
+        form.save()
+
+        # A countdown has been added to simulate a busy queue.
+        tasks.image_optimize_processing.apply_async((form.instance.pk,), countdown=5)
 
         return Response({'success': True}, status.HTTP_201_CREATED)

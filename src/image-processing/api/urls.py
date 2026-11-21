@@ -4,6 +4,7 @@ from django.urls import path
 
 from api.views import (
     ConvertOperationView,
+    OptimizeOperationView,
     ProfileRemainingOperationsView,
     ResizeOperationView,
 )
@@ -24,5 +25,10 @@ urlpatterns = [
         'tools/convert/',
         ConvertOperationView.as_view(),
         name='tools_convert',
+    ),
+    path(
+        'tools/optimize/',
+        OptimizeOperationView.as_view(),
+        name='tools_optimize',
     ),
 ]

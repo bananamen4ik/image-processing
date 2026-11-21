@@ -233,3 +233,11 @@ class OptimizeForm(CFTurnstileFormMixin, BaseOperationForm):
             )
 
         return uploaded_image
+
+    def save(self, commit: bool = True) -> '_M':
+        """Sets valid data."""
+        instance: Operation = self.instance
+        instance.user = self.request.user
+        instance.type = Operation.Type.OPTIMIZE
+        instance.parameters = {}
+        return super().save(commit)
