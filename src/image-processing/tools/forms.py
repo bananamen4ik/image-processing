@@ -185,6 +185,20 @@ class ConvertForm(CFTurnstileFormMixin, BaseOperationForm):
         choices=registered_extensions,
     )
 
+    def save(self, commit: bool = True) -> '_M':
+        """Sets valid data."""
+        instance: Operation = self.instance
+        instance.user = self.request.user
+        instance.type = Operation.Type.CONVERT
+
+        extension = self.cleaned_data['extension']
+        pil_format = Image.registered_extensions()[extension]
+        instance.parameters = {
+            'extension': extension,
+            'format': pil_format,
+        }
+        return super().save(commit)
+
 
 class OptimizeForm(CFTurnstileFormMixin, BaseOperationForm):
     """Form for the optimize operation."""
