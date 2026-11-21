@@ -30,3 +30,10 @@ def check_daily_used_limit(user: CustomUser) -> bool:
     """
     daily_used = get_daily_used(user)
     return (user.user_profile.daily_operation_limit - daily_used) > 0
+
+
+def get_daily_remaining(user: CustomUser) -> int:
+    """Returns the number of available operations per day."""
+    daily_limit = user.user_profile.daily_operation_limit
+    daily_used = get_daily_used(user)
+    return daily_limit - daily_used

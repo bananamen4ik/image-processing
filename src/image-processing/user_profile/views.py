@@ -31,7 +31,10 @@ from user_profile.forms import (
     ProfileSettingsForm,
 )
 from user_profile.models import UserProfile
-from user_profile.services import get_daily_used
+from user_profile.services import (
+    get_daily_remaining,
+    get_daily_used,
+)
 
 _M = TypeVar('_M', bound=models.Model)
 
@@ -137,7 +140,7 @@ class ProfileUsageView(LoginRequiredMixin, TemplateView):
         current_plan_title = user_profile.get_plan_display()
         daily_limit = user_profile.daily_operation_limit
         daily_used = get_daily_used(user)
-        daily_remaining = daily_limit - daily_used
+        daily_remaining = get_daily_remaining(user)
 
         plans = [
             {
