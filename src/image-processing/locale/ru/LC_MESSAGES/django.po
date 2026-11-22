@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-12 14:51+0000\n"
+"POT-Creation-Date: 2026-11-22 14:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: common/forms.py:138
+#: common/forms.py:139
 msgid "Verification failed. Please try again."
 msgstr "Проверка не пройдена. Пожалуйста, попробуйте ещё раз."
 
@@ -232,11 +232,11 @@ msgstr ""
 msgid "Password reset unsuccessful"
 msgstr "Не удалось сбросить пароль"
 
-#: image_processing/settings.py:144
+#: image_processing/settings.py:147
 msgid "English"
 msgstr "Английский"
 
-#: image_processing/settings.py:145
+#: image_processing/settings.py:148
 msgid "Russian"
 msgstr "Русский"
 
@@ -398,32 +398,32 @@ msgid "Simple tools for everyday image processing."
 msgstr "Простые инструменты для повседневной обработки изображений."
 
 #: main/templates/main/index.html:55 tools/models.py:35
-#: tools/templates/tools/index.html:31 tools/views.py:137
+#: tools/templates/tools/index.html:31 tools/views.py:141
 msgid "Resize"
 msgstr "Изменение размера"
 
 #: main/templates/main/index.html:58 tools/templates/tools/index.html:34
-#: tools/views.py:138
+#: tools/views.py:142
 msgid "Resize your images to the dimensions you need."
 msgstr "Изменяйте размер изображений до нужных вам значений."
 
 #: main/templates/main/index.html:67 tools/models.py:36
-#: tools/templates/tools/index.html:58 tools/views.py:177
+#: tools/templates/tools/index.html:58 tools/views.py:173
 msgid "Convert"
 msgstr "Конвертация"
 
 #: main/templates/main/index.html:70 tools/templates/tools/index.html:61
-#: tools/views.py:178
+#: tools/views.py:174
 msgid "Convert images between supported formats."
 msgstr "Преобразуйте изображения в другие поддерживаемые форматы."
 
 #: main/templates/main/index.html:79 tools/models.py:37
-#: tools/templates/tools/index.html:85 tools/views.py:220
+#: tools/templates/tools/index.html:85 tools/views.py:205
 msgid "Optimize"
 msgstr "Оптимизация"
 
 #: main/templates/main/index.html:82 tools/templates/tools/index.html:88
-#: tools/views.py:221
+#: tools/views.py:206
 msgid "Reduce image size while maintaining good quality."
 msgstr "Уменьшайте размер файлов изображений, сохраняя хорошее качество."
 
@@ -626,11 +626,11 @@ msgstr "Инструменты"
 msgid "Log out"
 msgstr "Выйти"
 
-#: tools/forms.py:43
+#: tools/forms.py:46
 msgid "The file extension does not match the image format."
 msgstr "Расширение файла не соответствует формату изображения."
 
-#: tools/forms.py:46
+#: tools/forms.py:49
 #, python-format
 msgid ""
 "The file extension does not match the image format. Real image format: \"."
@@ -639,11 +639,11 @@ msgstr ""
 "Расширение файла не соответствует формату изображения. Фактический формат "
 "изображения: «.%(real_format)s»."
 
-#: tools/forms.py:57
+#: tools/forms.py:60
 msgid "Image"
 msgstr "Изображение"
 
-#: tools/forms.py:108
+#: tools/forms.py:116
 #, python-format
 msgid ""
 "The maximum number of pixels has been exceeded: %(current_pixels)s (max: "
@@ -652,38 +652,37 @@ msgstr ""
 "Превышено максимально допустимое количество пикселей: %(current_pixels)s "
 "(максимум: %(max_pixels)s)"
 
-#: tools/forms.py:114
+#: tools/forms.py:122
 msgid "Width"
 msgstr "Ширина"
 
-#: tools/forms.py:115
+#: tools/forms.py:123
 msgid "The final width of the image in pixels."
 msgstr "Итоговая ширина изображения в пикселях."
 
-#: tools/forms.py:121
+#: tools/forms.py:129
 msgid "Height"
 msgstr "Высота"
 
-#: tools/forms.py:122
+#: tools/forms.py:130
 msgid "The final height of the image in pixels."
 msgstr "Итоговая высота изображения в пикселях."
 
-#: tools/forms.py:167
+#: tools/forms.py:184
 msgid "Format"
 msgstr "Формат"
 
-#: tools/forms.py:168
+#: tools/forms.py:185
 msgid "Format for the final image."
 msgstr "Формат итогового изображения."
 
-#: tools/forms.py:180
+#: tools/forms.py:209
 msgid "Invalid image format."
 msgstr "Недопустимый формат изображения."
 
-#: tools/forms.py:189
-#, python-format
-msgid "Available formats: %(formats)s."
-msgstr "Доступные форматы: %(formats)s."
+#: tools/forms.py:218
+msgid "Available formats:"
+msgstr "Доступные форматы:"
 
 #: tools/models.py:27
 msgid "Created"
@@ -858,31 +857,31 @@ msgstr "Ширина:"
 msgid "Height:"
 msgstr "Высота:"
 
-#: tools/views.py:43
+#: tools/views.py:42
 msgid "You have reached your daily limit. Please wait or upgrade your plan."
 msgstr "Вы достигли дневного лимита. Подождите или перейдите на другой тариф."
 
-#: tools/views.py:133
+#: tools/views.py:137
 msgid "The image has been successfully submitted for \"Resize\" processing."
 msgstr "Изображение успешно отправлено на обработку (изменение размера)."
 
-#: tools/views.py:139
+#: tools/views.py:143
 msgid "Resize image"
 msgstr "Изменить размер изображения"
 
-#: tools/views.py:173
+#: tools/views.py:169
 msgid "The image has been successfully submitted for \"Convert\" processing."
 msgstr "Изображение успешно отправлено на обработку (конвертация)."
 
-#: tools/views.py:179
+#: tools/views.py:175
 msgid "Convert image"
 msgstr "Конвертировать изображение"
 
-#: tools/views.py:216
+#: tools/views.py:201
 msgid "The image has been successfully submitted for \"Optimize\" processing."
 msgstr "Изображение успешно отправлено на обработку (оптимизация)."
 
-#: tools/views.py:222
+#: tools/views.py:207
 msgid "Optimize image"
 msgstr "Оптимизировать изображение"
 
@@ -905,7 +904,7 @@ msgstr "язык"
 #: user_profile/templates/user_profile/edit.html:5
 #: user_profile/templates/user_profile/edit.html:22
 #: user_profile/templates/user_profile/edit.html:48
-#: user_profile/templates/user_profile/info.html:122
+#: user_profile/templates/user_profile/info.html:132
 msgid "Edit profile"
 msgstr "Редактировать профиль"
 
@@ -937,7 +936,7 @@ msgid "View and update your personal information."
 msgstr "Просматривайте и обновляйте личную информацию."
 
 #: user_profile/templates/user_profile/index.html:80
-#: user_profile/templates/user_profile/info.html:117
+#: user_profile/templates/user_profile/info.html:127
 msgid "Change password"
 msgstr "Изменить пароль"
 
@@ -1001,6 +1000,10 @@ msgstr "Дата регистрации"
 #: user_profile/templates/user_profile/info.html:102
 msgid "Authorization IP"
 msgstr "IP-адрес авторизации"
+
+#: user_profile/templates/user_profile/info.html:112
+msgid "API"
+msgstr "API"
 
 #: user_profile/templates/user_profile/password_change.html:24
 msgid ""
@@ -1091,10 +1094,10 @@ msgstr "Выбрать тариф"
 msgid "Your old password was entered incorrectly. Please enter it again."
 msgstr "Старый пароль введён неверно. Попробуйте ещё раз."
 
-#: user_profile/views.py:73
+#: user_profile/views.py:76
 msgid "Your profile was successfully updated."
 msgstr "Профиль успешно обновлён."
 
-#: user_profile/views.py:94
+#: user_profile/views.py:97
 msgid "Your settings was successfully updated."
 msgstr "Настройки успешно обновлены."

@@ -10,6 +10,7 @@ from typing import (
 from django import forms
 from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpRequest
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
@@ -211,11 +212,12 @@ class OptimizeForm(CFTurnstileFormMixin, BaseOperationForm):
     class Meta(BaseOperationForm.Meta):
         """Adds a notification about supported image formats."""
 
-        help_texts: ClassVar[dict[str, str]] = {
-            'uploaded_image': _('Available formats: %(formats)s.')
-            % {
-                'formats': ', '.join(OPTIMIZE_IMAGE_FORMATS),
-            },
+        help_texts: ClassVar[dict[str, '_StrPromise | str']] = {
+            'uploaded_image': format_lazy(
+                '{available_formats} {formats}',
+                available_formats=_('Available formats:'),
+                formats=', '.join(OPTIMIZE_IMAGE_FORMATS),
+            )
         }
 
     def clean_uploaded_image(self) -> UploadedFile:
