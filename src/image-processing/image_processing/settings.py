@@ -263,4 +263,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_PAGINATION_CLASS': 'api.pagination.CursorPagination',
+    'PAGE_SIZE': 5,
 }

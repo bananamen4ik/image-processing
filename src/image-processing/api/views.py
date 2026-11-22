@@ -16,7 +16,11 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.serializers import ProfileRemainingOperationsSerializer
+from api.pagination import ResponsePaginationMixin
+from api.serializers import (
+    OperationListSerializer,
+    ProfileRemainingOperationsSerializer,
+)
 from custom_auth.models import CustomUser
 from tools import tasks
 from tools.forms import (
@@ -24,6 +28,7 @@ from tools.forms import (
     OptimizeForm,
     ResizeForm,
 )
+from tools.models import Operation
 from user_profile.services import get_daily_remaining
 
 
@@ -42,11 +47,19 @@ class ProfileRemainingOperationsView(APIView):
         return Response(serializer.data)
 
 
-class ResizeOperationView(APIView):
+class ResizeOperationView(ResponsePaginationMixin, APIView):
     """Creates a resize operation."""
 
     # ty: ignore[incompatible-attribute-override]
     parser_classes: ClassVar[Sequence[type[BaseParser]]] = [MultiPartParser]
+
+    def get(self, request: Request) -> Response:
+        """A list of all resize operations that have been created."""
+        operations = Operation.objects.filter(
+            user=request.user,
+            type=Operation.Type.RESIZE,
+        )
+        return self.get_pagination_response(operations, OperationListSerializer)
 
     def post(self, request: Request) -> Response:
         """Creates a resize operation."""
@@ -68,7 +81,7 @@ class ResizeOperationView(APIView):
         return Response({'success': True}, status.HTTP_201_CREATED)
 
 
-class ConvertOperationView(APIView):
+class ConvertOperationView(ResponsePaginationMixin, APIView):
     """Creates a convert operation."""
 
     # ty: ignore[incompatible-attribute-override]
@@ -93,8 +106,16 @@ class ConvertOperationView(APIView):
 
         return Response({'success': True}, status.HTTP_201_CREATED)
 
+    def get(self, request: Request) -> Response:
+        """A list of all convert operations that have been created."""
+        operations = Operation.objects.filter(
+            user=request.user,
+            type=Operation.Type.CONVERT,
+        )
+        return self.get_pagination_response(operations, OperationListSerializer)
 
-class OptimizeOperationView(APIView):
+
+class OptimizeOperationView(ResponsePaginationMixin, APIView):
     """Creates an optimize operation."""
 
     # ty: ignore[incompatible-attribute-override]
@@ -117,3 +138,11 @@ class OptimizeOperationView(APIView):
         tasks.image_optimize_processing.apply_async((form.instance.pk,), countdown=5)
 
         return Response({'success': True}, status.HTTP_201_CREATED)
+
+    def get(self, request: Request) -> Response:
+        """A list of all optimize operations that have been created."""
+        operations = Operation.objects.filter(
+            user=request.user,
+            type=Operation.Type.OPTIMIZE,
+        )
+        return self.get_pagination_response(operations, OperationListSerializer)
