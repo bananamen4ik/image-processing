@@ -18,7 +18,7 @@ from django.forms.renderers import BaseRenderer
 from django.forms.utils import ErrorList
 from django.forms.widgets import Widget
 from django.utils.safestring import SafeString
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 
 class CustomErrorList(ErrorList):
@@ -136,7 +136,9 @@ class CFTurnstileField(CharField):
             # ty: ignore[unknown-argument]
             bound_field_class=CFTurnstileBoundField,
             error_messages={
-                'cf_turnstile_invalid': _('Verification failed. Please try again.'),
+                'cf_turnstile_invalid': gettext_lazy(
+                    'Verification failed. Please try again.',
+                ),
             },
         )
 
