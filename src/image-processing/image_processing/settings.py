@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular',
     # Project apps
     'common.apps.CommonConfig',
     'main.apps.MainConfig',
@@ -265,4 +266,16 @@ REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'DEFAULT_PAGINATION_CLASS': 'api.pagination.CursorPagination',
     'PAGE_SIZE': 5,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Image Processing API',
+    'DESCRIPTION': _(
+        'Upload an image, choose a processing operation, '
+        "and get your result when it's ready.",
+    ),
+    'VERSION': '0.1.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'DISABLE_DOCSTRING_DESCRIPTIONS': True,
 }
