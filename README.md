@@ -5,6 +5,12 @@
 
 A Django-based web service for processing images.
 
+[Live demo](https://image-processing.bananary.studio) · [API documentation](https://image-processing.bananary.studio/api/)
+
+|                                                 Resize form and result                                                 |                                             Swagger UI                                             |
+|:----------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|
+| [![Resize form and processing result](docs/screenshots/resize-operations.png)](docs/screenshots/resize-operations.png) | [![API endpoints in Swagger UI](docs/screenshots/swagger-ui.png)](docs/screenshots/swagger-ui.png) |
+
 ## Overview
 
 This project is a portfolio web application built with Django.
@@ -15,7 +21,8 @@ Users can upload images, select processing operations, and receive the processed
 
 List of key technologies.
 
-- **Backend:** Python, Django
+- **Backend:** Python, Django, Django REST Framework
+- **API Documentation:** OpenAPI (generated with drf-spectacular), Swagger UI
 - **Image Processing:** Pillow
 - **Task Queue:** Celery
 - **Database:** PostgreSQL
@@ -24,7 +31,7 @@ List of key technologies.
 - **Web Server:** Nginx, Gunicorn
 - **Infrastructure:** Docker, Docker Compose
 - **Development Tools:** uv, Ruff, ty, pre-commit
-- **Testing:** Django Test Framework, Coverage
+- **Testing:** Django/DRF Test Framework, Coverage
 
 ### Image operations
 
