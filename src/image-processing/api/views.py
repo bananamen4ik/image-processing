@@ -36,7 +36,10 @@ from tools.forms import (
     ResizeForm,
 )
 from tools.models import Operation
-from user_profile.services import get_daily_remaining
+from user_profile.services import (
+    check_daily_used_limit,
+    get_daily_remaining,
+)
 
 
 class ProfileRemainingOperationsView(APIView):
@@ -88,6 +91,19 @@ class ResizeOperationView(ResponsePaginationMixin, APIView):
     )
     def post(self, request: Request) -> Response:
         """Creates a resize operation."""
+        user = cast(CustomUser, request.user)
+        can_order = check_daily_used_limit(user)
+
+        if not can_order:  # pragma: no cover
+            return Response(
+                SuccessResponseSerializer(
+                    instance={
+                        'success': False,
+                    },
+                ).data,
+                status.HTTP_400_BAD_REQUEST,
+            )
+
         form = ResizeForm(
             data=request.POST,
             files=request.FILES,
@@ -128,6 +144,19 @@ class ConvertOperationView(ResponsePaginationMixin, APIView):
     )
     def post(self, request: Request) -> Response:
         """Creates a convert operation."""
+        user = cast(CustomUser, request.user)
+        can_order = check_daily_used_limit(user)
+
+        if not can_order:  # pragma: no cover
+            return Response(
+                SuccessResponseSerializer(
+                    instance={
+                        'success': False,
+                    },
+                ).data,
+                status.HTTP_400_BAD_REQUEST,
+            )
+
         form = ConvertForm(
             data=request.POST,
             files=request.FILES,
@@ -175,6 +204,19 @@ class OptimizeOperationView(ResponsePaginationMixin, APIView):
     )
     def post(self, request: Request) -> Response:
         """Creates an optimize operation."""
+        user = cast(CustomUser, request.user)
+        can_order = check_daily_used_limit(user)
+
+        if not can_order:  # pragma: no cover
+            return Response(
+                SuccessResponseSerializer(
+                    instance={
+                        'success': False,
+                    },
+                ).data,
+                status.HTTP_400_BAD_REQUEST,
+            )
+
         form = OptimizeForm(
             files=request.FILES,
             require_captcha=False,
