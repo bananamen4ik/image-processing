@@ -26,6 +26,10 @@ from django.urls import (
     include,
     path,
 )
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+)
 
 from common.views import RobotsView
 from image_processing.sitemaps import sitemaps
@@ -33,6 +37,7 @@ from image_processing.sitemaps import sitemaps
 urlpatterns: list[URLPattern | URLResolver] = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
     path('robots.txt', RobotsView.as_view(), name='robots'),
+    path('api/', include('api.urls')),
 ]
 
 urlpatterns += i18n_patterns(
@@ -41,6 +46,16 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('custom_auth.urls')),
     path('profile/', include('user_profile.urls')),
     path('tools/', include('tools.urls')),
+    path(
+        'api/',
+        SpectacularSwaggerView.as_view(url_name='api_schema'),
+        name='swagger_ui',
+    ),
+    path(
+        'api/schema/',
+        SpectacularAPIView.as_view(),
+        name='api_schema',
+    ),
     prefix_default_language=False,
 )
 

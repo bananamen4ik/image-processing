@@ -54,12 +54,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'drf_spectacular',
     # Project apps
     'common.apps.CommonConfig',
     'main.apps.MainConfig',
     'custom_auth.apps.CustomAuthConfig',
     'user_profile.apps.UserProfileConfig',
     'tools.apps.ToolsConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -243,4 +247,36 @@ LOGGING['root'] = {
 LOGGING['loggers']['django'] = {
     'level': 'INFO',
     'handlers': ['mail_admins'],
+}
+
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_PAGINATION_CLASS': 'api.pagination.CursorPagination',
+    'PAGE_SIZE': 5,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Image Processing API',
+    'DESCRIPTION': _(
+        'Upload an image, choose a processing operation, '
+        "and get your result when it's ready.",
+    ),
+    'VERSION': '0.1.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'DISABLE_DOCSTRING_DESCRIPTIONS': True,
+    'COMPONENT_SPLIT_REQUEST': True,
 }
