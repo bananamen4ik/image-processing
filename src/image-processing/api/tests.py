@@ -12,7 +12,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
-from api.serializers import ProfileRemainingOperationsSerializer
+from api.serializers import ProfileRemainingOperationsResponseSerializer
 from custom_auth.models import CustomUser
 from tools.models import Operation
 
@@ -55,7 +55,7 @@ class ProfileRemainingOperationsViewTests(APITestCase):
         """Tests get view method."""
         self.client.force_authenticate(user=self.user, token=self.user.auth_token)
 
-        serializer = ProfileRemainingOperationsSerializer(
+        serializer = ProfileRemainingOperationsResponseSerializer(
             instance={
                 'remaining_operations': self.user.user_profile.daily_operation_limit,
             },

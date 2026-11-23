@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 15:07+0000\n"
+"POT-Creation-Date: 2026-11-23 12:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,6 +14,34 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: api/views.py:46
+msgid "Returns the number of available operations per day."
+msgstr "Возвращает количество доступных операций в день."
+
+#: api/views.py:69
+msgid "A list of all resize operations that have been created."
+msgstr "Список всех созданных операций изменения размера."
+
+#: api/views.py:82
+msgid "Creates a resize operation."
+msgstr "Создаёт операцию изменения размера."
+
+#: api/views.py:122
+msgid "Creates a convert operation."
+msgstr "Создаёт операцию преобразования."
+
+#: api/views.py:149
+msgid "A list of all convert operations that have been created."
+msgstr "Список всех созданных операций преобразования."
+
+#: api/views.py:169
+msgid "Creates an optimize operation."
+msgstr "Создаёт операцию оптимизации."
+
+#: api/views.py:195
+msgid "A list of all optimize operations that have been created."
+msgstr "Список всех созданных операций оптимизации."
 
 #: common/forms.py:140
 msgid "Verification failed. Please try again."
@@ -232,15 +260,23 @@ msgstr ""
 msgid "Password reset unsuccessful"
 msgstr "Не удалось сбросить пароль"
 
-#: image_processing/settings.py:147
+#: image_processing/settings.py:148
 msgid "English"
 msgstr "Английский"
 
-#: image_processing/settings.py:148
+#: image_processing/settings.py:149
 msgid "Russian"
 msgstr "Русский"
 
-#: main/templates/main/about.html:5 templates/components/footer.html:26
+#: image_processing/settings.py:275 main/templates/main/index.html:20
+msgid ""
+"Upload an image, choose a processing operation, and get your result when "
+"it's ready."
+msgstr ""
+"Загрузите изображение, выберите операцию обработки и получите результат, "
+"когда он будет готов."
+
+#: main/templates/main/about.html:5 templates/components/footer.html:32
 msgid "About"
 msgstr "О проекте"
 
@@ -376,14 +412,6 @@ msgstr "Простая обработка изображений"
 #: main/templates/main/index.html:16
 msgid "Transform your images in a few clicks"
 msgstr "Преобразуйте изображения в несколько кликов"
-
-#: main/templates/main/index.html:20
-msgid ""
-"Upload an image, choose a processing operation, and get your result when "
-"it's ready."
-msgstr ""
-"Загрузите изображение, выберите операцию обработки и получите результат, "
-"когда он будет готов."
 
 #: main/templates/main/index.html:33
 msgid "Process an image"
@@ -599,6 +627,11 @@ msgstr ""
 #: templates/components/footer.html:12
 msgid "2026 Armen Akopyan"
 msgstr "2026 Armen Akopyan"
+
+#: templates/components/footer.html:26
+#: user_profile/templates/user_profile/info.html:112
+msgid "API"
+msgstr "API"
 
 #: templates/components/navbar.html:16
 msgid "Toggle navigation"
@@ -1000,10 +1033,6 @@ msgstr "Дата регистрации"
 #: user_profile/templates/user_profile/info.html:102
 msgid "Authorization IP"
 msgstr "IP-адрес авторизации"
-
-#: user_profile/templates/user_profile/info.html:112
-msgid "API"
-msgstr "API"
 
 #: user_profile/templates/user_profile/password_change.html:24
 msgid ""
