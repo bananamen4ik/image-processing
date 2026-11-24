@@ -43,9 +43,6 @@ class ResponsePaginationMixin:
         # ty: ignore[invalid-argument-type]
         page = paginator.paginate_queryset(queryset, self.request, self)
 
-        if not page:  # pragma: no cover
-            raise APIException
-
         serializer = serializer_class(
             page,
             many=True,
